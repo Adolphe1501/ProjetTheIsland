@@ -5,9 +5,7 @@ public class App {
        
        // Test Initialisation Tuiles
        
-        Verso v = new Verso(null, null);
-        TuileTerrain T = new TuileTerrain(v);
-        TuileTerrain[] TT = T.initTuileTerrains();
+        TuileTerrain[] TT = TuileTerrain.initTuileTerrains();
 
         for(int i=0; i<40;i++)
         {
