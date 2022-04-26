@@ -22,7 +22,7 @@ public abstract class TuileTerrain
 
     // Initialisation Tuiles
 
-    public TuileTerrain[] initTuileTerrains()
+    public static TuileTerrain[] initTuileTerrains()
     {
         TuileTerrain[] tuilesTerrain = new TuileTerrain[40];
 
