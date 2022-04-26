@@ -3,7 +3,7 @@
 
 
 
-public  class TuileTerrain 
+public abstract class TuileTerrain 
 {
 
     protected final Verso verso;
