@@ -25,10 +25,44 @@ public class Plateau extends JPanel
     {
         Graphics g2D = (Graphics2D) g;
 
-        construirePlateau(g2D);
+        //construirePlateau(g2D);
     }
 
-    private void construirePlateau(Graphics g2D)
+
+    
+    
+    private String[] chargerMap()
+    {
+        String map[] = new String[nombre_ligne];
+
+        try 
+        {
+            FileReader fichier = new FileReader("map.txt");
+
+            System.out.println("Erreur ****");
+            BufferedReader reader = new BufferedReader(fichier);
+
+            System.out.println("Erreur******************");
+            for(int i = 0; i<nombre_ligne; i++)
+            {
+                map[i] = reader.readLine();
+            }
+
+            reader.close();
+        } 
+        catch (Exception e1) 
+        {
+            e1.printStackTrace();
+            System.out.println("Erreur");
+        }
+        
+        return map;
+    }
+}
+
+
+/*
+private void construirePlateau(Graphics g2D)
     {
         int decalageX = 40, decalageY = 0, k=0;
         String mapCharge[] = chargerMap();
@@ -118,32 +152,4 @@ public class Plateau extends JPanel
         }
         return ile;
     }
-    
-    private String[] chargerMap()
-    {
-        String map[] = new String[nombre_ligne];
-
-        try 
-        {
-            FileReader fichier = new FileReader("map.txt");
-
-            System.out.println("Erreur ****");
-            BufferedReader reader = new BufferedReader(fichier);
-
-            System.out.println("Erreur******************");
-            for(int i = 0; i<nombre_ligne; i++)
-            {
-                map[i] = reader.readLine();
-            }
-
-            reader.close();
-        } 
-        catch (Exception e1) 
-        {
-            e1.printStackTrace();
-            System.out.println("Erreur");
-        }
-        
-        return map;
-    }
-}
+*/
