@@ -1,6 +1,6 @@
 
 
-public class Baleine extends AnimalDeMer 
+public class Baleine extends AnimalDeMer
 {
 
     protected final String id_baleine;
@@ -15,7 +15,6 @@ public class Baleine extends AnimalDeMer
     public void attaquer() 
     {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
