@@ -1,4 +1,4 @@
-
+import java.util.ArrayList;
 
 public class Serpent extends AnimalDeMer 
 {
@@ -26,5 +26,13 @@ public class Serpent extends AnimalDeMer
     public String getId_serpent()
     {
         return this.id_serpent;
+    }
+    
+    public ArrayList<Serpent> initialiserSerpent() {
+    	ArrayList<Serpent> serpent = new ArrayList<>();
+    	for (int i=1; i<=6; i++) {
+    		serpent.add(new Serpent(Integer.toString(i)));
+    	}
+    	return serpent;
     }
 }

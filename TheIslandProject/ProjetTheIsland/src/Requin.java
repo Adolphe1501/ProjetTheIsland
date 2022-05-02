@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Requin extends AnimalDeMer 
 {
@@ -27,6 +28,12 @@ public class Requin extends AnimalDeMer
         
     }
 
-    
+    public ArrayList<Requin> initialiserRequin() {
+		ArrayList<Requin> requin = new ArrayList<>();
+		for (int i=1; i<=5; i++) {
+			requin.add(new Requin(Integer.toString(i)));
+		}
+		return requin;
+	}
 
 }

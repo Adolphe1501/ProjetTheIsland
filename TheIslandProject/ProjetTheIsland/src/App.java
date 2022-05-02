@@ -22,5 +22,6 @@ public class App extends JFrame
        App myApp = new App();
 
        myApp.setVisible(true);
+       
     }
 }
