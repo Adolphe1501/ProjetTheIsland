@@ -16,7 +16,7 @@ public class App extends JFrame
     {
         super("The Island");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(1500, 1000);
+        this.setSize(1500, 1300);
         this.setLocationRelativeTo(null);  
         
         this.jeu = new Jeu();
