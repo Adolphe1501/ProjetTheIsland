@@ -28,6 +28,7 @@ public class Serpent extends AnimalDeMer
         return this.id_serpent;
     }
     
+ // Initialisation d'un tableau contenant les serpents
     public ArrayList<Serpent> initialiserSerpent() {
     	ArrayList<Serpent> serpent = new ArrayList<>();
     	for (int i=1; i<=6; i++) {

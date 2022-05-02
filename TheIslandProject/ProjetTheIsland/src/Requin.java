@@ -28,6 +28,7 @@ public class Requin extends AnimalDeMer
         
     }
 
+    // Initialisation d'un tableau contenant les requins
     public ArrayList<Requin> initialiserRequin() {
 		ArrayList<Requin> requin = new ArrayList<>();
 		for (int i=1; i<=5; i++) {

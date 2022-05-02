@@ -31,6 +31,7 @@ public class Baleine extends AnimalDeMer
         return this.id_baleine;
     }
 
+ // Initialisation d'un tableau contenant les baleines
 	public ArrayList<Baleine> initialiserBaleine() {
 		ArrayList<Baleine> baleine = new ArrayList<>();
 		for (int i=1; i<=5; i++) {
