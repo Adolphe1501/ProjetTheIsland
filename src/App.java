@@ -30,6 +30,24 @@ public class App extends JFrame
 
        myApp.setVisible(true);
 
+       /*
+
+       TuileTerrain[] tuiles =  TuileTerrain.initTuileTerrains();
+
+       for(TuileTerrain tuile : tuiles)
+       {
+           tuile.afficherCaracteristiques();
+       }
+
+       TuileTerrain[] tuilesMelanger = TuileTerrain.melangeTabTuileTerrains();
+
+    
+       for(TuileTerrain tuile : tuilesMelanger)
+       {
+           tuile.afficherCaracteristiques();
+       }
+       */
+
      
     }
 }

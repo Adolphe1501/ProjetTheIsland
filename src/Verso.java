@@ -21,6 +21,18 @@ public class Verso
         return action;
     }
 
+    public boolean equals(Verso v)
+    {
+        if((this.couleur == v.couleur) && (this.action == v.action))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public Verso[] initVersosplage()
     {
         Verso[] versos = new Verso[9];

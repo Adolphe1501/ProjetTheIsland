@@ -1,27 +1,68 @@
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.util.Random;
+import java.awt.Graphics;
 
-
-
-
+import javax.imageio.ImageIO;
 
 public abstract class TuileTerrain 
 {
 
     protected final Verso verso;
-   
+    protected final String id;
+    private Hexagone hexagone;
 
-    public TuileTerrain(Verso verso) 
+    public TuileTerrain(Verso verso, String id) 
     {
         this.verso = verso;
+        this.hexagone = null;
+        this.id = id;
     }
 
-    public Verso getVerso() 
+    public static TuileTerrain[] melangeTabTuileTerrains()
     {
-        return verso;
+        TuileTerrain[] tuilesTerrainMelanger = new TuileTerrain[41];
+        TuileTerrain[] tuilesTerrain = initTuileTerrains();
+        boolean est_touve;
+        int nombreAleatoire = 0;
+        Random rand =new Random();
+
+        for(int i=0; i<40; i++)
+        {
+            est_touve = true;
+            while(est_touve)
+            {
+                nombreAleatoire = rand.nextInt(40);
+                est_touve = rechercherTabTuileTerrain(tuilesTerrainMelanger, tuilesTerrain[nombreAleatoire]);
+
+                if(!est_touve)
+                {
+                    tuilesTerrainMelanger[i] = tuilesTerrain[nombreAleatoire];
+                }
+            }
+        }
+
+        return tuilesTerrainMelanger;
     }
 
-
+    private static boolean rechercherTabTuileTerrain(TuileTerrain[] tuilesTerrain, TuileTerrain tuile_rechercher)
+    {
+        for(TuileTerrain tuile : tuilesTerrain)
+        {
+            if(tuile == null)
+            {
+                return false;
+            }
+            else if(tuile.id == tuile_rechercher.id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     // Initialisation Tuiles
-
     public static TuileTerrain[] initTuileTerrains()
     {
         TuileTerrain[] tuilesTerrain = new TuileTerrain[40];
@@ -33,7 +74,7 @@ public abstract class TuileTerrain
         Verso [] versosForet = verso.initVersosForet();
         Verso [] versosMontagne = verso.initVersosMontagne();
 
-       // om enregistre les tuiles plages
+       // on enregistre les tuiles plages
        
         for(i=0; i<16; i++){
 
@@ -108,7 +149,6 @@ public abstract class TuileTerrain
             tuilesTerrain[i+16] = new Foret(id_foret, verso);
         }
 
-
         // On enregistre enfin les tuiles montagnes
         for(i=0; i<8; i++)
         {
@@ -135,4 +175,44 @@ public abstract class TuileTerrain
 
         return tuilesTerrain;
     }
+
+
+    public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
+    {
+        try 
+        {
+            int xPoints[] , yPoints[];
+            Image image = ImageIO.read(new File(nom_fichier));
+
+            xPoints = this.hexagone.xpoints;
+            yPoints = this.hexagone.ypoints;
+            
+            g2D.drawImage(image, xPoints[0], yPoints[1], 80, 65, null);
+                    
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            System.out.println("Erreur Fichier non trouve");
+        }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Verso getVerso() 
+    {
+        return verso;
+    }
+
+    public Hexagone getHexagone() {
+        return hexagone;
+    }
+
+    public void setHexagone(Hexagone hexagone) {
+        this.hexagone = hexagone;
+    }
+
+    public abstract void afficherCaracteristiques();
 }

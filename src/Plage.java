@@ -1,18 +1,23 @@
+import java.awt.Graphics;
 
 
 public class Plage extends TuileTerrain 
-{
-    protected final String id_plage;
-    
+{    
     public Plage(String id_plage, Verso verso) 
     {
-        super(verso);
-        this.id_plage = id_plage;
+        super(verso, id_plage);
     }
 
-    public String getId_plage() 
+    
+  
+    @Override
+    public void afficherCaracteristiques() 
     {
-        return id_plage;
+        System.out.println("Type : Plage " + ",id : " + this.id);              
     }
 
+    public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
+    {
+        super.afficherTuileTerrain(g2D, "image/TP.png");
+    }
 }
