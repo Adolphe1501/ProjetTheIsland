@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="72882330-37ad-44f5-86d8-cb45cc5ddbc7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/AnimalDeMer.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/AnimalDeMer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/App.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Baleine.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Baleine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Bateau.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Bateau.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/De.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/De.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Foret.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Foret.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Hexagone.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Hexagone.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Jeu.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Jeu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Joueur.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Joueur.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Montagne.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Montagne.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/P_Joueur.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/P_Joueur.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Plage.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Plage.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Plateau.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Plateau.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Requin.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Requin.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Serpent.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Serpent.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/TuileTerrain.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/TuileTerrain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Verso.class" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/bin/Verso.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/src/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/src/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/src/Baleine.java" beforeDir="false" afterPath="$PROJECT_DIR$/TheIslandProject/ProjetTheIsland/src/Baleine.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="28QwcbqHp0EIsPQ8COiAgzbx0Y3" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="72882330-37ad-44f5-86d8-cb45cc5ddbc7" name="Changes" comment="" />
+      <created>1651162206082</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1651162206082</updated>
+    </task>
+    <servers />
+  </component>
+</project>
