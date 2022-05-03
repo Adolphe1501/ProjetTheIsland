@@ -134,6 +134,16 @@ public class Hexagone extends Polygon
         }
     }
 
+    /*
+    public void AfficherPion()
+    {
+        List<P_Joueur> list_j = this.getListe_joueur();
+        List<AnimalDeMer> list_A = this.getListe_animaux();
+        List<Bateau> list_B = this.liste_bateau;
+        int nombrePion = this.liste_joueur.size() +  this.liste_animaux.;
+        if()
+    }
+    */
     public void detruire_bateau() 
     {
         // TODO implement here

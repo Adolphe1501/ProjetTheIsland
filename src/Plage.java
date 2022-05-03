@@ -1,6 +1,7 @@
 import java.awt.Graphics;
 
 
+
 public class Plage extends TuileTerrain 
 {    
     public Plage(String id_plage, Verso verso) 
