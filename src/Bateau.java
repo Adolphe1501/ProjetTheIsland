@@ -18,6 +18,16 @@ public class Bateau
         // TODO implement here
     }
 
+    public List<Bateau> initBateau(){
+        List<Bateau> bateaux=new ArrayList<Bateau>();
+        for (int i = 0; i < 12; i++) {
+            String id = "B" + i;
+            Bateau bateau= new Bateau(id);
+            bateaux.add(bateau);
+        }
+        return bateaux;
+    }
+
 
     public String getId_bateau() 
     {
