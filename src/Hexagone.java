@@ -2,8 +2,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.w3c.dom.css.Rect;
 
 
 
@@ -31,7 +34,8 @@ public class Hexagone extends Polygon
 
         this.liste_animaux = new ArrayList<AnimalDeMer>();
         this.liste_joueur = new ArrayList<P_Joueur>();
-        this.liste_bateau = new ArrayList<Bateau>();        
+        this.liste_bateau = new ArrayList<Bateau>();
+
         this.zone_ile = false;
         this.position = position;
         this.tuile = null;
@@ -127,23 +131,32 @@ public class Hexagone extends Polygon
     {
         if(this.zone_ile && !this.centrePlateau)
         {
-            System.out.println("c :" + compteur_tuile_terrain + " zone ile " + this.zone_ile + " centre plateau " + this.centrePlateau);
+            //System.out.println("c :" + compteur_tuile_terrain + " zone ile " + this.zone_ile + " centre plateau " + this.centrePlateau);
             this.setTuile(tuile);
             tuile.setHexagone(this);
             compteur_tuile_terrain++;
         }
     }
 
-    /*
+    public void detruireTuileTerrain()
+    {
+        this.tuile = null;
+    }
+
     public void AfficherPion()
     {
         List<P_Joueur> list_j = this.getListe_joueur();
         List<AnimalDeMer> list_A = this.getListe_animaux();
         List<Bateau> list_B = this.liste_bateau;
-        int nombrePion = this.liste_joueur.size() +  this.liste_animaux.;
-        if()
+        int nombrePion = this.liste_joueur.size() +  this.liste_animaux.size();
+
+        Rectangle rect =  this.getBounds();
+
+        if(nombrePion==1)
+        {
+
+        }
     }
-    */
     public void detruire_bateau() 
     {
         // TODO implement here
@@ -240,7 +253,7 @@ public class Hexagone extends Polygon
         this.tuile = tuile;
     }
 
-    public boolean isCentrePlateau() {
+    public boolean getCentrePlateau() {
         return centrePlateau;
     }
 

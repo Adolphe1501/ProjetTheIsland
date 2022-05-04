@@ -5,14 +5,9 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 
-import java.awt.event.MouseListener;
 
-import java.awt.event.MouseEvent;
-
-public abstract class TuileTerrain extends JLabel implements MouseListener
+public abstract class TuileTerrain
 {
 
     protected final Verso verso;
@@ -24,8 +19,6 @@ public abstract class TuileTerrain extends JLabel implements MouseListener
         this.verso = verso;
         this.hexagone = null;
         this.id = id;
-        addMouseListener(this);
-
     }
 
     public static TuileTerrain[] melangeTabTuileTerrains()
@@ -224,36 +217,4 @@ public abstract class TuileTerrain extends JLabel implements MouseListener
 
     public abstract void afficherCaracteristiques();
 
-    
-
-    @Override
-    public void mouseClicked(MouseEvent e) 
-    {
-        Position pos = this.hexagone.getPosition();
-        System.out.println("jai clicke " + pos.getNumero_ligne() + pos.getNumero_colone());
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
 }

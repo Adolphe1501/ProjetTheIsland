@@ -1,14 +1,20 @@
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
-public class Plateau extends JPanel
+
+public class Plateau extends JPanel implements MouseListener 
 {
     private static final int nombre_ligne = 13;
     private static final int nombre_colonne = 12;
@@ -19,6 +25,9 @@ public class Plateau extends JPanel
     public Plateau() 
     {
         super();
+        
+        setLayout(null);
+        this.addMouseListener(this);
         construirePlateau();     
     }
 
@@ -26,6 +35,7 @@ public class Plateau extends JPanel
     {
         Graphics g2D = (Graphics2D) g;
 
+        afficherBackground(g2D);
         afficherPlateau(g2D);
     }
 
@@ -75,12 +85,11 @@ public class Plateau extends JPanel
                 k++;
             }
         }
-
     }
     
-   
     public void afficherPlateau(Graphics g2D)
     {
+
         for(int i = 0; i<nombre_ligne; i++)
         {
             for(int j = 0; j<nombre_colonne; j++)
@@ -129,12 +138,88 @@ public class Plateau extends JPanel
         return map;
     }
 
+    private Hexagone determineHexagoneCliquer(int x, int y)
+    {
+        for(int i=0; i<nombre_ligne; i++)
+        {
+            for(int j=0; j<nombre_colonne; j++)
+            {
+                if(map[i][j]!=null && map[i][j].contains(x, y))
+                {
+                    return map[i][j];
+                }
+            }
+        }
+        return null;
+    }
+
+
+    private void afficherBackground(Graphics g2d)
+    {
+        File file = new File("image/plateau.jpg");
+
+        try
+        {
+            Image image = ImageIO.read(file);
+            g2d.drawImage(image, 0, 0, 1050, 700, null);
+
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            System.out.println("Erreur Fichier non trouve");
+        }
+        
+    }
+
     public static int getNombreLigne() {
         return nombre_ligne;
     }
 
     public static int getNombreColonne() {
         return nombre_colonne;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) 
+    {
+        int x = e.getX();
+        int y = e.getY();
+
+        Hexagone hexagone = determineHexagoneCliquer(x, y);
+        
+    
+        System.out.println("clique");
+        if(hexagone !=null)
+        {
+            hexagone.detruireTuileTerrain();
+            this.repaint();
+            //System.out.println("numero ligne : " + hexagone.getPosition().getNumero_ligne() + " numero col : " + hexagone.getPosition().getNumero_colone());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 }
 

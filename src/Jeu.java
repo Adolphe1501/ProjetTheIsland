@@ -16,11 +16,12 @@ public class Jeu extends JPanel
         this.setLayout(new BorderLayout());
 
         this.plateau = new Plateau();
-        this.plateau.setPreferredSize(new Dimension(1100, 0));
+        this.plateau.setPreferredSize(new Dimension(1050, 0));
+
         this.add(plateau, BorderLayout.WEST);
 
         this.zone_joueur = new ZoneJoueur();
-        this.zone_joueur.setPreferredSize(new Dimension(350, 0));
+        this.zone_joueur.setPreferredSize(new Dimension(400, 0));
         this.add(zone_joueur, BorderLayout.EAST);
 
         this.zone_pion = new ZonePion();

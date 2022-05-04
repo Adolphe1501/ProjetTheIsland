@@ -1,10 +1,3 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.CharBuffer;
-import java.security.Principal;
-
 import javax.swing.JFrame;
 
 public class App extends JFrame
@@ -29,25 +22,6 @@ public class App extends JFrame
        App myApp = new App();
 
        myApp.setVisible(true);
-
-       /*
-
-       TuileTerrain[] tuiles =  TuileTerrain.initTuileTerrains();
-
-       for(TuileTerrain tuile : tuiles)
-       {
-           tuile.afficherCaracteristiques();
-       }
-
-       TuileTerrain[] tuilesMelanger = TuileTerrain.melangeTabTuileTerrains();
-
-    
-       for(TuileTerrain tuile : tuilesMelanger)
-       {
-           tuile.afficherCaracteristiques();
-       }
-       */
-
      
     }
 }

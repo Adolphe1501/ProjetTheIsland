@@ -1,5 +1,10 @@
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
-public class P_Joueur 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class P_Joueur extends JLabel implements MouseListener
 {
 
     protected final String id_P_joueur;
@@ -7,17 +12,20 @@ public class P_Joueur
     private final int valeur;
     protected Boolean est_nageur;
     public final Joueur joueur;
+    private Hexagone hexagone;
 
     public P_Joueur(String id_P_joueur, String couleur, int valeur, Joueur joueur) 
     {
+        super();
         this.id_P_joueur = id_P_joueur;
         this.couleur = couleur;
         this.valeur = valeur;
         this.joueur = joueur;
         this.est_nageur = false;
+        this.hexagone = null;
     }
 
-   
+    
     public void defendre() 
     {
         // TODO implement here
@@ -59,6 +67,41 @@ public class P_Joueur
     public Joueur getJoueur() 
     {
         return joueur;
+    }
+
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
