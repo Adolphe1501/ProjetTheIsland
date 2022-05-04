@@ -23,28 +23,20 @@ public abstract class TuileTerrain
 
     public static TuileTerrain[] melangeTabTuileTerrains()
     {
-        TuileTerrain[] tuilesTerrainMelanger = new TuileTerrain[41];
         TuileTerrain[] tuilesTerrain = initTuileTerrains();
-        boolean est_touve;
-        int nombreAleatoire = 0;
-        Random rand =new Random();
-
-        for(int i=0; i<40; i++)
+        
+        Random random = new Random();
+    
+        for(int i = 39; i>=0; i--)
         {
-            est_touve = true;
-            while(est_touve)
-            {
-                nombreAleatoire = rand.nextInt(40);
-                est_touve = rechercherTabTuileTerrain(tuilesTerrainMelanger, tuilesTerrain[nombreAleatoire]);
-
-                if(!est_touve)
-                {
-                    tuilesTerrainMelanger[i] = tuilesTerrain[nombreAleatoire];
-                }
-            }
+            int j = random.nextInt(i+1);
+    
+            TuileTerrain TT = tuilesTerrain[i];
+            tuilesTerrain[i] = tuilesTerrain[j];
+            tuilesTerrain[j] = TT;
         }
-
-        return tuilesTerrainMelanger;
+    
+        return tuilesTerrain;
     }
 
     private static boolean rechercherTabTuileTerrain(TuileTerrain[] tuilesTerrain, TuileTerrain tuile_rechercher)
