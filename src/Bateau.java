@@ -1,7 +1,11 @@
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bateau 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+public class Bateau extends JLabel
 {
     protected final String id_bateau;
     protected List<P_Joueur> liste_pionJoueur;
@@ -13,6 +17,17 @@ public class Bateau
     }
 
    
+    public void afficherBateau(Plateau plateau, int x, int y, int w, int h)
+    {
+        ImageIcon image_temp = new ImageIcon("image/BA.png");
+        Image imgScale = image_temp.getImage();
+        Image icon = imgScale.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(icon);
+        this.setIcon(image);
+        this.setBounds(x, y, w, h);
+        plateau.add(this);
+    }
+
     public void deplacer() 
     {
         // TODO implement here
