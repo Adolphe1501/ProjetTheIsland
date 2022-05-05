@@ -26,7 +26,7 @@ public class Joueur {
         this.list_pion = list_pion;
     }
 
-    public List<P_Joueur> initPJoueur(String couleur) {
+    public List<P_Joueur> initListPJoueur(String couleur) {
         List<P_Joueur> list = new ArrayList<>();
         int i;
         for (i = 0; i < 3; i++) {
