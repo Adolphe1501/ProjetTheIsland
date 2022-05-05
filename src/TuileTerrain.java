@@ -12,7 +12,7 @@ public abstract class TuileTerrain
 
     protected final Verso verso;
     protected final String id;
-    private Hexagone hexagone;
+    public Hexagone hexagone;
 
     public TuileTerrain(Verso verso, String id) 
     {
@@ -35,30 +35,13 @@ public abstract class TuileTerrain
             tuilesTerrain[i] = tuilesTerrain[j];
             tuilesTerrain[j] = TT;
         }
-    
         return tuilesTerrain;
     }
 
-    private static boolean rechercherTabTuileTerrain(TuileTerrain[] tuilesTerrain, TuileTerrain tuile_rechercher)
-    {
-        for(TuileTerrain tuile : tuilesTerrain)
-        {
-            if(tuile == null)
-            {
-                return false;
-            }
-            else if(tuile.id == tuile_rechercher.id)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    
     // Initialisation Tuiles
     public static TuileTerrain[] initTuileTerrains()
     {
-        TuileTerrain[] tuilesTerrain = new TuileTerrain[40];
+        TuileTerrain[] tuilesTerrain = new TuileTerrain[41];
 
         int i = 0, j=0;
         String id_plage,id_foret,id_montagne;
@@ -68,7 +51,6 @@ public abstract class TuileTerrain
         Verso [] versosMontagne = verso.initVersosMontagne();
 
        // on enregistre les tuiles plages
-       
         for(i=0; i<16; i++){
 
             j = i+1;

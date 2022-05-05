@@ -1,6 +1,7 @@
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,9 +24,20 @@ public class P_Joueur extends JLabel implements MouseListener
         this.joueur = joueur;
         this.est_nageur = false;
         this.hexagone = null;
+        this.addMouseListener(this);
     }
 
-    
+    public void afficherPionJoueur(Plateau plateau, int x, int y, int w, int h)
+    {
+        ImageIcon image_temp = new ImageIcon("image/PJ.png");
+        Image imgScale = image_temp.getImage();
+        Image icon = imgScale.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(icon);
+        this.setIcon(image);
+        this.setBounds(x, y, w, h);
+        plateau.add(this);
+    }
+   
     public void defendre() 
     {
         // TODO implement here
@@ -73,14 +85,14 @@ public class P_Joueur extends JLabel implements MouseListener
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub
+        System.out.println("jai clique sur le pion");        
+
         
     }
 
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
     }
 
 
@@ -102,6 +114,14 @@ public class P_Joueur extends JLabel implements MouseListener
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
         
+    }
+
+    public Hexagone getHexagone() {
+        return hexagone;
+    }
+
+    public void setHexagone(Hexagone hexagone) {
+        this.hexagone = hexagone;
     }
 
 }

@@ -6,7 +6,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.css.Rect;
 
 
 
@@ -15,35 +14,45 @@ public class Hexagone extends Polygon
     private static TuileTerrain[] tuile_a_placer = TuileTerrain.melangeTabTuileTerrains();
     private static int compteur_tuile_terrain = 0;
 
-    private List<Bateau> liste_bateau;
+    private Plateau plateau;
+    private Bateau bateau;
     private List<P_Joueur> liste_joueur;
     private List<AnimalDeMer> liste_animaux;
     private Boolean zone_ile; 
     private Position position;
     private TuileTerrain tuile;
     private boolean centrePlateau;
+    private Boolean detruire_tuile;
 
-    private int[] xPoints;
-    private int[] yPoints;
+
     private static final int nPoints = 6;
 
     
-    public Hexagone(int[] xPoints, int[] yPoints, Position position) 
+    public Hexagone(int[] xPoints, int[] yPoints, Position position, Plateau plateau) 
     {
         super(xPoints, yPoints, nPoints);
+        this.position = position;
+        this.plateau = plateau;
 
         this.liste_animaux = new ArrayList<AnimalDeMer>();
         this.liste_joueur = new ArrayList<P_Joueur>();
-        this.liste_bateau = new ArrayList<Bateau>();
-
+        this.setBateau(null);
         this.zone_ile = false;
-        this.position = position;
         this.tuile = null;
         this.centrePlateau = false;
+        this.detruire_tuile = false;
 
         this.contientZoneIle();
         this.determinerCentrePlateau();
         this.placerTuileTerrain(tuile_a_placer[compteur_tuile_terrain]);
+    }
+
+    public Bateau getBateau() {
+        return bateau;
+    }
+
+    public void setBateau(Bateau bateau) {
+        this.bateau = bateau;
     }
 
     public void afficherHexagone(Graphics g2D)
@@ -51,9 +60,19 @@ public class Hexagone extends Polygon
         if(this.zone_ile && !this.centrePlateau)
         {
             g2D.setColor(Color.red);
-            if(tuile !=null)
+            if(this.tuile !=null)
             {
-                this.tuile.afficherTuileTerrain(g2D, null);
+                if(!this.detruire_tuile)
+                {
+                    this.tuile.afficherTuileTerrain(g2D, null);
+                }
+                else
+                {   
+                    //System.out.println("*********************");
+
+                    this.tuile.getVerso().afficherVerso(g2D, this.tuile);
+                }
+                
             }
         }
         else
@@ -62,6 +81,7 @@ public class Hexagone extends Polygon
 
         }
         g2D.drawPolygon(this);
+        this.AfficherPion();
     }
 
 
@@ -140,21 +160,94 @@ public class Hexagone extends Polygon
 
     public void detruireTuileTerrain()
     {
-        this.tuile = null;
+        if(this.tuile!= null)
+        {
+            this.detruire_tuile = true;
+           
+            this.plateau.repaint();
+
+            //try 
+            //{
+                //Thread.sleep(2000);
+                //this.plateau.repaint();
+                //Thread.sleep(2000);
+               // this.plateau.repaint();
+
+            //} catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+             //   e.printStackTrace();
+            //}
+
+            //this.tuile = null;
+            
+        }
+        
+        
     }
 
     public void AfficherPion()
     {
         List<P_Joueur> list_j = this.getListe_joueur();
-        List<AnimalDeMer> list_A = this.getListe_animaux();
-        List<Bateau> list_B = this.liste_bateau;
         int nombrePion = this.liste_joueur.size() +  this.liste_animaux.size();
+        int k = 0;
 
         Rectangle rect =  this.getBounds();
+        double w = rect.getWidth() ;
+        double h = rect.getHeight();
+        double x = rect.getX();
+        double y = rect.getY();
 
-        if(nombrePion==1)
+        if(this.bateau==null && !list_j.isEmpty())
         {
-
+            for(int i=0; i<nombrePion; i++)
+            {
+                if(nombrePion==1)
+                {
+                    x += 20;
+                    y += 12;
+                    w = 40;  
+                    h = 40;
+                }
+                else if(nombrePion==2)
+                {
+                    x = rect.getX() +  5 + i*40;
+                    y = rect.getY() + 15;
+                    w = 30;
+                    h = 30;
+                }
+                else if(nombrePion==3)
+                {
+                    x = rect.getX() + 5 + i*25;
+                    y = rect.getY() +  15;
+                    w = 20;
+                    h = 30;
+                }
+                else if(nombrePion>=3 && nombrePion<=6)
+                {
+                    w = 20;
+                    h = 20;
+                    if(i<3)
+                    {
+                        x = rect.getX() + 5 + i*25;
+                        y = rect.getY() +  15;
+                    }
+                    else
+                    {
+                        x = rect.getX() + 5 + k*25;
+                        y = rect.getY() + 35;
+                        k++;
+                    }
+                }
+                list_j.get(i).afficherPionJoueur(this.plateau, (int)x, (int)y, (int)w, (int)h);
+            }
+        }
+        else if(this.bateau != null)
+        {
+            x = rect.getX() - 5;
+            y = rect.getY() - 15;
+            w = 80;
+            h = 50;
+            this.bateau.afficherBateau(this.plateau, (int)x, (int)y, (int)w, (int)h);
         }
     }
     public void detruire_bateau() 
@@ -164,18 +257,6 @@ public class Hexagone extends Polygon
     public void sortir_joueur() 
     {
         // TODO implement here
-    }
-
-
-    public List<Bateau> getListe_bateau() 
-    {
-        return liste_bateau;
-    }
-
-
-    public void setListe_bateau(List<Bateau> liste_bateau) 
-    {
-        this.liste_bateau = liste_bateau;
     }
 
 
@@ -213,24 +294,7 @@ public class Hexagone extends Polygon
     }
 
 
-    public int[] getxPoints() {
-        return xPoints;
-    }
-
-
-    public void setxPoints(int[] xPoints) {
-        this.xPoints = xPoints;
-    }
-
-
-    public int[] getyPoints() {
-        return yPoints;
-    }
-
-
-    public void setyPoints(int[] yPoints) {
-        this.yPoints = yPoints;
-    }
+    
 
 
     public static int getNpoints() {

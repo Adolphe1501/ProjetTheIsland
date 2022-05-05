@@ -8,16 +8,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.awt.Point;
+
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
 
-public class Plateau extends JPanel implements MouseListener 
+public class Plateau extends JPanel implements MouseListener
 {
     private static final int nombre_ligne = 13;
     private static final int nombre_colonne = 12;
+
 
     public static Hexagone map[][] = new Hexagone[nombre_ligne][nombre_colonne]; 
     public Jeu partie;
@@ -34,7 +37,6 @@ public class Plateau extends JPanel implements MouseListener
     public void paintComponent(Graphics g)
     {
         Graphics g2D = (Graphics2D) g;
-
         afficherBackground(g2D);
         afficherPlateau(g2D);
     }
@@ -69,26 +71,32 @@ public class Plateau extends JPanel implements MouseListener
                 }
                 if(mapChargee[i][j] == '0')
                 {
-                    this.map[i][j] = null;
+                    map[i][j] = null;
                 }
                 else
                 {
-                    Position  position = new Position(i, j);
-                    Hexagone hexagone = new Hexagone(xPoints, yPoints, position);
-                    
-                    map[i][j] = hexagone;
+                    Position  position = new Position(i, j);  
+                    map[i][j] = new Hexagone(xPoints, yPoints, position, this);
                 }
-                
             }
             if(i%2==0)
             {
                 k++;
             }
         }
+        //map[6][5].setBateau(new Bateau("id_bateau"));
+        map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
     }
     
     public void afficherPlateau(Graphics g2D)
     {
+        //P_Joueur joueur = new P_Joueur("id_P_joueur", "couleur", 1,null);
+        //joueur.afficherPionJoueur(this);
 
         for(int i = 0; i<nombre_ligne; i++)
         {
@@ -138,13 +146,13 @@ public class Plateau extends JPanel implements MouseListener
         return map;
     }
 
-    private Hexagone determineHexagoneCliquer(int x, int y)
+    private Hexagone determineHexagoneCliquer(Point p)
     {
         for(int i=0; i<nombre_ligne; i++)
         {
             for(int j=0; j<nombre_colonne; j++)
             {
-                if(map[i][j]!=null && map[i][j].contains(x, y))
+                if(map[i][j]!=null && map[i][j].contains(p))
                 {
                     return map[i][j];
                 }
@@ -183,15 +191,15 @@ public class Plateau extends JPanel implements MouseListener
     @Override
     public void mouseClicked(MouseEvent e) 
     {
-        int x = e.getX();
-        int y = e.getY();
+        Hexagone hexagone = determineHexagoneCliquer(e.getPoint());
 
-        Hexagone hexagone = determineHexagoneCliquer(x, y);
-        
-    
         System.out.println("clique");
         if(hexagone !=null)
         {
+            //Rectangle rec = hexagone.getBounds();
+
+            System.out.println(hexagone.xpoints[0] + " et " + hexagone.ypoints[1]);
+
             hexagone.detruireTuileTerrain();
             this.repaint();
             //System.out.println("numero ligne : " + hexagone.getPosition().getNumero_ligne() + " numero col : " + hexagone.getPosition().getNumero_colone());

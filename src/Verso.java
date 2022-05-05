@@ -1,3 +1,11 @@
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import java.awt.Graphics;
+
+import java.awt.Image;
+
 
 public class Verso 
 {
@@ -63,7 +71,7 @@ public class Verso
         verso = new Verso("rouge","aigle");
         versos[7]  = verso;
 
-        verso = new Verso("rouge","requin barre");
+        verso = new Verso("rouge","requin_barre");
         versos[8]  = verso;
 
 
@@ -101,10 +109,10 @@ public class Verso
         verso = new Verso("rouge","aigle");
         versos[7]  = verso;
 
-        verso = new Verso("rouge","requin barre");
+        verso = new Verso("rouge","requin_barre");
         versos[8]  = verso;
 
-        verso = new Verso("rouge","aigle barre");
+        verso = new Verso("rouge","aigle_barre");
         versos[9]  = verso;
 
         return versos;
@@ -126,12 +134,53 @@ public class Verso
         verso = new Verso("vert","volcan");
         versos[2]  = verso;
 
-        verso = new Verso("rouge","requin barre");
+        verso = new Verso("rouge","requin_barre");
         versos[3]  = verso;
 
-        verso = new Verso("rouge","aigle barre");
+        verso = new Verso("rouge","aigle_barre");
         versos[4]  = verso;
 
         return versos;
+    }
+
+    public String determinerNomFichier()
+    {
+        String nom_fichier = null;
+
+        if(this.couleur.equals("vert"))
+        {
+            if(this.action.equals("volcan"))
+            {
+                
+            }
+            else if(this.action.equals("requin"))
+            {
+                nom_fichier = "image/REV.png";
+            }
+        }
+        nom_fichier = "image/REV.png";
+
+        return nom_fichier;
+    }
+
+    public void afficherVerso(Graphics g2D, TuileTerrain tuile)
+    {
+        
+        try 
+        {
+            String nom_fichier = this.determinerNomFichier();
+            int xPoint[] , yPoint[];
+            Image image = ImageIO.read(new File(nom_fichier));
+
+            xPoint = tuile.getHexagone().xpoints;
+            yPoint = tuile.getHexagone().ypoints;
+            
+            g2D.drawImage(image, xPoint[0], yPoint[1], 80, 65, null);                    
+        }
+        catch (IOException e) 
+        {
+            e.printStackTrace();
+            System.out.println("Erreur Fichier verso non trouve");
+        }
     }
 }
