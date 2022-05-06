@@ -84,20 +84,37 @@ public class Plateau extends JPanel implements MouseListener
                 k++;
             }
         }
-        //map[6][5].setBateau(new Bateau("id_bateau"));
+        /*
+        //Cest pour un essai
+
+        map[6][5].setBateau(new Bateau("id_bateau"));
+        map[6][5].getBateau().getListe_pionJoueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][5].getBateau().getListe_pionJoueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][5].getBateau().getListe_pionJoueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][5].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][5].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][5].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+
         map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
         map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
-        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
-        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
-        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
-        //map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][6].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+       
+        map[6][4].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][4].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][4].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+
+        map[6][7].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        map[6][7].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+
+        map[6][8].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
+        */
     }
     
     public void afficherPlateau(Graphics g2D)
     {
-        //P_Joueur joueur = new P_Joueur("id_P_joueur", "couleur", 1,null);
-        //joueur.afficherPionJoueur(this);
-
         for(int i = 0; i<nombre_ligne; i++)
         {
             for(int j = 0; j<nombre_colonne; j++)
@@ -196,10 +213,6 @@ public class Plateau extends JPanel implements MouseListener
         System.out.println("clique");
         if(hexagone !=null)
         {
-            //Rectangle rec = hexagone.getBounds();
-
-            System.out.println(hexagone.xpoints[0] + " et " + hexagone.ypoints[1]);
-
             hexagone.detruireTuileTerrain();
             this.repaint();
             //System.out.println("numero ligne : " + hexagone.getPosition().getNumero_ligne() + " numero col : " + hexagone.getPosition().getNumero_colone());

@@ -25,7 +25,16 @@ public class Bateau extends JLabel
         ImageIcon image = new ImageIcon(icon);
         this.setIcon(image);
         this.setBounds(x, y, w, h);
+        
+        if(!this.liste_pionJoueur.isEmpty())
+        {
+            liste_pionJoueur.get(0).afficherPionJoueur(plateau, x+8, y-6, 18, 18);
+            liste_pionJoueur.get(1).afficherPionJoueur(plateau, x+26, y-6, 18, 18);
+            liste_pionJoueur.get(2).afficherPionJoueur(plateau, x+44, y-6, 18, 18);
+
+        }
         plateau.add(this);
+
     }
 
     public void deplacer() 

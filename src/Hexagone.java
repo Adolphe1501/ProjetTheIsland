@@ -6,9 +6,6 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class Hexagone extends Polygon
 {
     private static TuileTerrain[] tuile_a_placer = TuileTerrain.melangeTabTuileTerrains();
@@ -68,8 +65,6 @@ public class Hexagone extends Polygon
                 }
                 else
                 {   
-                    //System.out.println("*********************");
-
                     this.tuile.getVerso().afficherVerso(g2D, this.tuile);
                 }
                 
@@ -91,7 +86,6 @@ public class Hexagone extends Polygon
         Boolean res = contientZoneIleAux(this.position.getNumero_ligne(), this.position.getNumero_colone());
         if(res)
         {
-            //placerTuileTerrain(null);
             this.setZone_ile(true);
         }
     }
@@ -151,7 +145,6 @@ public class Hexagone extends Polygon
     {
         if(this.zone_ile && !this.centrePlateau)
         {
-            //System.out.println("c :" + compteur_tuile_terrain + " zone ile " + this.zone_ile + " centre plateau " + this.centrePlateau);
             this.setTuile(tuile);
             tuile.setHexagone(this);
             compteur_tuile_terrain++;
@@ -197,7 +190,7 @@ public class Hexagone extends Polygon
         double x = rect.getX();
         double y = rect.getY();
 
-        if(this.bateau==null && !list_j.isEmpty())
+        if(this.bateau==null && !list_j.isEmpty() && list_j.size()<=6)
         {
             for(int i=0; i<nombrePion; i++)
             {
@@ -241,13 +234,32 @@ public class Hexagone extends Polygon
                 list_j.get(i).afficherPionJoueur(this.plateau, (int)x, (int)y, (int)w, (int)h);
             }
         }
-        else if(this.bateau != null)
+        else if(this.bateau != null && !list_j.isEmpty() && list_j.size()<=3)
         {
-            x = rect.getX() - 5;
-            y = rect.getY() - 15;
-            w = 80;
-            h = 50;
+            x = rect.getX() + 3;
+            y = rect.getY() + 12;
+            w = 75;
+            h = 25;
             this.bateau.afficherBateau(this.plateau, (int)x, (int)y, (int)w, (int)h);
+
+            for(int i=0; i<list_j.size(); i++)
+            {
+                w = 20;
+                h = 17;
+                x = rect.getX() + 3 + 26;
+                y = rect.getY() + 12 + 32;
+                if(i==1)
+                {
+                    x = rect.getX() + 7;
+                    y = rect.getY() + 12 + 25;
+                }
+                else if(i==2)
+                {
+                    x = rect.getX() + 3 + 48;
+                    y = rect.getY() + 12 + 25;
+                }
+                list_j.get(i).afficherPionJoueur(this.plateau, (int)x, (int)y, (int)w, (int)h);
+            }
         }
     }
     public void detruire_bateau() 
