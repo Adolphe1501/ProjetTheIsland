@@ -4,10 +4,14 @@ import java.util.List;
 public class Joueur {
 
     public String pseudo;
+    public String couleur;
     protected List<P_Joueur> list_pion;
+    protected List<Bateau> list_bateau;
+    protected List<TuileTerrain> list_Treserve;
 
-    public Joueur(String pseudo) {
+    public Joueur(String pseudo, String couleur) {
         this.pseudo = pseudo;
+        this.couleur = couleur;
     }
 
     public String getPseudo() {
@@ -26,7 +30,12 @@ public class Joueur {
         this.list_pion = list_pion;
     }
 
-    public List<P_Joueur> initListPJoueur(String couleur) {
+    public void setList_Bateau(List<Bateau> list_bateau) {
+        this.list_bateau = list_bateau;
+    }
+
+    public List<P_Joueur> initPJoueur() {
+        String couleur = this.couleur;
         List<P_Joueur> list = new ArrayList<>();
         int i;
         for (i = 0; i < 3; i++) {
@@ -45,8 +54,22 @@ public class Joueur {
         return list;
     }
 
-   /* public static void main(String[] args) {
-        Joueur joueur = new Joueur("wafa");
-        joueur.initPJoueur("rouge");
+    public void initJoeur() {
+        this.setList_pion(initPJoueur());
+
+    }
+
+
+
+    /*public static void main(String[] args) {
+        Joueur joueur = new Joueur("wafa", "Rouge");
+        joueur.initPJoueur();
+        joueur.initJoeur();
+        System.out.println("bjrrrrrr");
+
+        String j = joueur.list_pion.get(0).id_P_joueur;
+        System.out.println(j.toCharArray()[2]);
+
     }*/
+
 }

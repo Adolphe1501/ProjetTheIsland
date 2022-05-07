@@ -114,7 +114,7 @@ public class Plateau extends JPanel implements MouseListener
     {
          // une colonne suplémntaire pour le caractere 'Retour a la ligne'
          // une ligne suplementtaire pour le caractere '-1' de fin de ligne
-        char[][] map = new char[nombre_ligne+1][nombre_colonne+1];
+        char[][] map = new char[nombre_ligne+2][nombre_colonne+2];
 
         try 
         {
