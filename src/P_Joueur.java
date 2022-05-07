@@ -1,12 +1,16 @@
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
 public class P_Joueur extends JLabel implements MouseListener
 {
+
+    public static boolean mouse_moved = false;
+    public static boolean mouse_cliked = false;
+    public static boolean descendre_bateau = false;
 
     protected final String id_P_joueur;
     public final String couleur;
@@ -14,6 +18,7 @@ public class P_Joueur extends JLabel implements MouseListener
     protected Boolean est_nageur;
     public final Joueur joueur;
     private Hexagone hexagone;
+    private Bateau bateau;
 
     public P_Joueur(String id_P_joueur, String couleur, int valeur, Joueur joueur) 
     {
@@ -26,6 +31,8 @@ public class P_Joueur extends JLabel implements MouseListener
         this.hexagone = null;
         this.addMouseListener(this);
     }
+
+    // **************************************    Methodes   *********************************************** //
 
     public void afficherPionJoueur(Plateau plateau, int x, int y, int w, int h)
     {
@@ -43,13 +50,61 @@ public class P_Joueur extends JLabel implements MouseListener
         // TODO implement here
     }
 
-    /**
-     * 
-     */
     public void attaquer() 
     {
         // TODO implement here
     }
+
+    public void afficherCaracteristiques()
+    {
+        System.out.println("Couleur : " + this.couleur + " ,id : " + this.id_P_joueur);
+    }
+   
+    @Override
+    public void mouseClicked(MouseEvent e)
+    {  
+        Plateau.pionJoueur_mouse_clicked = this;
+
+        if(this.bateau!=null)
+        {
+            System.out.println("je demande a descendre");
+            P_Joueur.descendre_bateau = true;
+        }
+        else
+        {
+            System.out.println("je veux monter sur un bateau ou me deplacer");
+            P_Joueur.mouse_cliked = true;
+            Bateau.mouse_clicked_destination = true;
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) 
+    {   
+        Plateau.pionJoueur_mouse_moved = this;
+        mouse_moved = true;
+        System.out.println("Entree souris sur pionJoueur");
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) 
+    {
+        Plateau.pionJoueur_mouse_moved = null;
+        mouse_moved = false;
+        System.out.println("Sortie souris sur pionJoueur");
+    }
+
+    // **************************************    Getteurs   *********************************************** //
 
     public String getId_P_joueur() 
     {
@@ -71,57 +126,30 @@ public class P_Joueur extends JLabel implements MouseListener
         return est_nageur;
     }
 
-    public void setEst_nageur(Boolean est_nageur) 
-    {
-        this.est_nageur = est_nageur;
-    }
-
     public Joueur getJoueur() 
     {
         return joueur;
-    }
-
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
-        System.out.println("jai clique sur le pion");        
-
-        
-    }
-
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
-    }
-
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
     }
 
     public Hexagone getHexagone() {
         return hexagone;
     }
 
+    public Bateau getBateau() {
+        return bateau;
+    }
+    // **************************************    Setteurs   *********************************************** //
+
+    public void setEst_nageur(Boolean est_nageur) 
+    {
+        this.est_nageur = est_nageur;
+    }
+
     public void setHexagone(Hexagone hexagone) {
         this.hexagone = hexagone;
     }
 
+    public void setBateau(Bateau bateau) {
+        this.bateau = bateau;
+    }
 }

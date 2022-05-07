@@ -1,29 +1,33 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.awt.Point;
-
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-
-
-public class Plateau extends JPanel implements MouseListener
+public class Plateau extends JPanel implements MouseListener, MouseMotionListener
 {
     private static final int nombre_ligne = 13;
     private static final int nombre_colonne = 12;
 
-
     public static Hexagone map[][] = new Hexagone[nombre_ligne][nombre_colonne]; 
-    public Jeu partie;
+    private static boolean mouse_moved = false;
+    private static Hexagone hexagone_mouse_moved = null;
+    public static P_Joueur pionJoueur_mouse_clicked = null;
+    public static P_Joueur pionJoueur_mouse_moved = null;
+    public static Bateau bateau_mouse_clicked = null;
+    public static Bateau bateau_mouse_moved = null;
 
     public Plateau() 
     {
@@ -31,14 +35,22 @@ public class Plateau extends JPanel implements MouseListener
         
         setLayout(null);
         this.addMouseListener(this);
-        construirePlateau();     
+        this.addMouseMotionListener(this);
+
+        this.construirePlateau();
+
+        Thread chronoEcran = new Thread(new Chrono(this));
+        chronoEcran.start();
     }
 
     public void paintComponent(Graphics g)
     {
         Graphics g2D = (Graphics2D) g;
+
         afficherBackground(g2D);
         afficherPlateau(g2D);
+        afficheEffetMouseMoved(g2D);
+        afficheEffetMouseClicked(g2D);
     }
 
     private void construirePlateau()
@@ -84,6 +96,11 @@ public class Plateau extends JPanel implements MouseListener
                 k++;
             }
         }
+
+        map[0][3].ajoutePionJoueur(new P_Joueur("id1", "rouge", 1, null));
+        map[6][6].ajoutePionJoueur(new P_Joueur("id2", "vert", 1, null));
+        map[10][7].ajouterBateau(new Bateau("id_bateau"));
+        map[10][7].getBateau().ajoutePionJoueur(new P_Joueur("id2", "vert", 1, null));
         /*
         //Cest pour un essai
 
@@ -112,6 +129,8 @@ public class Plateau extends JPanel implements MouseListener
         map[6][8].getListe_joueur().add(new P_Joueur("id_P_joueur", "couleur", 1, null));
         */
     }
+
+    // **************************************    Methodes   *********************************************** //
     
     public void afficherPlateau(Graphics g2D)
     {
@@ -163,22 +182,70 @@ public class Plateau extends JPanel implements MouseListener
         return map;
     }
 
-    private Hexagone determineHexagoneCliquer(Point p)
+    private Position determineHexagoneCliquer(Point p)
     {
+        Position pos = null;
         for(int i=0; i<nombre_ligne; i++)
         {
             for(int j=0; j<nombre_colonne; j++)
             {
                 if(map[i][j]!=null && map[i][j].contains(p))
                 {
-                    return map[i][j];
+                    pos = new Position(i, j);
+                    return pos;
                 }
             }
         }
-        return null;
+        return pos;
     }
 
-
+    private void afficheEffetMouseClicked(Graphics g2D)
+    {
+        if(P_Joueur.mouse_cliked && Plateau.pionJoueur_mouse_clicked!=null)
+        {
+            Rectangle rect =  Plateau.pionJoueur_mouse_clicked.getBounds();
+            g2D.setColor(Color.blue);
+            g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
+        if(Bateau.mouse_clicked_origin && Plateau.bateau_mouse_clicked!=null)
+        {
+            Rectangle rect =  Plateau.bateau_mouse_clicked.getBounds();
+            g2D.setColor(Color.blue);
+            g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
+    }
+    private void afficheEffetMouseMoved(Graphics g2D)
+    {
+        int xPoints[] = new int[6];
+        int[] yPoints = new int[6];
+        
+        if(Plateau.hexagone_mouse_moved != null && mouse_moved && !P_Joueur.mouse_moved && !Bateau.mouse_moved)
+        {
+            for(int i=0; i<5; i++)
+            {
+                for(int j=0; j<6; j++)
+                {
+                    xPoints[j] = Plateau.hexagone_mouse_moved.xpoints[j] + i;
+                    yPoints[j] = Plateau.hexagone_mouse_moved.ypoints[j] + i;
+                }
+                g2D.setColor(Color.red);
+                g2D.drawPolygon(xPoints, yPoints, 6);
+            }
+        }
+        else if(P_Joueur.mouse_moved && Plateau.pionJoueur_mouse_moved!=null)
+        {
+            Rectangle rect =  Plateau.pionJoueur_mouse_moved.getBounds();
+            g2D.setColor(Color.blue);
+            g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
+        else if(Bateau.mouse_moved && Plateau.bateau_mouse_moved!=null)
+        {
+            Rectangle rect =  Plateau.bateau_mouse_moved.getBounds();
+            g2D.setColor(Color.blue);
+            g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
+    }
+   
     private void afficherBackground(Graphics g2d)
     {
         File file = new File("image/plateau.jpg");
@@ -197,26 +264,53 @@ public class Plateau extends JPanel implements MouseListener
         
     }
 
-    public static int getNombreLigne() {
-        return nombre_ligne;
-    }
-
-    public static int getNombreColonne() {
-        return nombre_colonne;
-    }
-
     @Override
     public void mouseClicked(MouseEvent e) 
     {
-        Hexagone hexagone = determineHexagoneCliquer(e.getPoint());
+        Position pos = determineHexagoneCliquer(e.getPoint());
 
-        System.out.println("clique");
-        if(hexagone !=null)
+        if(pos!=null)
         {
-            hexagone.detruireTuileTerrain();
-            this.repaint();
-            //System.out.println("numero ligne : " + hexagone.getPosition().getNumero_ligne() + " numero col : " + hexagone.getPosition().getNumero_colone());
+            System.out.println("Clique sur hexagone");
+            if(pionJoueur_mouse_clicked !=null && P_Joueur.mouse_cliked)
+            {
+                //System.out.println("***************");
+                //System.out.println("** Avant suppression ** " + "Hexagone : " + pos.getNumero_ligne() + " " + pos.getNumero_colone());
+                //pionJoueur_choisi.getHexagone().afficherlistePionJoueur();
+                
+                //System.out.println("** Apres suppression ** " + "Hexagone : " + pos.getNumero_ligne() + " " + pos.getNumero_colone());
+                //Hexagone hex = pionJoueur_choisi.getHexagone();
+                pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(pionJoueur_mouse_clicked);
+                //hex.afficherlistePionJoueur();
+
+                //System.out.println("** Ajout ** " + "Hexagone : " + pos.getNumero_ligne() + " " + pos.getNumero_colone());
+                map[pos.getNumero_ligne()][pos.getNumero_colone()].ajoutePionJoueur(pionJoueur_mouse_clicked);
+                //map[pos.getNumero_ligne()][pos.getNumero_colone()].afficherlistePionJoueur();
+
+                pionJoueur_mouse_clicked = null;
+                P_Joueur.mouse_cliked = false;
+            }
+            else if(Bateau.mouse_clicked_origin && Plateau.bateau_mouse_clicked!=null)
+            {
+                System.out.println("clique hexagone");
+                Plateau.bateau_mouse_clicked.getHexagone().suprimerBateau();
+                map[pos.getNumero_ligne()][pos.getNumero_colone()].ajouterBateau(Plateau.bateau_mouse_clicked);
+
+                Plateau.bateau_mouse_clicked = null;
+                Bateau.mouse_clicked_origin = false;
+            }
+            else if(Plateau.pionJoueur_mouse_clicked!=null &&  P_Joueur.descendre_bateau)
+            {
+                System.out.println("je descends");
+                map[pos.getNumero_ligne()][pos.getNumero_colone()].ajoutePionJoueur(Plateau.pionJoueur_mouse_clicked);
+                Plateau.pionJoueur_mouse_clicked.getBateau().supprimerPionjoueur(Plateau.pionJoueur_mouse_clicked);
+
+                Plateau.bateau_mouse_clicked = null;
+                P_Joueur.mouse_cliked = false;
+            }
         }
+
+        this.repaint();
     }
 
     @Override
@@ -232,16 +326,51 @@ public class Plateau extends JPanel implements MouseListener
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-        // TODO Auto-generated method stub
+    public void mouseEntered(MouseEvent e) 
+    {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) 
+    {   
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) 
+    {
         
     }
 
     @Override
-    public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
+    public void mouseMoved(MouseEvent e) 
+    {
+        Position pos = determineHexagoneCliquer(e.getPoint());
+
+        if(pos != null)
+        {
+            int i = pos.getNumero_ligne();
+            int j = pos.getNumero_colone();
+            hexagone_mouse_moved = map[i][j];
+            mouse_moved = true;
+            System.out.println("Mouvement souris sur hexagone");
+        }
+        else
+        {
+            mouse_moved = false;
+            hexagone_mouse_moved = null;
+        }
         
     }
+    // **************************************    Getters   *********************************************** //
+
+    public static int getNombreLigne() {
+        return nombre_ligne;
+    }
+
+    public static int getNombreColonne() {
+        return nombre_colonne;
+    }
+
 }
 
 

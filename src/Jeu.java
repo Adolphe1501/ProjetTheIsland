@@ -6,28 +6,27 @@ public class Jeu extends JPanel
 
     private int nombre_tour;
     private int nombre_joueur;
-    private Plateau plateau;
+    public Plateau plateau;
     private ZoneJoueur zone_joueur;
     private ZonePion zone_pion;
 
     public Jeu() 
     {
         super();
-        this.setLayout(new BorderLayout());
+        this.setLayout(null);
 
         this.plateau = new Plateau();
-        this.plateau.setPreferredSize(new Dimension(1050, 0));
-
-        this.add(plateau, BorderLayout.WEST);
+        this.plateau.setBounds(0, 0, 1050, 700);
+        this.add(this.plateau);
+        
 
         this.zone_joueur = new ZoneJoueur();
-        this.zone_joueur.setPreferredSize(new Dimension(400, 0));
-        this.add(zone_joueur, BorderLayout.EAST);
+        this.zone_joueur.setBounds(1050, 0, 380, 700);
+        this.add(this.zone_joueur);
 
         this.zone_pion = new ZonePion();
-        this.zone_pion.setPreferredSize(new Dimension(1500, 100));
-        this.add(zone_pion, BorderLayout.SOUTH);
-
+        this.zone_pion.setBounds(0, 700, 1430, 120);
+        this.add(this.zone_pion);
     }
 
     public void jouer(Joueur Joueur) 

@@ -40,17 +40,13 @@ public class Hexagone extends Polygon
         this.detruire_tuile = false;
 
         this.contientZoneIle();
-        this.determinerCentrePlateau();
+        this.determineHexagoneCentrePlateau();
         this.placerTuileTerrain(tuile_a_placer[compteur_tuile_terrain]);
     }
 
-    public Bateau getBateau() {
-        return bateau;
-    }
+   
 
-    public void setBateau(Bateau bateau) {
-        this.bateau = bateau;
-    }
+   // **************************************    Methodes   *********************************************** //
 
     public void afficherHexagone(Graphics g2D)
     {
@@ -67,7 +63,6 @@ public class Hexagone extends Polygon
                 {   
                     this.tuile.getVerso().afficherVerso(g2D, this.tuile);
                 }
-                
             }
         }
         else
@@ -127,9 +122,8 @@ public class Hexagone extends Polygon
         return ile;
     }
 
-
-    //Determine l'hexagone qui represente le centre du plateau
-    private void determinerCentrePlateau()
+    //Determine l'hexagone qui represente le centre du plateau 
+    private void determineHexagoneCentrePlateau()
     {
         int i = this.position.getNumero_ligne();
         int j = this.position.getNumero_colone();
@@ -153,11 +147,28 @@ public class Hexagone extends Polygon
 
     public void detruireTuileTerrain()
     {
+        int i = 0;
         if(this.tuile!= null)
         {
             this.detruire_tuile = true;
-           
-            this.plateau.repaint();
+
+            
+                this.plateau.repaint();
+
+            /*
+                Plateau.time.start();
+                System.out.println(Plateau.compteur);
+            while(Plateau.time.isRunning())
+            {
+                System.out.println(" je compte " + Plateau.compteur);
+
+                if(Plateau.compteur==100)
+                {
+                    Plateau.time.stop();
+                    this.tuile = null;
+                }
+            }
+            */
 
             //try 
             //{
@@ -174,8 +185,6 @@ public class Hexagone extends Polygon
             //this.tuile = null;
             
         }
-        
-        
     }
 
     public void AfficherPion()
@@ -190,7 +199,7 @@ public class Hexagone extends Polygon
         double x = rect.getX();
         double y = rect.getY();
 
-        if(this.bateau==null && !list_j.isEmpty() && list_j.size()<=6)
+        if(this.bateau==null && !list_j.isEmpty() && list_j.size()<=6 && liste_animaux.isEmpty())
         {
             for(int i=0; i<nombrePion; i++)
             {
@@ -234,7 +243,15 @@ public class Hexagone extends Polygon
                 list_j.get(i).afficherPionJoueur(this.plateau, (int)x, (int)y, (int)w, (int)h);
             }
         }
-        else if(this.bateau != null && !list_j.isEmpty() && list_j.size()<=3)
+        else if(this.bateau != null && list_j.isEmpty() && liste_animaux.isEmpty())
+        {
+            x = rect.getX() + 4;
+            y = rect.getY() + 17;
+            w = 75;
+            h = 30;
+            this.bateau.afficherBateau(this.plateau, (int)x, (int)y, (int)w, (int)h);
+        }
+        else if(this.bateau != null && !list_j.isEmpty() && list_j.size()<=3 && liste_animaux.isEmpty())
         {
             x = rect.getX() + 3;
             y = rect.getY() + 12;
@@ -266,75 +283,127 @@ public class Hexagone extends Polygon
     {
         // TODO implement here
     }
+  
     public void sortir_joueur() 
     {
-        // TODO implement here
     }
 
-
-    public List<P_Joueur> getListe_joueur() 
+    public void ajoutePionJoueur(P_Joueur pionJoueur)
     {
-        return liste_joueur;
+        pionJoueur.setHexagone(this);
+        this.liste_joueur.add(pionJoueur);
+    }
+  
+    public void supprimePionjoueur(P_Joueur pionJoueur)
+    {
+        for(int i=0; i<this.liste_joueur.size(); i++)
+        {
+            if(this.liste_joueur.get(i).getId_P_joueur().equals(pionJoueur.getId_P_joueur()))
+            {
+                this.liste_joueur.get(i).setHexagone(null);
+                this.liste_joueur.remove(i);
+            }
+        }
     }
 
+    public void ajouterBateau(Bateau bateau)
+    {
+        bateau.setHexagone(this);
+        this.setBateau(bateau);
+    }
+
+    public void suprimerBateau()
+    {
+        this.getBateau().setHexagone(null);
+        this.setBateau(null);
+    }
+
+    public void afficherlistePionJoueur()
+    {
+        if(!this.liste_joueur.isEmpty())
+        {
+            for(int i=0; i<this.liste_joueur.size(); i++)
+            {
+                this.liste_joueur.get(i).afficherCaracteristiques();
+            }
+        }
+        else
+        {
+            System.out.println("Liste des joueurs vide");
+        }
+    }
+    
+    // **************************************    Setters   *********************************************** //
 
     public void setListe_joueur(List<P_Joueur> liste_joueur) 
     {
         this.liste_joueur = liste_joueur;
     }
 
-
-    public List<AnimalDeMer> getListe_animaux() 
-    {
-        return liste_animaux;
-    }
-
-
     public void setListe_animaux(List<AnimalDeMer> liste_animaux) 
     {
         this.liste_animaux = liste_animaux;
     }
 
-
-    public Boolean getZone_ile() {
-        return zone_ile;
-    }
-
-
     public void setZone_ile(Boolean zone_ile) {
         this.zone_ile = zone_ile;
-    }
-
-
-    
-
-
-    public static int getNpoints() {
-        return nPoints;
-    }
-
-    public Position getPosition() {
-        return position;
     }
 
     public void setPosition(Position position) {
         this.position = position;
     }
 
-    public TuileTerrain getTuile() {
-        return tuile;
-    }
 
     public void setTuile(TuileTerrain tuile) {
         this.tuile = tuile;
     }
 
-    public boolean getCentrePlateau() {
+    public void setCentrePlateau(boolean centrePlateau) {
+        this.centrePlateau = centrePlateau;
+    }
+
+    public void setBateau(Bateau bateau) 
+    {
+        this.bateau = bateau;
+    }
+   
+    // **************************************    Getters   *********************************************** //
+   
+    public Bateau getBateau() 
+    {
+        return bateau;
+    }
+
+    public boolean getCentrePlateau() 
+    {
         return centrePlateau;
     }
 
-    public void setCentrePlateau(boolean centrePlateau) {
-        this.centrePlateau = centrePlateau;
+    public TuileTerrain getTuile() 
+    {
+        return tuile;
+    }
+    public static int getNpoints() 
+    {
+        return nPoints;
+    }
+
+    public Position getPosition() 
+    {
+        return position;
+    }
+   
+    public List<AnimalDeMer> getListe_animaux() 
+    {
+        return liste_animaux;
+    }
+    public Boolean getZone_ile() 
+    {
+        return zone_ile;
+    }
+    public List<P_Joueur> getListe_joueur() 
+    {
+        return liste_joueur;
     }
 
 }

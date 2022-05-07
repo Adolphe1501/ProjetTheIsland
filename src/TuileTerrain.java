@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+
 
 
 public abstract class TuileTerrain
@@ -21,22 +23,8 @@ public abstract class TuileTerrain
         this.id = id;
     }
 
-    public static TuileTerrain[] melangeTabTuileTerrains()
-    {
-        TuileTerrain[] tuilesTerrain = initTuileTerrains();
-        
-        Random random = new Random();
-    
-        for(int i = 39; i>=0; i--)
-        {
-            int j = random.nextInt(i+1);
-    
-            TuileTerrain TT = tuilesTerrain[i];
-            tuilesTerrain[i] = tuilesTerrain[j];
-            tuilesTerrain[j] = TT;
-        }
-        return tuilesTerrain;
-    }
+
+    // **************************************    Methodes   *********************************************** //
 
     // Initialisation Tuiles
     public static TuileTerrain[] initTuileTerrains()
@@ -151,7 +139,6 @@ public abstract class TuileTerrain
         return tuilesTerrain;
     }
 
-
     public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
     {
         try 
@@ -168,11 +155,33 @@ public abstract class TuileTerrain
         catch (IOException e) 
         {
             e.printStackTrace();
-            System.out.println("Erreur Fichier non trouve");
+            System.out.println("Erreur Fichier Tuile Terrain non trouve");
         }
     }
 
-    public String getId() {
+    public static TuileTerrain[] melangeTabTuileTerrains()
+    {
+        TuileTerrain[] tuilesTerrain = initTuileTerrains();
+        
+        Random random = new Random();
+    
+        for(int i = 39; i>=0; i--)
+        {
+            int j = random.nextInt(i+1);
+    
+            TuileTerrain TT = tuilesTerrain[i];
+            tuilesTerrain[i] = tuilesTerrain[j];
+            tuilesTerrain[j] = TT;
+        }
+        return tuilesTerrain;
+    }
+  
+    public abstract void afficherCaracteristiques();
+  
+    // **************************************    Getters   *********************************************** //
+
+    public String getId() 
+    {
         return id;
     }
 
@@ -185,10 +194,10 @@ public abstract class TuileTerrain
         return hexagone;
     }
 
+
+    // **************************************    Setters   *********************************************** //
+
     public void setHexagone(Hexagone hexagone) {
         this.hexagone = hexagone;
     }
-
-    public abstract void afficherCaracteristiques();
-
 }
