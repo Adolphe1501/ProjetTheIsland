@@ -1,18 +1,24 @@
+import java.awt.Graphics;
+
 
 public class Montagne extends TuileTerrain
 {
-    protected final String id_montagne;
 
     public Montagne(String id_montagne, Verso verso) 
     {
-        super(verso);
-
-        this.id_montagne = id_montagne;
+        super(verso, id_montagne);
     }
 
-    public String getId_montagne() 
+
+    @Override
+    public void afficherCaracteristiques() 
     {
-        return id_montagne;
+        System.out.println("Type : Montagne " + ",id : " + this.id);                      
+    }
+
+    public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
+    {
+        super.afficherTuileTerrain(g2D, "ProjetTheIsland/image/TM.png");
     }
 
 }

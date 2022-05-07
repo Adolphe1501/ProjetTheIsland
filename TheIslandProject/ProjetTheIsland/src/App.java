@@ -1,15 +1,26 @@
-public class App {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+import javax.swing.JFrame;
 
-       
-       // Test Initialisation Tuiles
-       
-        TuileTerrain[] TT = TuileTerrain.initTuileTerrains();
+public class App extends JFrame
+{
 
-        for(int i=0; i<40;i++)
-        {
-            System.out.println(TT[i]);    
-        }
+    private Jeu jeu;
+
+    public App()
+    {
+        super("The Island");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1500, 1300);
+        this.setLocationRelativeTo(null);  
+        
+        this.jeu = new Jeu();
+        this.setContentPane(jeu);
+
+    }
+    public static void main(String[] args) throws Exception 
+    {
+
+       App myApp = new App();
+       myApp.setVisible(true);
+     
     }
 }
