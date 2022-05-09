@@ -9,6 +9,7 @@ public class Montagne extends TuileTerrain
         super(verso, id_montagne);
     }
 
+    // **************************************    Methodes   *********************************************** //
 
     @Override
     public void afficherCaracteristiques() 

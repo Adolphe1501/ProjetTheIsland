@@ -20,6 +20,8 @@ public class P_Joueur extends JLabel implements MouseListener
     private Hexagone hexagone;
     private Bateau bateau;
 
+    // **************************************    Constructeur   *********************************************** //
+
     public P_Joueur(String id_P_joueur, String couleur, int valeur, Joueur joueur) 
     {
         super();
@@ -34,25 +36,27 @@ public class P_Joueur extends JLabel implements MouseListener
 
     // **************************************    Methodes   *********************************************** //
 
+    // Affiche le pion joueur
+    public void afficherPionJoueur(int x, int y, int w, int h)
+    {
+        afficherPionJoueur_aux(x, y, w, h);
+    }
+
+    // Affiche le pion joueur sur le bateau
     public void afficherPionJoueur(Plateau plateau, int x, int y, int w, int h)
+    {
+        afficherPionJoueur_aux(x, y, w, h);
+        this.setBounds(x, y, w, h);
+        plateau.add(this);
+    }
+
+    private void afficherPionJoueur_aux(int x, int y, int w, int h)
     {
         ImageIcon image_temp = new ImageIcon("image/PJ.png");
         Image imgScale = image_temp.getImage();
         Image icon = imgScale.getScaledInstance(w, h, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(icon);
-        this.setIcon(image);
-        this.setBounds(x, y, w, h);
-        plateau.add(this);
-    }
-   
-    public void defendre() 
-    {
-        // TODO implement here
-    }
-
-    public void attaquer() 
-    {
-        // TODO implement here
+        this.setIcon(image);   
     }
 
     public void afficherCaracteristiques()
@@ -64,16 +68,23 @@ public class P_Joueur extends JLabel implements MouseListener
     public void mouseClicked(MouseEvent e)
     {  
         Plateau.pionJoueur_mouse_clicked = this;
+        P_Joueur.mouse_cliked = true;
 
-        if(this.bateau!=null)
+        // Si le joueur n'est pas encore sur le plateau
+        if(this.hexagone==null && this.bateau==null)
+        {
+            Plateau.premier_placement = true;
+        }
+        // Si le pion joeur se trouve sur le plateau
+        else if(this.bateau!=null)
         {
             System.out.println("je demande a descendre");
             P_Joueur.descendre_bateau = true;
         }
+        // Si le pion joueur veux monter sur un bateau
         else
         {
             System.out.println("je veux monter sur un bateau ou me deplacer");
-            P_Joueur.mouse_cliked = true;
             Bateau.mouse_clicked_destination = true;
         }
     }
@@ -93,7 +104,6 @@ public class P_Joueur extends JLabel implements MouseListener
     {   
         Plateau.pionJoueur_mouse_moved = this;
         mouse_moved = true;
-        System.out.println("Entree souris sur pionJoueur");
     }
 
     @Override
@@ -101,7 +111,6 @@ public class P_Joueur extends JLabel implements MouseListener
     {
         Plateau.pionJoueur_mouse_moved = null;
         mouse_moved = false;
-        System.out.println("Sortie souris sur pionJoueur");
     }
 
     // **************************************    Getteurs   *********************************************** //

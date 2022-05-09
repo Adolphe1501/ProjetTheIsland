@@ -15,7 +15,6 @@ public class App extends JFrame
         this.setResizable(false);
         this.jeu = new Jeu();
         this.setContentPane(jeu);
-
     }
     public static void main(String[] args) throws Exception 
     {

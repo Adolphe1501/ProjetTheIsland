@@ -122,7 +122,7 @@ public abstract class TuileTerrain
 
             if(i==0)
                 verso = versosMontagne[0] ; 
-            if(i<6 && i>1)
+            if(i<5 && i>0)
                 verso = versosMontagne[1] ;                           
             if(i==5)
                 verso = versosMontagne[2] ; 
@@ -139,6 +139,7 @@ public abstract class TuileTerrain
         return tuilesTerrain;
     }
 
+    // Affiche les tuiles terrain sur le plateau
     public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
     {
         try 
@@ -159,6 +160,7 @@ public abstract class TuileTerrain
         }
     }
 
+    // Melange le tableau de tuile terrain
     public static TuileTerrain[] melangeTabTuileTerrains()
     {
         TuileTerrain[] tuilesTerrain = initTuileTerrains();

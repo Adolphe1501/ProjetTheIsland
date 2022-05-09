@@ -19,35 +19,14 @@ public class Verso
         this.action = action;
     }
 
-    public String getCouleur() 
-    {
-        return couleur;
-    }
-
-    public String getAction() 
-    {
-        return action;
-    }
-
-    public boolean equals(Verso v)
-    {
-        if((this.couleur == v.couleur) && (this.action == v.action))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    // **************************************    Getters   *********************************************** //
 
     public Verso[] initVersosplage()
     {
         Verso[] versos = new Verso[9];
         Verso verso ;
 
-
-        verso = new Verso("vert","aigle");
+        verso = new Verso("vert","baleine");
         versos[0]  = verso;
 
         verso = new Verso("vert","requin");
@@ -62,18 +41,17 @@ public class Verso
         verso = new Verso("rouge","dauphin");
         versos[4]  = verso;
 
-        verso = new Verso("rouge","dragon");
+        verso = new Verso("rouge","serpent");
         versos[5]  = verso;
 
         verso = new Verso("rouge","requin");
         versos[6]  = verso;
 
-        verso = new Verso("rouge","aigle");
+        verso = new Verso("rouge","baleine");
         versos[7]  = verso;
 
         verso = new Verso("rouge","requin_barre");
         versos[8]  = verso;
-
 
         return versos;
     }
@@ -84,8 +62,7 @@ public class Verso
         Verso[] versos = new Verso[10];
         Verso verso ;
 
-
-        verso = new Verso("vert","aigle");
+        verso = new Verso("vert","baleine");
         versos[0]  = verso;
 
         verso = new Verso("vert","requin");
@@ -94,25 +71,25 @@ public class Verso
         verso = new Verso("vert","bateau");
         versos[2]  = verso;
 
-        verso = new Verso("vert","toran");
+        verso = new Verso("vert","tourbillon");
         versos[3]  = verso;
 
         verso = new Verso("rouge","dauphin");
         versos[4]  = verso;
 
-        verso = new Verso("rouge","dragon");
+        verso = new Verso("rouge","serpent");
         versos[5]  = verso;
 
         verso = new Verso("rouge","requin");
         versos[6]  = verso;
 
-        verso = new Verso("rouge","aigle");
+        verso = new Verso("rouge","baleine");
         versos[7]  = verso;
 
         verso = new Verso("rouge","requin_barre");
         versos[8]  = verso;
 
-        verso = new Verso("rouge","aigle_barre");
+        verso = new Verso("rouge","baleine_barre");
         versos[9]  = verso;
 
         return versos;
@@ -123,12 +100,10 @@ public class Verso
         Verso[] versos = new Verso[5];
         Verso verso ;
 
-
-
         verso = new Verso("vert","requin");
         versos[0]  = verso;
 
-        verso = new Verso("vert","toran");
+        verso = new Verso("vert","tourbillon");
         versos[1]  = verso;
 
         verso = new Verso("vert","volcan");
@@ -137,13 +112,13 @@ public class Verso
         verso = new Verso("rouge","requin_barre");
         versos[3]  = verso;
 
-        verso = new Verso("rouge","aigle_barre");
+        verso = new Verso("rouge","baleine_barre");
         versos[4]  = verso;
 
         return versos;
     }
 
-    public String determinerNomFichier()
+    private String determinerNomFichier()
     {
         String nom_fichier = null;
 
@@ -151,24 +126,65 @@ public class Verso
         {
             if(this.action.equals("volcan"))
             {
-                
+                nom_fichier = "image/VOV.png";
             }
             else if(this.action.equals("requin"))
             {
                 nom_fichier = "image/REV.png";
             }
+            else if(this.action.equals("bateau"))
+            {
+                nom_fichier = "image/BTV.png";
+            }
+            else if(this.action.equals("tourbillon"))
+            {
+                nom_fichier = "image/TBV.png";
+            }
+            else if(this.action.equals("baleine"))
+            {
+                nom_fichier = "image/BALV.png";
+            }
         }
-        nom_fichier = "image/REV.png";
-
+        else if(this.couleur.equals("rouge"))
+        {
+            if(this.action.equals("dauphin"))
+            {
+                nom_fichier = "image/DAR.png";
+            }
+            else if(this.action.equals("bateau"))
+            {
+                nom_fichier = "image/BTR.png";
+            }
+            else if(this.action.equals("serpent"))
+            {
+                nom_fichier = "image/SERPR.png";
+            }
+            else if(this.action.equals("requin"))
+            {
+                nom_fichier = "image/RER.png";
+            }
+            else if(this.action.equals("baleine"))
+            {
+                nom_fichier = "image/BALR.png";
+            }
+            else if(this.action.equals("requin_barre"))
+            {
+                nom_fichier = "image/RERB.png";
+            }
+            else if(this.action.equals("baleine_barre"))
+            {
+                nom_fichier = "image/BALRB.png";
+            }
+        }
         return nom_fichier;
     }
 
+    // Affiche verso sur le plateau
     public void afficherVerso(Graphics g2D, TuileTerrain tuile)
     {
-        
         try 
         {
-            String nom_fichier = this.determinerNomFichier();
+            String nom_fichier = determinerNomFichier();
             int xPoint[] , yPoint[];
             Image image = ImageIO.read(new File(nom_fichier));
 
@@ -182,5 +198,29 @@ public class Verso
             e.printStackTrace();
             System.out.println("Erreur Fichier verso non trouve");
         }
+    }
+
+    public boolean equals(Verso v)
+    {
+        if((this.couleur == v.couleur) && (this.action == v.action))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    // **************************************    Getters   *********************************************** //
+
+    public String getCouleur() 
+    {
+        return couleur;
+    }
+
+    public String getAction() 
+    {
+        return action;
     }
 }

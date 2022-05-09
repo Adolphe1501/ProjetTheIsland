@@ -27,6 +27,7 @@ public class Bateau extends JLabel implements MouseListener
 
     // **************************************    Methodes   *********************************************** //
 
+    //Affiche le bateau sur le plateau
     public void afficherBateau(Plateau plateau, int x, int y, int w, int h)
     {
         ImageIcon image_temp = new ImageIcon("image/BA.png");
@@ -39,11 +40,13 @@ public class Bateau extends JLabel implements MouseListener
         w = 18;
         h = 18;
 
+        // Le bateau est seul dans l'hexagone
         if(this.getHexagone()!=null && this.getHexagone().getListe_joueur().isEmpty() && this.getHexagone().getListe_animaux().isEmpty())
         {
             h=20;
         }
 
+        // Le bateau a des Pions joueur a son bord
         if(!this.liste_pionJoueur.isEmpty())
         {
             for(int i=0; i<this.liste_pionJoueur.size(); i++)
@@ -61,15 +64,11 @@ public class Bateau extends JLabel implements MouseListener
                     liste_pionJoueur.get(2).afficherPionJoueur(plateau, x+44, y-6, w, h);
                 }
             }
-            
-            //liste_pionJoueur.get(0).afficherPionJoueur(plateau, x+8, y-6, 18, 18);
-            //liste_pionJoueur.get(1).afficherPionJoueur(plateau, x+26, y-6, 18, 18);
-            //liste_pionJoueur.get(2).afficherPionJoueur(plateau, x+44, y-6, 18, 18);
-
         }
         plateau.add(this);
     }
 
+    // Ajoute un pion joueur sur le bateau
     public void ajoutePionJoueur(P_Joueur pionJoueur)
     {
         this.liste_pionJoueur.add(pionJoueur);
@@ -77,6 +76,7 @@ public class Bateau extends JLabel implements MouseListener
 
     }
 
+    // Supprime un pion joueur du bateau
     public void supprimerPionjoueur(P_Joueur pionJoueur)
     {
         for(int i=0; i<this.liste_pionJoueur.size(); i++)
@@ -97,16 +97,21 @@ public class Bateau extends JLabel implements MouseListener
     @Override
     public void mouseClicked(MouseEvent e) 
     {
+        // Determine si un clique a ete effectué sur le bateau
         if(!Bateau.mouse_clicked_destination && !Bateau.mouse_clicked_origin)
         {
             Plateau.bateau_mouse_clicked = this;
             Bateau.mouse_clicked_origin = true;
             System.out.println("clique sur bateau");
         }
+        // Determine si un pion joueur veux monter sur le bateau
         else if(Bateau.mouse_clicked_destination && P_Joueur.mouse_cliked)
-        {
-            this.ajoutePionJoueur(Plateau.pionJoueur_mouse_clicked);
-            Plateau.pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(Plateau.pionJoueur_mouse_clicked);
+        {     
+            if(Plateau.pionJoueur_mouse_clicked.getHexagone()!=null)
+            {
+                this.ajoutePionJoueur(Plateau.pionJoueur_mouse_clicked);
+                Plateau.pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(Plateau.pionJoueur_mouse_clicked);
+            }
             P_Joueur.mouse_cliked = false;
             Bateau.mouse_clicked_destination = false;
             System.out.println("Je monte");
@@ -127,21 +132,20 @@ public class Bateau extends JLabel implements MouseListener
     }
 
     @Override
+    // le  curseur de la souris est sur le bateau
     public void mouseEntered(MouseEvent e) 
     {
         Bateau.mouse_moved = true;
         Plateau.bateau_mouse_moved = this;
-        System.out.println("Entrée souris sur Bateau");
    
     }
 
+    // Le curseur de la souris quitte le bateau
     @Override
     public void mouseExited(MouseEvent e) 
     {
         Bateau.mouse_moved = false;
-        Plateau.bateau_mouse_moved = null; 
-        System.out.println("Sortie souris sur Bateau");
-  
+        Plateau.bateau_mouse_moved = null;   
     }
     // **************************************    Setters   *********************************************** //
 

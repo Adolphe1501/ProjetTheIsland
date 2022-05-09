@@ -48,7 +48,8 @@ public class Hexagone extends Polygon
 
    // **************************************    Methodes   *********************************************** //
 
-    public void afficherHexagone(Graphics g2D)
+   // Affiche l'hexagone sur le plateau
+   public void afficherHexagone(Graphics g2D)
     {
         if(this.zone_ile && !this.centrePlateau)
         {
@@ -145,48 +146,18 @@ public class Hexagone extends Polygon
         }
     }
 
+    // Detruit une tuile de terrain present sur un hexagone
     public void detruireTuileTerrain()
     {
-        int i = 0;
         if(this.tuile!= null)
         {
             this.detruire_tuile = true;
-
-            
-                this.plateau.repaint();
-
-            /*
-                Plateau.time.start();
-                System.out.println(Plateau.compteur);
-            while(Plateau.time.isRunning())
-            {
-                System.out.println(" je compte " + Plateau.compteur);
-
-                if(Plateau.compteur==100)
-                {
-                    Plateau.time.stop();
-                    this.tuile = null;
-                }
-            }
-            */
-
-            //try 
-            //{
-                //Thread.sleep(2000);
-                //this.plateau.repaint();
-                //Thread.sleep(2000);
-               // this.plateau.repaint();
-
-            //} catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-             //   e.printStackTrace();
-            //}
-
-            //this.tuile = null;
+            this.plateau.repaint();
             
         }
     }
 
+    // Affiche les pions bateaux et joueurs present dans l'hexagone
     public void AfficherPion()
     {
         List<P_Joueur> list_j = this.getListe_joueur();
@@ -279,21 +250,15 @@ public class Hexagone extends Polygon
             }
         }
     }
-    public void detruire_bateau() 
-    {
-        // TODO implement here
-    }
-  
-    public void sortir_joueur() 
-    {
-    }
 
+    // Ajoute un pion joueur dans l'hexagone
     public void ajoutePionJoueur(P_Joueur pionJoueur)
     {
         pionJoueur.setHexagone(this);
         this.liste_joueur.add(pionJoueur);
     }
   
+    // Supprime un pion joueur de l'hexagone
     public void supprimePionjoueur(P_Joueur pionJoueur)
     {
         for(int i=0; i<this.liste_joueur.size(); i++)
@@ -306,16 +271,28 @@ public class Hexagone extends Polygon
         }
     }
 
+    // Ajoute un bateau dans l'hexagone
     public void ajouterBateau(Bateau bateau)
     {
         bateau.setHexagone(this);
         this.setBateau(bateau);
     }
 
+    // Supprime un bateau de l'hexagone
     public void suprimerBateau()
     {
         this.getBateau().setHexagone(null);
         this.setBateau(null);
+    }
+
+    public void detruire_bateau() 
+    {
+        // TODO implement here
+    }
+  
+    public void sortir_joueur() 
+    {
+        // TODO implement here
     }
 
     public void afficherlistePionJoueur()
@@ -332,6 +309,7 @@ public class Hexagone extends Polygon
             System.out.println("Liste des joueurs vide");
         }
     }
+
     
     // **************************************    Setters   *********************************************** //
 
@@ -365,6 +343,11 @@ public class Hexagone extends Polygon
     public void setBateau(Bateau bateau) 
     {
         this.bateau = bateau;
+    }
+
+    public void setDetruire_tuile(boolean detruire_tuile)
+    {
+        this.detruire_tuile = detruire_tuile;
     }
    
     // **************************************    Getters   *********************************************** //
