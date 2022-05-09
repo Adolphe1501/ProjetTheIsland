@@ -59,7 +59,7 @@ public class Bateau
         this.liste_pionJoueur = liste_pionJoueur;
     }
 
-    public void deplacerPionBateau(Joueur joueur ,Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    public boolean deplacerPionBateau(Joueur joueur ,Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
        
         if(joueur.nombre_deplacement>0)
@@ -79,12 +79,16 @@ public class Bateau
                 hexagoneArrivee.setListe_bateau(list);
 
                 joueur.nombre_deplacement -=1;
+                return true;
             }else{
                 System.out.println("deplacement trop grand");
+                return false;
             }
 
         }else{
             System.out.println("Nombre de deplacement Insuffisant");
+            return false;
+
         }
        
     }

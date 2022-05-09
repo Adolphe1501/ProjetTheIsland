@@ -29,7 +29,7 @@ public class P_Joueur extends JLabel implements MouseListener
     
 
 
-    public void deplacerPjoueurEtOuBateau(Joueur joueur, Bateau bateau, Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    public boolean deplacerPjoueurEtOuBateau(Joueur joueur, Bateau bateau, Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
        
        if(joueur.nombre_deplacement>0)
@@ -41,29 +41,35 @@ public class P_Joueur extends JLabel implements MouseListener
                     bateau.deplacerPionBateau(joueur, hexagoneDepart, hexagoneArrivee);
                     for(P_Joueur pJ : bateau.getListe_pionJoueur())
                         pJ.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                    return true;
                 }else
                     System.out.println(" Joueur non Majoritaire vous ne pouvez pas deplacer le bateau  ");
+                    return false;
             }else
                 bateau.deplacerPionBateau(joueur, hexagoneDepart, hexagoneArrivee);
+                return true;
        }else
             System.out.println(" Nombre de deplacements Insuffisants ");
+            return  false;
      
     }
 
-    public void deplacerPjoueurHorsduBateau(P_Joueur pJ , Bateau bateau, Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    public boolean deplacerPjoueurHorsduBateau(P_Joueur pJ , Bateau bateau, Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
         bateau.liste_pionJoueur.remove(pJ);
         pJ.deplacerPionJoueur(hexagoneDepart, hexagoneArrivee);
+        return true;
     }
 
 
     
-    public void deplacerPionJoueur(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    public boolean deplacerPionJoueur(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
+
+        boolean deplacement = false;
         
         if(this.joueur.nombre_deplacement>0)
         {
-
             Position posD = hexagoneDepart.getPosition();
             Position posA = hexagoneArrivee.getPosition(); 
             int x = posD.getNumero_ligne() - posA.getNumero_ligne(), y = posA.getNumero_colone() - posA.getNumero_colone();
@@ -74,6 +80,9 @@ public class P_Joueur extends JLabel implements MouseListener
                 {
                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                     this.joueur.nombre_deplacement-=1;
+                    deplacement = true;
+                }else{
+                    deplacement = false ;
                 }
                     
             }else{
@@ -82,18 +91,21 @@ public class P_Joueur extends JLabel implements MouseListener
                 {
                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                     this.joueur.nombre_deplacement-=1;
+                    deplacement= true;
 
                 }
-
                 if(this.joueur.nombre_deplacement>1)
                 {
                     if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y < 3 || y > -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x < 3 || x > -3)) || ((y < 3 || y > -3) && (x < 3 || x > -3)))                 
                     {
                         this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                         this.joueur.nombre_deplacement-=2;
+                        deplacement= true;
 
                     }else{
                         System.out.println("Nombre de deplacement insuffisant");
+                        deplacement= false;
+
                     }
                 }
 
@@ -103,24 +115,26 @@ public class P_Joueur extends JLabel implements MouseListener
                     {
                         this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                         this.joueur.nombre_deplacement-=3;
+                        deplacement= true;
+
 
                     }else{
                         System.out.println("le nombre de deplacement maximum est de 3");
+                        deplacement= false;
+
                     }
                 }
-       
             }
-
         }else{
             System.out.println("Nombre de deplacement insuffisant");
+            deplacement = false;
         }
-        
-      
 
+        return false;
     }  
     
 
-    public void deplacerPj(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    public boolean deplacerPj(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
              
         ArrayList<P_Joueur> list =  (ArrayList<P_Joueur>) hexagoneDepart.getListe_joueur();
@@ -132,6 +146,7 @@ public class P_Joueur extends JLabel implements MouseListener
         hexagoneArrivee.setListe_joueur(list);
 
         this.hexagone = hexagoneArrivee;
+        return true;
     }
     public void defendre() 
     {
