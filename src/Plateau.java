@@ -185,7 +185,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
     // Affiche les effets d' un clique sur un pion joueur ou bateau
     private void afficheEffetMouseClicked(Graphics g2D)
     {
-        if(P_Joueur.mouse_cliked && Plateau.pionJoueur_mouse_clicked!=null && Plateau.pionJoueur_mouse_clicked.getHexagone()!=null)
+        if(P_Joueur.mouse_cliked && Plateau.pionJoueur_mouse_clicked!=null && (Plateau.pionJoueur_mouse_clicked.getHexagone()!=null || Plateau.pionJoueur_mouse_clicked.getBateau()!=null))
         {
             Rectangle rect =  Plateau.pionJoueur_mouse_clicked.getBounds();
             g2D.setColor(Color.blue);

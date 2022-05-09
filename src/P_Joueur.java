@@ -69,6 +69,7 @@ public class P_Joueur extends JLabel implements MouseListener
     {  
         Plateau.pionJoueur_mouse_clicked = this;
         P_Joueur.mouse_cliked = true;
+        
 
         // Si le joueur n'est pas encore sur le plateau
         if(this.hexagone==null && this.bateau==null)

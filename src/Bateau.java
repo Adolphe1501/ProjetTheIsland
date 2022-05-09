@@ -98,7 +98,10 @@ public class Bateau extends JLabel implements MouseListener
     public void mouseClicked(MouseEvent e) 
     {
         // Determine si un clique a ete effectué sur le bateau
-        if(!Bateau.mouse_clicked_destination && !Bateau.mouse_clicked_origin)
+        System.out.println(Bateau.mouse_clicked_origin);
+        System.out.println(Bateau.mouse_clicked_destination);
+
+        if(!Bateau.mouse_clicked_origin)
         {
             Plateau.bateau_mouse_clicked = this;
             Bateau.mouse_clicked_origin = true;
