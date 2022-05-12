@@ -107,8 +107,8 @@ public class P_Joueur extends JLabel implements MouseListener {
         this.hexagone = hexagone;
     }
 
-    public boolean placer_pion(Hexagone hexagone) {
-        if ((this.id_P_joueur.toCharArray()[2] == this.joueur.couleur.toCharArray()[0])
+    public boolean placer_pion(Hexagone hexagone, Joueur joueur) {
+        if ((this.joueur == this.joueur)
                 && (hexagone.getListe_joueur() == null) && (hexagone.getzone_ile() == true)) {
             hexagone.setlistJoueur(this);
             this.setHexagone(hexagone);
@@ -120,6 +120,10 @@ public class P_Joueur extends JLabel implements MouseListener {
     }
 
     /* on vas pas tester l adjacence des hexagone */
+    /*
+     * je pense qu'on doit rajouter un attribut pour verifier si un pion est sur
+     * bateau ou pas
+     */
     public boolean deplacer_pion(Joueur j, Hexagone hexagone) {
         if (this.joueur == j) {
             if (hexagone.getTuile() == null) {
@@ -127,11 +131,14 @@ public class P_Joueur extends JLabel implements MouseListener {
                     if (hexagone == this.hexagone) {
                         if (!(hexagone.getBateau().est_complet())) {
                             hexagone.getBateau().add_pion(this);
+                            this.est_nageur = false;/****************************** a verifier */
+                            this.hexagone = null;
                             return true;
                         } else
                             return false;
 
                     } else {
+
                         hexagone.add_pion(this);
                         return true;
                     }
@@ -155,6 +162,14 @@ public class P_Joueur extends JLabel implements MouseListener {
         } else
             return false;
 
+    }
+
+    public void supprimerPionDeJeu() {
+        for (int i = 0; i < this.getJoueur().list_pion.size(); i++) {
+            if (this.getJoueur().list_pion.get(i) == this) {
+                this.getJoueur().list_pion.remove(i);
+            }
+        }
     }
 
 }

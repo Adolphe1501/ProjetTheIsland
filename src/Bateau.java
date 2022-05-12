@@ -36,10 +36,11 @@ public class Bateau extends JLabel {
     public void setListe_pionJoueur(List<P_Joueur> liste_pionJoueur) {
         this.liste_pionJoueur = liste_pionJoueur;
     }
-    public void add_pion(P_Joueur pion)
-    {
+
+    public void add_pion(P_Joueur pion) {
         this.liste_pionJoueur.add(pion);
     }
+
     public boolean placer_bateau(List<Bateau> bateaux, Hexagone hexagone, Plateau plateau) {
         if ((hexagone.getListe_joueur() == null) && (hexagone.getzone_ile() == false)
                 && (hexagone.getBateau() == null)) {
@@ -64,54 +65,51 @@ public class Bateau extends JLabel {
             }
         }
     }
-    public boolean est_complet()
-    {
-        if (this.liste_pionJoueur.size()==3)
+
+    public boolean est_complet() {
+        if (this.liste_pionJoueur.size() == 3)
             return true;
         else
-             return false;
+            return false;
     }
 
-    public boolean deplacer(Joueur j, Hexagone hexagone) {
-        if (hexagone.getTuile() == null) 
-        {
-            if ((this.liste_pionJoueur.size() == 1) && (this.liste_pionJoueur.get(0).couleur == j.couleur))
-            {   
+    public boolean deplacer(Joueur joueur, Hexagone hexagone) {
+        /* si bateau vide */
+        if ((hexagone.getTuile() == null) && (hexagone.getzone_ile() == false) && (this.liste_pionJoueur == null)) {
+            hexagone.setBateau(this);
+            return true;
+        }
+
+        else if ((hexagone.getTuile() == null) && (hexagone.getzone_ile() == false)
+                && (this.liste_pionJoueur != null)) {
+            if ((this.liste_pionJoueur.size() == 1) && (this.liste_pionJoueur.get(0).joueur == joueur)) {
                 hexagone.setBateau(this);
                 return true;
-            } 
-            else if ((this.liste_pionJoueur.size() == 2) && ((this.liste_pionJoueur.get(0).couleur == j.couleur)
-                    || (this.liste_pionJoueur.get(1).couleur == j.couleur)))
-            {
+            } else if ((this.liste_pionJoueur.size() == 2) && ((this.liste_pionJoueur.get(0).joueur == joueur)
+                    || (this.liste_pionJoueur.get(1).joueur == joueur))) {
                 hexagone.setBateau(this);
                 return true;
             }
 
-            else if (est_dominant(j, this)) 
-            {
+            else if (est_dominant(joueur, this)) {
                 hexagone.setBateau(this);
                 return true;
-            } 
-            else 
-            {
+            } else {
                 return false;
             }
-        }
-        else    
-        {
+        } else {
             return false;
         }
     }
 
-    public boolean est_dominant(Joueur j, Bateau bateau) {
+    public boolean est_dominant(Joueur joueur, Bateau bateau) {
         int nb = 0;
         for (int i = 0; i < 3; i++) {
-            if (bateau.liste_pionJoueur.get(i).couleur == j.couleur) {
+            if (bateau.liste_pionJoueur.get(i).joueur == joueur) {
                 nb++;
             }
         }
-        if (nb > 1)
-        {                
+        if (nb > 1) {
             return true;
         } else if ((nb == 1) && (bateau.liste_pionJoueur.get(0).couleur != bateau.liste_pionJoueur.get(1).couleur)
                 && (bateau.liste_pionJoueur.get(0).couleur != bateau.liste_pionJoueur.get(2).couleur)
@@ -122,23 +120,24 @@ public class Bateau extends JLabel {
 
     }
     /*
-    public static void main(String[] args) 
-    {
-        Joueur joueur1 = new Joueur("wafa", "Rouge");
-        Joueur joueur2= new Joueur("wafa", "Vert");
-        P_Joueur pion = new P_Joueur("rrr", "Rouge", 6, joueur1);
-        P_Joueur pion2 = new P_Joueur("rrr", "Vert", 6, joueur1);
-        P_Joueur pion3 = new P_Joueur("rrr", "Bleu", 6, joueur1);
-
-
-
-        Hexagone hexagone=new Hexagone();
-       Bateau b =new Bateau("iff");
-        b.add_pion(pion);
-        b.add_pion(pion2);
-        b.add_pion(pion3);
-
-        System.out.println(b.deplacer(joueur1, hexagone));
-
-    }*/
+     * public static void main(String[] args)
+     * {
+     * Joueur joueur1 = new Joueur("wafa");
+     * Joueur joueur2= new Joueur("wafa");
+     * P_Joueur pion = new P_Joueur("rrr", "Rouge", 6, joueur1);
+     * P_Joueur pion2 = new P_Joueur("rrr", "Vert", 6, joueur1);
+     * P_Joueur pion3 = new P_Joueur("rrr", "Bleu", 6, joueur1);
+     * 
+     * 
+     * 
+     * Hexagone hexagone=new Hexagone();
+     * Bateau b =new Bateau("iff");
+     * b.add_pion(pion);
+     * b.add_pion(pion2);
+     * b.add_pion(pion3);
+     * 
+     * System.out.println(b.deplacer(joueur1, hexagone));
+     * 
+     * }
+     */
 }

@@ -1,11 +1,12 @@
-
+import java.util.ArrayList;
+import java.util.List;
 
 public class Baleine extends AnimalDeMer 
 {
 
-    protected final String id_baleine;
+    protected final int id_baleine;
 
-    public Baleine(String id_baleine) 
+    public Baleine(int id_baleine) 
     {
         super();
         this.id_baleine = id_baleine;
@@ -25,9 +26,27 @@ public class Baleine extends AnimalDeMer
         
     }
 
-    public String getId_baleine()
+    public int getId_baleine()
     {
         return this.id_baleine;
+    }
+    public List<Baleine> initListBalent()
+    {   int i;
+        List<Baleine> list= new ArrayList<>();
+        for(i=0;i<5;i++)
+        {
+            list.add(new Baleine(i));
+        }
+        return list ;
+    }
+    public void balein_vert(List<Baleine> list , Position position)
+    {
+        Baleine baleine=list.get(0);
+        list.remove(0);
+       if (Plateau.map[position.getNumero_ligne()][position.getNumero_colone()].getzone_ile()==false)
+       {
+        Plateau.map[position.getNumero_ligne()][position.getNumero_colone()].addPionMer(baleine);
+       }
     }
 
 }

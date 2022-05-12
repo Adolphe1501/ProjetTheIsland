@@ -57,6 +57,10 @@ public class Hexagone extends Polygon {
     {
         this.liste_joueur.add(pion);
     }
+    public void addPionMer(AnimalDeMer a)
+    {
+        this.liste_animaux.add(a);
+    }
     public boolean getzone_ile()
     {
         return this.zone_ile;
