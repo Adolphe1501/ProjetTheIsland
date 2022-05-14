@@ -1,6 +1,8 @@
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -52,18 +54,159 @@ public class P_Joueur extends JLabel implements MouseListener
 
     private void afficherPionJoueur_aux(int x, int y, int w, int h)
     {
-        ImageIcon image_temp = new ImageIcon("image/PJ.png");
+        String nom_fichier = determineNomFichier();
+        ImageIcon image_temp = new ImageIcon(nom_fichier);
         Image imgScale = image_temp.getImage();
         Image icon = imgScale.getScaledInstance(w, h, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(icon);
         this.setIcon(image);   
     }
 
+    private String determineNomFichier()
+    {
+        String nom_fichier;
+
+        if(this.couleur.equals("vert"))
+        {
+            nom_fichier = "image/PJV.png";
+        }
+        else if(this.couleur.equals("rouge"))
+        {
+            nom_fichier = "image/PJR.png";
+        }
+        else if(this.couleur.equals("bleu"))
+        {
+            nom_fichier = "image/PJB.png";
+        }
+        else
+        {
+            nom_fichier = "image/PJJ.png";
+        }
+
+        return nom_fichier;
+    }
     public void afficherCaracteristiques()
     {
         System.out.println("Couleur : " + this.couleur + " ,id : " + this.id_P_joueur);
     }
    
+    public boolean placer_pion(Hexagone hexagone) 
+    {
+        if ((Jeu.joueur!= null && (this.joueur.getPseudo()==Jeu.joueur.getPseudo())  && (hexagone.getListe_joueur().size()==0) && (hexagone.getZone_ile() == true) && !hexagone.getCentrePlateau())) 
+        {
+            System.out.println("ca marche !!!");
+            hexagone.ajoutePionJoueur(this);
+            return true;
+        }
+        else
+        { 
+            System.out.println("ca marche pas !!!");
+            System.out.println("Pseudo : " + this.joueur.getPseudo() + " = " + Jeu.joueur.getPseudo());
+            System.out.println("Taille : " + hexagone.getListe_joueur().size());
+            System.out.println("Zone ile : " + hexagone.getZone_ile());
+            return false;
+        }
+    }
+
+    public boolean deplacerPionJoueur(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+
+        boolean deplacement = false;
+        
+        if(this.joueur.getNombre_deplacement()>0)
+        {
+            Position posD = hexagoneDepart.getPosition();
+            Position posA = hexagoneArrivee.getPosition(); 
+            int x = posD.getNumero_ligne() - posA.getNumero_ligne(), y = posA.getNumero_colone() - posA.getNumero_colone();
+            if(this.est_nageur)
+            {
+                    
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1)))                 
+                {
+                    this.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
+                    deplacement = true;
+                }else{
+                    deplacement = false ;
+                }
+                    
+            }else{
+            
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1)))                 
+                {
+                    this.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
+                    deplacement= true;
+
+                }
+                if(this.joueur.getNombre_deplacement()>1)
+                {
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y < 3 || y > -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x < 3 || x > -3)) || ((y < 3 || y > -3) && (x < 3 || x > -3)))                 
+                    {
+                        this.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
+                        deplacement= true;
+
+                    }else{
+                        System.out.println("Nombre de deplacement insuffisant");
+                        deplacement= false;
+
+                    }
+                }
+
+                if(this.joueur.getNombre_deplacement()>2)
+                {
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y < 4 || y > -4)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x < 4 || x > -4)) || ((y < 4 || y > -4) && (x < 4 || x > -4)))                 
+                    {
+                        this.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
+                        deplacement= true;
+
+
+                    }else{
+                        System.out.println("le nombre de deplacement maximum est de 3");
+                        deplacement= false;
+
+                    }
+                }
+            }
+        }else{
+            System.out.println("Nombre de deplacement insuffisant");
+            deplacement = false;
+        }
+
+        return deplacement;
+    }    
+   
+    public static List<P_Joueur> initPJoueur(String couleur, Joueur joueur) 
+    {
+        int valeur;
+        List<P_Joueur> list = new ArrayList<>();
+        int i;
+        for (i = 0; i < 10; i++) 
+        {
+            if(i<=2)
+            {
+                valeur = 1;
+            }
+            else if(i==3 || i==4)
+            {
+                valeur=2;
+            }
+            else if(i==5 || i==6)
+            {
+                valeur =3;
+            }
+            else
+            {
+                valeur = 6;
+            }
+
+            String id = "PJ" + (i+1);
+            list.add(new P_Joueur(id, couleur, valeur, joueur));
+        }
+        return list;
+    }
     @Override
     public void mouseClicked(MouseEvent e)
     {  
@@ -74,7 +217,7 @@ public class P_Joueur extends JLabel implements MouseListener
         // Si le joueur n'est pas encore sur le plateau
         if(this.hexagone==null && this.bateau==null)
         {
-            Plateau.premier_placement = true;
+            Jeu.premier_placement = true;
         }
         // Si le pion joeur se trouve sur le plateau
         else if(this.bateau!=null)
@@ -161,5 +304,20 @@ public class P_Joueur extends JLabel implements MouseListener
 
     public void setBateau(Bateau bateau) {
         this.bateau = bateau;
+    }
+
+    public boolean deplacerPj(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+             
+        ArrayList<P_Joueur> list =  (ArrayList<P_Joueur>) hexagoneDepart.getListe_joueur();
+        list.remove(this);
+        hexagoneDepart.setListe_joueur(list);
+
+        list = (ArrayList<P_Joueur>) hexagoneArrivee.getListe_joueur();
+        list.add(this);
+        hexagoneArrivee.setListe_joueur(list);
+
+        this.hexagone = hexagoneArrivee;
+        return true;
     }
 }

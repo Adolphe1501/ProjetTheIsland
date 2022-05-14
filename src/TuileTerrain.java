@@ -5,10 +5,12 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 
 
-public abstract class TuileTerrain
+public abstract class TuileTerrain extends JLabel
 {
 
     protected final Verso verso;

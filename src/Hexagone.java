@@ -251,9 +251,14 @@ public class Hexagone extends Polygon
         }
     }
 
+    
     // Ajoute un pion joueur dans l'hexagone
     public void ajoutePionJoueur(P_Joueur pionJoueur)
     {
+        if( pionJoueur.getHexagone()!=null)
+        {
+            pionJoueur.getHexagone().supprimePionjoueur(pionJoueur);
+        }
         pionJoueur.setHexagone(this);
         this.liste_joueur.add(pionJoueur);
     }

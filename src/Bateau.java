@@ -27,6 +27,17 @@ public class Bateau extends JLabel implements MouseListener
 
     // **************************************    Methodes   *********************************************** //
 
+    // Initialisation des bateau
+    public static List<Bateau> initBateau(){
+        List<Bateau> bateaux=new ArrayList<Bateau>();
+        for (int i = 0; i < 12; i++) {
+            String id = "B" + i;
+            Bateau bateau= new Bateau(id);
+            bateaux.add(bateau);
+        }
+        return bateaux;
+    }
+
     //Affiche le bateau sur le plateau
     public void afficherBateau(Plateau plateau, int x, int y, int w, int h)
     {
@@ -92,6 +103,55 @@ public class Bateau extends JLabel implements MouseListener
     public void deplacer() 
     {
         // TODO implement here
+    }
+
+    public boolean placer_bateau(List<Bateau> bateaux, Hexagone hexagone) 
+    {
+        int i = hexagone.getPosition().getNumero_ligne();
+        int j = hexagone.getPosition().getNumero_colone();
+
+        Boolean possible = false;
+
+        if ((hexagone.getListe_joueur().isEmpty()) && (hexagone.getZone_ile() == false)  && (hexagone.getBateau() == null)) 
+        {
+            if((j>0) && (j<Plateau.nombre_colonne-1) && ((Plateau.map[i][j+1]!=null) && ((Plateau.map[i][j+1].getTuile()!=null)) || ((Plateau.map[i][j-1]!=null) &&(Plateau.map[i][j-1].getTuile()!=null))))
+            {
+                this.RemoveBateau(bateaux);
+                possible = true;     
+                           
+            }
+            else if(i>0 && (i<Plateau.nombre_ligne-1) && ((Plateau.map[i+1][j]!=null) && ((Plateau.map[i+1][j].getTuile()!=null)) || ((Plateau.map[i-1][j]!=null) &&(Plateau.map[i-1][j].getTuile()!=null))))
+            {
+                this.RemoveBateau(bateaux);
+                possible = true;
+            }
+            else if((j>0) && (j<Plateau.nombre_colonne-1) && (i>0) && (i<Plateau.nombre_ligne-1))
+            {
+                if(i%2==0 && ((Plateau.map[i+1][j+1]!=null) &&(Plateau.map[i+1][j+1].getTuile()!=null) || ((Plateau.map[i-1][j+1]!=null) &&Plateau.map[i-1][j+1].getTuile()!=null)))
+                {
+                    this.RemoveBateau(bateaux);
+                    possible = true;
+                }
+                else if(i%2!=0 && ((Plateau.map[i+1][j-1]!=null) && (Plateau.map[i+1][j-1].getTuile()!=null)) || ((Plateau.map[i-1][j-1]!=null) && Plateau.map[i-1][j-1].getTuile()!=null))
+                {
+                    this.RemoveBateau(bateaux);
+                    possible = true;
+                }
+            }
+        }
+        return possible;
+    }
+
+    
+    public void RemoveBateau(List<Bateau> bateaux) 
+    {
+        for(int i=0; i<bateaux.size(); i++)
+        {
+            if(bateaux.get(i).id_bateau.equals(this.id_bateau))
+            {
+                bateaux.remove(i);
+            }
+        }    
     }
 
     @Override

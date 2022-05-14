@@ -1,10 +1,13 @@
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
 
 public class ZonePseudoJoueur extends JPanel
 {
@@ -46,6 +49,24 @@ public class ZonePseudoJoueur extends JPanel
         }
     }
 
+    public void paintComponent(Graphics g)
+    {
+        if(Jeu.joueur!=null)
+        {
+            for(int i = 0; i<this.liste_joueur.size(); i++)
+            {
+                if(this.liste_joueur.get(i).getPseudo().equals(Jeu.joueur.getPseudo()))
+                {
+                    pseudoJoueur_label.get(i).setBackground(new Color(30,144,255));
+                    pseudoJoueur_label.get(i).setOpaque(true);
+                }
+                else
+                {
+                    pseudoJoueur_label.get(i).setOpaque(false);
+                }   
+            }
+        }
+    }
     // **************************************    Getters   *********************************************** //
 
     public List<JButton> getPseudoJoueur_label() {

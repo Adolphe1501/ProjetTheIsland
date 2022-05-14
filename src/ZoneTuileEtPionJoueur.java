@@ -6,39 +6,81 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.List;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 public class ZoneTuileEtPionJoueur extends JPanel
 {
+
+    private static int index_courant = Jeu.index_joueur;
     public ZoneTuileEtPionJoueur()
     {
         super();
-
-
-        this.setBackground(Color.ORANGE);    
-        affichePionJoueurNonPlace();
         
+        this.setBackground(Color.ORANGE);    
+        
+        affichePionJoueurNonPlace();
+        //affichageZone();
     }
 
     // **************************************    Methodes   *********************************************** //
 
-    public void affichePionJoueurNonPlace()
+    /*private void mouseListenerVerso(Verso verso)
+    {
+        verso.addMouseListener(new MouseListener()
+        {
+
+            @Override
+            public void mouseClicked(MouseEvent e) 
+            {
+                 verso.afficherCaracteristiques();
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                // TODO Auto-generated method stub
+                
+            }
+
+        });
+    }*/
+
+    private void affichePionJoueurNonPlace()
     {
         if(Jeu.joueur!=null)
         {
             this.removeAll();
 
             List <P_Joueur> list_pionJoueur_temp = Jeu.joueur.getList_pion();
-
     
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints c = new GridBagConstraints(); 
-
-            c.insets = new Insets(5, 10, 10, 10);
-            System.out.println("ici ****");
+            c.insets = new Insets(5, 1, 1, 1);
 
             for(int i=0; i<list_pionJoueur_temp.size(); i++)
             {
@@ -46,8 +88,6 @@ public class ZoneTuileEtPionJoueur extends JPanel
                 {
                     if(list_pionJoueur_temp.get(i).getHexagone()==null && list_pionJoueur_temp.get(i).getBateau()==null)
                     {
-                        System.out.println("ici **** " + i);
-
                         int k = 1;
                         c.ipadx = 5;
                         c.ipady = 5;
@@ -61,8 +101,6 @@ public class ZoneTuileEtPionJoueur extends JPanel
                         else
                         {
                             list_pionJoueur_temp.get(i).afficherPionJoueur(1150, 200+(k*40), 30, 30);
-                            //list_pionJoueur_temp.get(i).setBackground(Color.black);
-                            //list_pionJoueur_temp.get(i).setOpaque(true);
                             this.add(list_pionJoueur_temp.get(i), c);
                             k++;
                         }
@@ -71,6 +109,41 @@ public class ZoneTuileEtPionJoueur extends JPanel
             }
         }
         this.revalidate();
+    }
+
+    private void afficheTuileJoueur()
+    {
+        this.removeAll();
+
+        int k = 0, j=0, w=80, h=70;
+        List <TuileTerrain> list_tuile_temp = Jeu.joueur.getList_Treserve();
+
+        this.setLayout(new GridBagLayout());
+
+        GridBagConstraints c = new GridBagConstraints(); 
+        c.insets = new Insets(5, 3, 5, 40);
+       
+        if(list_tuile_temp.size()>7)
+        {
+            w=70;
+            h=70;
+        }
+        for(int i=0; i<list_tuile_temp.size(); i++)
+        {
+            if(i==7)
+            {
+                j = 1;
+                k = 0;
+            }
+            c.gridx = j;
+            c.gridy = k;
+            Verso verso = list_tuile_temp.get(i).getVerso().clone();
+            verso.afficherVerso(w, h);
+            this.add(verso, c);        
+            k++;
+        }
+
+        this.validate();
     }
 
     // Affiche effet clique de la souris
@@ -96,11 +169,33 @@ public class ZoneTuileEtPionJoueur extends JPanel
 
     }
     
+
     public void paintComponent(Graphics g)
     {
         Graphics g2D = (Graphics2D)g;
 
         afficheEffetMouseMoved(g2D);
         afficheEffetMouseClicked(g2D);
+
+        if(!Jeu.premier_placement)
+        {
+            afficheTuileJoueur();
+        }
+        else
+        {
+            if(index_courant !=Jeu.index_joueur)
+            {
+                index_courant = Jeu.index_joueur;
+                affichePionJoueurNonPlace();
+            }   
+        }
+        
+        /*
+        if(index_courant !=Jeu.index_joueur)
+        {
+            index_courant = Jeu.index_joueur;
+            affichageZone();
+        }
+        */
     }
 }

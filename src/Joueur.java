@@ -6,11 +6,16 @@ public class Joueur
 
     private String pseudo;
     protected List<P_Joueur> list_pion;
+    protected List<TuileTerrain> list_Treserve;
+    private int nombre_deplacement;
+
 
     public Joueur(String pseudo, ArrayList<P_Joueur> list_pion) 
     {
         this.pseudo = pseudo;
         this.list_pion = list_pion;
+        this.list_Treserve = new ArrayList<TuileTerrain>();
+        this.nombre_deplacement = 3;
     }
 
     // **************************************    Getters   *********************************************** //
@@ -25,6 +30,14 @@ public class Joueur
         return list_pion;
     }
 
+    public List<TuileTerrain> getList_Treserve() {
+        return list_Treserve;
+    }
+
+    public int getNombre_deplacement() {
+        return nombre_deplacement;
+    }
+
     // **************************************    Setters   *********************************************** //
 
     public void setList_pion(List<P_Joueur> list_pion) 
@@ -35,6 +48,14 @@ public class Joueur
     public void setPseudo(String pseudo) 
     {
         this.pseudo = pseudo;
+    }
+
+    public void setList_Treserve(List<TuileTerrain> list_Treserve) {
+        this.list_Treserve = list_Treserve;
+    }
+
+    public void setNombre_deplacement(int nombre_deplacement) {
+        this.nombre_deplacement = nombre_deplacement;
     }
 
 }

@@ -2,12 +2,20 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 
 
-public class Verso 
+public class Verso extends JLabel implements Cloneable, MouseListener
 {
 
     protected final String couleur;
@@ -15,11 +23,18 @@ public class Verso
 
     public Verso(String couleur, String action) 
     {
+        super();
         this.couleur = couleur;
         this.action = action;
+        this.addMouseListener(this);
     }
 
     // **************************************    Getters   *********************************************** //
+
+    public void afficherCaracteristiques()
+    {
+        System.out.println("Couleur : " + this.couleur + " Action : " + this.action);
+    }
 
     public Verso[] initVersosplage()
     {
@@ -200,6 +215,16 @@ public class Verso
         }
     }
 
+    public void afficherVerso(int w, int h)
+    {
+        String nom_fichier = determinerNomFichier();
+        ImageIcon image_temp = new ImageIcon(nom_fichier);
+        Image imgScale = image_temp.getImage();
+        Image icon = imgScale.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(icon);
+        this.setIcon(image);      
+    }
+
     public boolean equals(Verso v)
     {
         if((this.couleur == v.couleur) && (this.action == v.action))
@@ -212,6 +237,47 @@ public class Verso
         }
     }
 
+    public Verso clone()
+    {
+        Verso clone = new Verso(this.couleur, this.action);
+
+        return clone;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        this.afficherCaracteristiques();
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        this.afficherCaracteristiques();
+
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        // TODO Auto-generated method stub
+        this.afficherCaracteristiques();
+
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
     // **************************************    Getters   *********************************************** //
 
     public String getCouleur() 
@@ -223,4 +289,6 @@ public class Verso
     {
         return action;
     }
+
+    
 }
