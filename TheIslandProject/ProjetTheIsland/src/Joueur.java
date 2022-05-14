@@ -6,6 +6,7 @@ public class Joueur {
     public String pseudo;
     protected List<P_Joueur> list_pion;
     public int nombre_deplacement;
+    protected List<TuileTerrain> list_Treserve;
 
     public Joueur(String pseudo) {
         this.pseudo = pseudo;

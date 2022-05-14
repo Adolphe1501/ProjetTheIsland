@@ -51,7 +51,20 @@ public class Bateau
         this.liste_pionJoueur.remove(pion);
     }
 
-    
+    public boolean jouerBateauRouge (Joueur joueur, Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+       
+        boolean jouer = false ;
+        if ( joueur.estMajoritaireSurBateau(this))
+        {
+            int c = joueur.nombre_deplacement ;
+            joueur.nombre_deplacement = 3;
+            if ( this.deplacerPionBateau(joueur, hexagoneDepart, hexagoneArrivee))
+                jouer = true;
+            joueur.nombre_deplacement = c;
+        }
+        return jouer;
+    }
 
 
     public void setListe_pionJoueur(List<P_Joueur> liste_pionJoueur) 

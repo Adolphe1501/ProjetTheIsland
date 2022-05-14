@@ -12,7 +12,9 @@ public abstract class TuileTerrain
 
     protected final Verso verso;
     protected final String id;
+    
     private Hexagone hexagone;
+    
 
     public TuileTerrain(Verso verso, String id) 
     {
@@ -142,6 +144,8 @@ public abstract class TuileTerrain
             tuilesTerrain[i+16] = new Foret(id_foret, verso);
         }
 
+
+
         // On enregistre enfin les tuiles montagnes
         for(i=0; i<8; i++)
         {
@@ -152,7 +156,7 @@ public abstract class TuileTerrain
 
             if(i==0)
                 verso = versosMontagne[0] ; 
-            if(i<6 && i>1)
+            if(i<5 && i>0)
                 verso = versosMontagne[1] ;                           
             if(i==5)
                 verso = versosMontagne[2] ; 
@@ -169,7 +173,78 @@ public abstract class TuileTerrain
         return tuilesTerrain;
     }
 
+    // verification retirer une tuile
+    public static boolean verifierRetirerTuileTerrain( Hexagone Hex )
+    {
+        boolean retirer =false;
+        int nombreP =0 , nombreM = 0, nombreF = 0;
 
+        if (Hex.getTuile() != null)
+        {
+            for(int i =0; i<13; i++ )
+            {
+                for(int j =0 ; j<12 ; j++)
+                {
+                    if( Plateau.map[i][j].getTuile() instanceof Plage)
+                        nombreP += 1 ;
+                    else
+                    {
+                        if (Plateau.map[i][j].getTuile() instanceof Montagne)
+                            nombreM += 1 ;
+                        else
+                        {
+                            if(Plateau.map[i][j].getTuile() instanceof Foret)
+                                nombreF += 1 ;
+                        }
+                    }
+                }
+            }
+
+            if ( Hex.getTuile() instanceof Plage)
+            {
+                if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                    retirer = true;
+
+            }else
+            {
+                if ( Hex.getTuile() instanceof Foret && nombreP == 0)
+                {
+                    if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                    retirer = true;
+
+                }else
+                {
+                    if(Hex.getTuile() instanceof Montagne && nombreP == 0 && nombreF == 0)
+                    {
+                        if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                        retirer = true;
+
+                    }
+                }
+
+            }
+
+
+        }
+
+        return retirer;
+    }
+
+    public static boolean retirerTuileTerrain ( Joueur joueur ,Hexagone Hex)
+    {
+        boolean retirer = false;
+
+        if ( verifierRetirerTuileTerrain(Hex))
+        {
+            for( P_Joueur Pj : Hex.liste_joueur)
+                Pj.est_nageur = true;
+            joueur.list_Treserve.remove(Hex.tuile);
+            Hex.tuile = null;
+            retirer = true;
+        }
+
+        return retirer;
+    }
     public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
     {
         try 

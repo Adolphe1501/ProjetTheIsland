@@ -130,7 +130,7 @@ public class P_Joueur extends JLabel implements MouseListener
             deplacement = false;
         }
 
-        return false;
+        return deplacement;
     }  
     
 
@@ -207,7 +207,24 @@ public class P_Joueur extends JLabel implements MouseListener
         return joueur;
     }
 
+    public boolean jouerDauphinRouge( Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+        boolean jouer = false ;
+        int nd = this.joueur.nombre_deplacement;
+        this.joueur.nombre_deplacement = 3;
 
+        if( this.estNageur() == true)
+        {
+            this.est_nageur =  false;
+            if(this.deplacerPionJoueur(hexagoneDepart, hexagoneArrivee) == true)
+                jouer = true;
+            this.est_nageur = true;
+        }
+
+        this.joueur.nombre_deplacement = nd;
+
+        return jouer;
+    }
     @Override
     public void mouseClicked(MouseEvent e) {
         // TODO Auto-generated method stub

@@ -39,7 +39,7 @@ public class Verso
         Verso verso ;
 
 
-        verso = new Verso("vert","aigle");
+        verso = new Verso("vert","baleine");
         versos[0]  = verso;
 
         verso = new Verso("vert","requin");
@@ -60,7 +60,7 @@ public class Verso
         verso = new Verso("rouge","requin");
         versos[6]  = verso;
 
-        verso = new Verso("rouge","aigle");
+        verso = new Verso("rouge","baleine");
         versos[7]  = verso;
 
         verso = new Verso("rouge","requin barre");
@@ -77,7 +77,7 @@ public class Verso
         Verso verso ;
 
 
-        verso = new Verso("vert","aigle");
+        verso = new Verso("vert","baleine");
         versos[0]  = verso;
 
         verso = new Verso("vert","requin");
@@ -104,7 +104,7 @@ public class Verso
         verso = new Verso("rouge","requin barre");
         versos[8]  = verso;
 
-        verso = new Verso("rouge","aigle barre");
+        verso = new Verso("rouge","baleine barre");
         versos[9]  = verso;
 
         return versos;
@@ -129,7 +129,7 @@ public class Verso
         verso = new Verso("rouge","requin barre");
         versos[3]  = verso;
 
-        verso = new Verso("rouge","aigle barre");
+        verso = new Verso("rouge","baleine barre");
         versos[4]  = verso;
 
         return versos;

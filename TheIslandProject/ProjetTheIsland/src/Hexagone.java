@@ -16,11 +16,11 @@ public class Hexagone extends Polygon
     private static int compteur_tuile_terrain = 0;
 
     private List<Bateau> liste_bateau;
-    private List<P_Joueur> liste_joueur;
+    public List<P_Joueur> liste_joueur;
     private List<AnimalDeMer> liste_animaux;
     private Boolean zone_ile; 
     private Position position;
-    private TuileTerrain tuile;
+    public TuileTerrain tuile;
     private boolean centrePlateau;
 
     private int[] xPoints;
@@ -45,6 +45,8 @@ public class Hexagone extends Polygon
         this.determinerCentrePlateau();
         this.placerTuileTerrain(tuile_a_placer[compteur_tuile_terrain]);
     }
+
+
 
     public void afficherHexagone(Graphics g2D)
     {
