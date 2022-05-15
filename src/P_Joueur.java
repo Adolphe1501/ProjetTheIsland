@@ -117,67 +117,148 @@ public class P_Joueur extends JLabel implements MouseListener
         {
             Position posD = hexagoneDepart.getPosition();
             Position posA = hexagoneArrivee.getPosition(); 
-            int x = posD.getNumero_ligne() - posA.getNumero_ligne(), y = posA.getNumero_colone() - posA.getNumero_colone();
+            int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
             if(this.est_nageur)
             {
                     
-                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1)))                 
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
                 {
                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                     this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
                     deplacement = true;
                 }else{
-                    deplacement = false ;
+                    System.out.println("le pion est nageur le deplacement maximum est de 1");
                 }
                     
             }else{
             
-                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1)))                 
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
                 {
                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                     this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
                     deplacement= true;
 
-                }
-                if(this.joueur.getNombre_deplacement()>1)
-                {
-                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y < 3 || y > -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x < 3 || x > -3)) || ((y < 3 || y > -3) && (x < 3 || x > -3)))                 
+                }else{
+
+                    if(this.joueur.getNombre_deplacement()== 1)
+                        System.out.println(" le nombre de depalcement maximum est de 1");
+                    if(this.joueur.getNombre_deplacement()>1)
                     {
-                        this.deplacerPj(hexagoneDepart, hexagoneArrivee);
-                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
-                        deplacement= true;
-
+                        if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 || y > -2) && (x == 2 || x == -2)))                 
+                        {
+                            this.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                            this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
+                            deplacement= true;
+    
+                        }else{
+                            if(this.joueur.getNombre_deplacement()>2)
+                            {
+                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 || y >-3) && (x == 3 || x == -3)))                 
+                                {
+                                    this.deplacerPj(hexagoneDepart, hexagoneArrivee);
+                                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
+                                    deplacement= true;
+                                }else{
+                                    System.out.println("Deplacement impossible !!!!");
+                                }
+                            }else{
+                                System.out.println("le nombre de deplacement minimum pour effectuer le deplacement est de 3");
+                            }
+                        }
                     }else{
-                        System.out.println("Nombre de deplacement insuffisant");
-                        deplacement= false;
-
-                    }
-                }
-
-                if(this.joueur.getNombre_deplacement()>2)
-                {
-                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y < 4 || y > -4)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x < 4 || x > -4)) || ((y < 4 || y > -4) && (x < 4 || x > -4)))                 
-                    {
-                        this.deplacerPj(hexagoneDepart, hexagoneArrivee);
-                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
-                        deplacement= true;
-
-
-                    }else{
-                        System.out.println("le nombre de deplacement maximum est de 3");
-                        deplacement= false;
-
+                        System.out.println("le nombre de deplacement minimum pour effectuer le deplacement est de 2");
                     }
                 }
             }
         }else{
             System.out.println("Nombre de deplacement insuffisant");
-            deplacement = false;
         }
 
         return deplacement;
     }    
    
+    public boolean deplacerPionJoueurVersBateau( Bateau bateau)
+    {
+        boolean deplacement = false;
+
+        int i =0;
+        for(P_Joueur Pj : bateau.getListe_pionJoueur())
+         {
+            if( Pj != null)
+             i +=   1 ;
+         }
+         
+         if(i <3)
+         {        
+            Hexagone hexagoneDepart = this.hexagone;
+            Hexagone hexagoneArrivee = this.hexagone ;
+            Position posD = hexagoneDepart.getPosition();
+            Position posA = hexagoneArrivee.getPosition(); 
+            int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+
+            if(this.joueur.getNombre_deplacement()>0)
+            {
+                if(this.est_nageur)
+                {
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
+                    {
+                        this.deplacerPjsurBat(bateau);
+                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
+                        deplacement = true;
+                    }else{
+                        System.out.println("le pion est nageur le deplacement maximum est de 1");
+                    }
+                }else{
+            
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
+                    {
+                        this.deplacerPjsurBat(bateau);
+                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
+                        deplacement= true;
+    
+                    }else{
+    
+                        if(this.joueur.getNombre_deplacement()== 1)
+                            System.out.println(" le nombre de depalcement maximum est de 1");
+                        if(this.joueur.getNombre_deplacement()>1)
+                        {
+                            if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 || y > -2) && (x == 2 || x == -2)))                 
+                            {
+                                this.deplacerPjsurBat(bateau);
+                                this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
+                                deplacement= true;
+        
+                            }else{
+                                if(this.joueur.getNombre_deplacement()>2)
+                                {
+                                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 || y >-3) && (x == 3 || x == -3)))                 
+                                    {
+                                        this.deplacerPjsurBat(bateau);
+                                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
+                                        deplacement= true;
+                                    }else{
+                                        System.out.println("Deplacement impossible !!!!");
+                                    }
+                                }else{
+                                    System.out.println("le nombre de deplacement minimum pour effectuer le deplacement est de 3");
+                                }
+                            }
+                        }else{
+                            System.out.println("le nombre de deplacement minimum pour effectuer le deplacement est de 2");
+                        }
+                    }
+                }
+
+            }else{
+                System.out.println("Nombre de deplacement insuffisant");
+            }
+
+         }
+   
+
+        return deplacement ;
+    }
+    
     public static List<P_Joueur> initPJoueur(String couleur, Joueur joueur) 
     {
         int valeur;
@@ -319,5 +400,22 @@ public class P_Joueur extends JLabel implements MouseListener
 
         this.hexagone = hexagoneArrivee;
         return true;
+    }
+
+    public boolean deplacerPjsurBat(Bateau bat)
+    {
+                     
+        ArrayList<P_Joueur> list =  (ArrayList<P_Joueur>) this.hexagone.getListe_joueur();
+        list.remove(this);
+        this.hexagone.setListe_joueur(list);
+
+        this.hexagone = bat.getHexagone();
+        list = (ArrayList<P_Joueur>) bat.getListe_pionJoueur();
+        list.add(this);
+        bat.setListe_pionJoueur(list);
+
+
+        return true ;
+
     }
 }
