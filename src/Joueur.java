@@ -15,7 +15,7 @@ public class Joueur
         this.pseudo = pseudo;
         this.list_pion = list_pion;
         this.list_Treserve = new ArrayList<TuileTerrain>();
-        this.nombre_deplacement = 3;
+        this.nombre_deplacement = 50;
     }
 
     // **************************************    Getters   *********************************************** //

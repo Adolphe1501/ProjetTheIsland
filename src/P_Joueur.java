@@ -120,8 +120,7 @@ public class P_Joueur extends JLabel implements MouseListener
             int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
             if(this.est_nageur)
             {
-                    
-                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
                 {
                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                     this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
@@ -131,8 +130,7 @@ public class P_Joueur extends JLabel implements MouseListener
                 }
                     
             }else{
-            
-                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
                 {
                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                     this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
@@ -144,7 +142,7 @@ public class P_Joueur extends JLabel implements MouseListener
                         System.out.println(" le nombre de depalcement maximum est de 1");
                     if(this.joueur.getNombre_deplacement()>1)
                     {
-                        if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 || y > -2) && (x == 2 || x == -2)))                 
+                        if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )            
                         {
                             this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                             this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
@@ -153,7 +151,7 @@ public class P_Joueur extends JLabel implements MouseListener
                         }else{
                             if(this.joueur.getNombre_deplacement()>2)
                             {
-                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 || y >-3) && (x == 3 || x == -3)))                 
+                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
                                 {
                                     this.deplacerPj(hexagoneDepart, hexagoneArrivee);
                                     this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
@@ -200,7 +198,7 @@ public class P_Joueur extends JLabel implements MouseListener
             {
                 if(this.est_nageur)
                 {
-                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
                     {
                         this.deplacerPjsurBat(bateau);
                         this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
@@ -210,7 +208,7 @@ public class P_Joueur extends JLabel implements MouseListener
                     }
                 }else{
             
-                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
                     {
                         this.deplacerPjsurBat(bateau);
                         this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
@@ -222,7 +220,7 @@ public class P_Joueur extends JLabel implements MouseListener
                             System.out.println(" le nombre de depalcement maximum est de 1");
                         if(this.joueur.getNombre_deplacement()>1)
                         {
-                            if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 || y > -2) && (x == 2 || x == -2)))                 
+                            if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )            
                             {
                                 this.deplacerPjsurBat(bateau);
                                 this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
@@ -231,7 +229,7 @@ public class P_Joueur extends JLabel implements MouseListener
                             }else{
                                 if(this.joueur.getNombre_deplacement()>2)
                                 {
-                                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 || y >-3) && (x == 3 || x == -3)))                 
+                                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
                                     {
                                         this.deplacerPjsurBat(bateau);
                                         this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
