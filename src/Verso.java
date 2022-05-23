@@ -1,18 +1,13 @@
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
-import java.awt.Color;
-import java.awt.Graphics;
-
-import java.awt.Image;
-import java.awt.Rectangle;
 
 
 public class Verso extends JLabel implements Cloneable, MouseListener
@@ -141,7 +136,7 @@ public class Verso extends JLabel implements Cloneable, MouseListener
         {
             if(this.action.equals("volcan"))
             {
-                nom_fichier = "image/VOV.png";
+                nom_fichier = "image/VO.png";
             }
             else if(this.action.equals("requin"))
             {
@@ -246,7 +241,7 @@ public class Verso extends JLabel implements Cloneable, MouseListener
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        this.afficherCaracteristiques();
+        
         
     }
 

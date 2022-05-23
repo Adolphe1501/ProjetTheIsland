@@ -13,7 +13,7 @@ public class App extends JFrame
         this.setSize(1430, 820);
         this.setLocationRelativeTo(null);  
         this.setResizable(false);
-        this.jeu = new Jeu();
+        this.jeu = new Jeu(this);
         this.setContentPane(jeu);
     }
     public static void main(String[] args) throws Exception 

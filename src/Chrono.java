@@ -22,6 +22,11 @@ public class Chrono implements Runnable
                 System.out.println("jai fini");
                 Jeu.timer.stop();
                 Jeu.compteur = 0;
+                if(Plateau.hexagone_dectruction_tuile.getTuile()!=null)
+                {
+                    Plateau.hexagone_dectruction_tuile.getTuile().effetImmediatVerso();
+
+                }
                 Plateau.hexagone_dectruction_tuile.setTuile(null);
                 Plateau.hexagone_dectruction_tuile = null;
                 Jeu.compteur_en_cours = false;

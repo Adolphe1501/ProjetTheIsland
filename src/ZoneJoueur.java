@@ -9,11 +9,14 @@ public class ZoneJoueur extends JPanel
 {
     private ZonePseudoJoueur zone_pseudo;
     private ZoneTuileEtPionJoueur zone_tuile_et_pion;
+    private ZoneMenu zone_menu;
     private ZoneDe zone_de;
+    private Jeu jeu;
 
-    public ZoneJoueur()
+    public ZoneJoueur(Jeu jeu)
     {
         super();
+        this.jeu = jeu;
 
         this.setBackground(new Color(176,196,222));
 
@@ -24,25 +27,29 @@ public class ZoneJoueur extends JPanel
 
     private void construireZoneJoueur()
     {
-        this.zone_pseudo = new ZonePseudoJoueur(Jeu.list_joueur);
-        this.zone_pseudo.setPreferredSize(new Dimension(380, 100));
+        this.zone_menu = new ZoneMenu(this);
+        this.zone_menu.setPreferredSize(new Dimension(360, 70));
+        this.add(this.zone_menu);
 
+        this.zone_pseudo = new ZonePseudoJoueur(Jeu.list_joueur);
+        this.zone_pseudo.setPreferredSize(new Dimension(360, 80));
         this.add(this.zone_pseudo);
 
         this.zone_tuile_et_pion = new ZoneTuileEtPionJoueur();
-        this.zone_tuile_et_pion.setPreferredSize(new Dimension(380, 550));
+        this.zone_tuile_et_pion.setPreferredSize(new Dimension(360, 500));
         this.add(this.zone_tuile_et_pion);
 
-        this.zone_de = new ZoneDe();
-        this.zone_de.setPreferredSize(new Dimension(380,150));
+        this.zone_de = new ZoneDe(this);
+        this.zone_de.setPreferredSize(new Dimension(360,150));
         this.add(this.zone_de);
     }
 
     public void paintComponent(Graphics g)
     {
+        zone_de.repaint();
         zone_tuile_et_pion.repaint();
         zone_pseudo.repaint();
-        zone_de.repaint();
+       
     }
 
     // **************************************    Getters   *********************************************** //
@@ -55,7 +62,14 @@ public class ZoneJoueur extends JPanel
         return zone_tuile_et_pion;
     }
 
-    public ZoneDe getZoneDe() {
+    public ZoneDe getZoneDe() 
+    {
         return zone_de;
     }
+
+    public Jeu getJeu() 
+    {
+        return jeu;
+    }
+
 }

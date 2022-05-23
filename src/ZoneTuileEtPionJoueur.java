@@ -6,9 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.util.List;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,61 +14,21 @@ import javax.swing.JPanel;
 public class ZoneTuileEtPionJoueur extends JPanel
 {
 
-    private static int index_courant = Jeu.index_joueur;
+    private static int index_courant;
     public ZoneTuileEtPionJoueur()
     {
         super();
-        
+        index_courant = Jeu.index_joueur;
         this.setBackground(Color.ORANGE);    
         
         affichePionJoueurNonPlace();
-        //affichageZone();
     }
 
     // **************************************    Methodes   *********************************************** //
 
-    /*private void mouseListenerVerso(Verso verso)
-    {
-        verso.addMouseListener(new MouseListener()
-        {
-
-            @Override
-            public void mouseClicked(MouseEvent e) 
-            {
-                 verso.afficherCaracteristiques();
-                
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                // TODO Auto-generated method stub
-                
-            }
-
-        });
-    }*/
-
     private void affichePionJoueurNonPlace()
     {
-        if(Jeu.joueur!=null)
+        if(Jeu.joueur!=null && Jeu.joueur.getList_pion()!=null)
         {
             this.removeAll();
 
@@ -80,7 +37,7 @@ public class ZoneTuileEtPionJoueur extends JPanel
             this.setLayout(new GridBagLayout());
 
             GridBagConstraints c = new GridBagConstraints(); 
-            c.insets = new Insets(5, 1, 1, 1);
+            c.insets = new Insets(5, 1, 10, 1);
 
             for(int i=0; i<list_pionJoueur_temp.size(); i++)
             {
@@ -89,8 +46,8 @@ public class ZoneTuileEtPionJoueur extends JPanel
                     if(list_pionJoueur_temp.get(i).getHexagone()==null && list_pionJoueur_temp.get(i).getBateau()==null)
                     {
                         int k = 1;
-                        c.ipadx = 5;
-                        c.ipady = 5;
+                        //c.ipadx = 5;
+                        //c.ipady = 5;
                         c.gridx = j;
                         c.gridy = i;
                         if(j==1)
@@ -115,18 +72,18 @@ public class ZoneTuileEtPionJoueur extends JPanel
     {
         this.removeAll();
 
-        int k = 0, j=0, w=80, h=70;
+        int k = 0, j=0, w=70, h=60;
         List <TuileTerrain> list_tuile_temp = Jeu.joueur.getList_Treserve();
 
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints(); 
-        c.insets = new Insets(5, 3, 5, 40);
+        c.insets = new Insets(5, 3, 5, 30);
        
         if(list_tuile_temp.size()>7)
         {
             w=70;
-            h=70;
+            h=60;
         }
         for(int i=0; i<list_tuile_temp.size(); i++)
         {
@@ -149,9 +106,9 @@ public class ZoneTuileEtPionJoueur extends JPanel
     // Affiche effet clique de la souris
     private void afficheEffetMouseClicked(Graphics g2D)
     {
-        if(P_Joueur.mouse_cliked && Plateau.pionJoueur_mouse_clicked!=null && (Plateau.pionJoueur_mouse_clicked.getHexagone()==null || Plateau.pionJoueur_mouse_clicked.getBateau() ==null))
+        if(P_Joueur.mouse_cliked && P_Joueur.pionJoueur_mouse_clicked!=null && (P_Joueur.pionJoueur_mouse_clicked.getHexagone()==null || P_Joueur.pionJoueur_mouse_clicked.getBateau() ==null))
         {
-            Rectangle rect =  Plateau.pionJoueur_mouse_clicked.getBounds();
+            Rectangle rect =  P_Joueur.pionJoueur_mouse_clicked.getBounds();
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -160,9 +117,9 @@ public class ZoneTuileEtPionJoueur extends JPanel
     // Affiche effet mouvevement de la souris
     private void afficheEffetMouseMoved(Graphics g2D)
     {
-        if(P_Joueur.mouse_moved && Plateau.pionJoueur_mouse_moved!=null && (Plateau.pionJoueur_mouse_moved.getHexagone()==null || Plateau.pionJoueur_mouse_moved.getBateau()==null) ) 
+        if(P_Joueur.mouse_moved && P_Joueur.pionJoueur_mouse_moved!=null && (P_Joueur.pionJoueur_mouse_moved.getHexagone()==null || P_Joueur.pionJoueur_mouse_moved.getBateau()==null) ) 
         {
-            Rectangle rect =  Plateau.pionJoueur_mouse_moved.getBounds();
+            Rectangle rect =  P_Joueur.pionJoueur_mouse_moved.getBounds();
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -183,19 +140,11 @@ public class ZoneTuileEtPionJoueur extends JPanel
         }
         else
         {
-            if(index_courant !=Jeu.index_joueur)
+            if(index_courant!=Jeu.index_joueur)
             {
                 index_courant = Jeu.index_joueur;
                 affichePionJoueurNonPlace();
             }   
         }
-        
-        /*
-        if(index_courant !=Jeu.index_joueur)
-        {
-            index_courant = Jeu.index_joueur;
-            affichageZone();
-        }
-        */
     }
 }

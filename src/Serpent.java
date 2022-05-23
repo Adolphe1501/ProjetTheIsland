@@ -1,4 +1,4 @@
-
+import java.awt.event.MouseEvent;
 
 public class Serpent extends AnimalDeMer 
 {
@@ -7,10 +7,14 @@ public class Serpent extends AnimalDeMer
 
     public Serpent(String id_serpent) 
     {
-        super();
+        super(id_serpent);
         this.id_serpent = id_serpent;
     }
 
+    public void afficherAnimalDeMer(Plateau plateau, String nom_fichier, int x, int y, int w, int h)
+    {
+        super.afficherAnimalDeMer(plateau, "image/SE.png", x, y,  w, h);
+    }
     @Override
     public void attaquer() {
         // TODO Auto-generated method stub
@@ -23,8 +27,35 @@ public class Serpent extends AnimalDeMer
         
     }
 
-    public String getId_serpent()
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        
+        
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) 
     {
-        return this.id_serpent;
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) 
+    {
+        AnimalDeMer.animal_mouse_moved = this;
+        
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) 
+    {
+        AnimalDeMer.animal_mouse_moved = null;
     }
 }

@@ -39,9 +39,6 @@ public class De extends JButton implements MouseListener
 
         this.face_principale =  this.face[indice];
         this.repaint();
-
-        Jeu.timer.start();
-
     }
 
     public void arreterDe()

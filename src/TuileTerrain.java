@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 
@@ -178,8 +177,139 @@ public abstract class TuileTerrain extends JLabel
         }
         return tuilesTerrain;
     }
+
+    public void effetImmediatVerso()
+    {
+        int i, j;
+        if(this.getVerso().couleur.equals("vert"))
+        {
+            if(this.getVerso().action.equals("tourbillon"))
+            {
+                System.out.println("je rentre");
+                i = this.hexagone.getPosition().getNumero_ligne();
+                j = this.hexagone.getPosition().getNumero_colone();
+                if(Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null)
+                {
+                    System.out.println("1");
+
+                    Plateau.map[i][j+1].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i][j+1].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i][j+1].supprimerBateauDeLaMap();
+                    Plateau.map[i][j+1].supprimerListeAnimalDeMer();
+                    Plateau.map[i][j+1].supprimerListePJoueur();
+                    Plateau.map[i][j+1].suprimerBateau();
+                }
+                if(Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null)
+                {
+                    System.out.println("2");
+                    Plateau.map[i][j-1].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i][j-1].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i][j-1].supprimerBateauDeLaMap();
+                    Plateau.map[i][j-1].supprimerListeAnimalDeMer();
+                    Plateau.map[i][j-1].supprimerListePJoueur();
+                    Plateau.map[i][j-1].suprimerBateau();
+                }
+                if(Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null)
+                {
+                    System.out.println("3*");
+
+                    Plateau.map[i+1][j].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i+1][j].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i+1][j].supprimerBateauDeLaMap();
+                    Plateau.map[i+1][j].supprimerListeAnimalDeMer();
+                    Plateau.map[i+1][j].supprimerListePJoueur();
+                    Plateau.map[i+1][j].suprimerBateau();
+
+                }
+                if(Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null)
+                {
+                    System.out.println("4");
+                    Plateau.map[i-1][j].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i-1][j].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i-1][j].supprimerBateauDeLaMap();
+                    Plateau.map[i-1][j].supprimerListeAnimalDeMer();
+                    Plateau.map[i-1][j].supprimerListePJoueur();
+                    Plateau.map[i-1][j].suprimerBateau();
+                }
+                if(i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null)
+                {
+                    System.out.println("5");
+
+                    Plateau.map[i-1][j+1].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i-1][j+1].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i-1][j+1].supprimerBateauDeLaMap();
+                    Plateau.map[i-1][j+1].supprimerListeAnimalDeMer();
+                    Plateau.map[i-1][j+1].supprimerListePJoueur();
+                    Plateau.map[i-1][j+1].suprimerBateau();
+                }
+                if(i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null)
+                {
+                    System.out.println("6");
+
+                    Plateau.map[i+1][j+1].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i+1][j+1].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i+1][j+1].supprimerBateauDeLaMap();
+                    Plateau.map[i+1][j+1].supprimerListeAnimalDeMer();
+                    Plateau.map[i+1][j+1].supprimerListePJoueur();
+                    Plateau.map[i+1][j+1].suprimerBateau();
+                }
+                if(i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null)
+                {
+                    System.out.println("7");
+
+                    Plateau.map[i-1][j-1].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i-1][j-1].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i-1][j-1].supprimerBateauDeLaMap();
+                    Plateau.map[i-1][j-1].supprimerListeAnimalDeMer();
+                    Plateau.map[i-1][j-1].supprimerListePJoueur();
+                    Plateau.map[i-1][j-1].suprimerBateau();
+                }
+                if(i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null)
+                {
+                    System.out.println("8");
+                    Plateau.map[i+1][j-1].supprimerListePJoueurDeLaMap();
+                    Plateau.map[i+1][j-1].supprimerListeAnimalDeMerDeLaMap();
+                    Plateau.map[i+1][j-1].supprimerBateauDeLaMap();
+                    Plateau.map[i+1][j-1].supprimerListeAnimalDeMer();
+                    Plateau.map[i+1][j-1].supprimerListePJoueur();
+                    Plateau.map[i+1][j-1].suprimerBateau();
+
+                }
+            }
+            else if(this.getVerso().action.equals("bateau"))
+            {
+                if(!Jeu.list_Bateau.isEmpty())
+                {
+                    System.out.println("Action bateau");
+                    this.getHexagone().ajouterBateau(Jeu.list_Bateau.get(0));
+                    
+                    if(!this.getHexagone().getListe_joueur().isEmpty())
+                    {  
+                        for(int l=0; l<3; l++)
+                        {
+                            if(l<this.getHexagone().getListe_joueur().size())
+                            {
+                                Jeu.list_Bateau.get(0).ajoutePionJoueur(this.getHexagone().getListe_joueur().get(l));
+                                this.getHexagone().supprimePionjoueur(this.getHexagone().getListe_joueur().get(l));
+                            }
+                        }
+                    }   
+                    Jeu.list_Bateau.remove(0);
+               }
+            }
+            else if(this.getVerso().action.equals("requin") && !Jeu.list_requin.isEmpty())
+            {
+                this.getHexagone().ajouterAnimalDeMer(Jeu.list_requin.get(0));
+                Jeu.list_requin.remove(0);
+            }
+        }
+    }
   
+
+
     public abstract void afficherCaracteristiques();
+
+
   
     // **************************************    Getters   *********************************************** //
 

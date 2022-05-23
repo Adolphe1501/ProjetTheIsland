@@ -18,7 +18,7 @@ public class ZonePseudoJoueur extends JPanel
     {
         super();
         this.liste_joueur = liste_joueur;
-        
+        this.setBackground(Color.blue);
         this.miseEnPlaceLayout();
         this.construireZonePseudoJoueur();
     }
@@ -30,7 +30,7 @@ public class ZonePseudoJoueur extends JPanel
         for(int i=0; i<this.liste_joueur.size(); i++)
         {
             JButton label = new JButton(this.liste_joueur.get(i).getPseudo());
-            label.setFont(new Font("sherif", Font.BOLD,25));
+            label.setFont(new Font("Serif", Font.BOLD,25));
             label.setFocusable(false);
             this.pseudoJoueur_label.add(label);
             this.add(label);
@@ -41,11 +41,11 @@ public class ZonePseudoJoueur extends JPanel
     {
         if(this.liste_joueur.size()<=2)
         {
-            this.setLayout(new GridLayout(1, 2, 25, 5));
+            this.setLayout(new GridLayout(1, 2, 10, 5));
         }
         else
         {
-            this.setLayout(new GridLayout(2, 2, 25, 5));
+            this.setLayout(new GridLayout(2, 2, 10, 5));
         }
     }
 
@@ -66,6 +66,7 @@ public class ZonePseudoJoueur extends JPanel
                 }   
             }
         }
+    
     }
     // **************************************    Getters   *********************************************** //
 

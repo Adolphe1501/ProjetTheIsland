@@ -14,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 // **************************************    Constructeur   *********************************************** //
@@ -28,10 +27,6 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
     private static boolean mouse_moved = false;
     public static Hexagone hexagone_dectruction_tuile = null;
     private static Hexagone hexagone_mouse_moved = null;
-    public static P_Joueur pionJoueur_mouse_clicked = null;
-    public static P_Joueur pionJoueur_mouse_moved = null;
-    public static Bateau bateau_mouse_clicked = null;
-    public static Bateau bateau_mouse_moved = null;
 
     private Jeu jeu;
 
@@ -88,7 +83,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
                         yPoints[point] = debutY[point] + i*50;
                     }
                 }
-                if(mapChargee[i][j] == '4')
+                if(mapChargee[i][j] == '0')
                 {
                     map[i][j] = null;
                 }
@@ -112,6 +107,32 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
         Jeu.list_joueur.get(0).getList_pion().get(2).setEst_nageur(true);
         map[10][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(2));
         map[6][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(3));
+        TuileTerrain tuile = new Montagne("id25", new Verso("vert", "tourbillon"));
+        tuile.setHexagone(map[9][7]);
+        map[9][7].setTuile(tuile);
+        map[9][8].ajouterAnimalDeMer(new Serpent("id3"));
+        map[9][8].ajouterAnimalDeMer(new Baleine("id5"));
+        map[9][8].ajouterAnimalDeMer(new Requin("id6"));
+
+        map[8][9].ajouterAnimalDeMer(new Serpent("id33"));
+        map[8][9].ajouterAnimalDeMer(new Baleine("id54"));
+        //map[8][9].ajouterAnimalDeMer(new Requin("id62"));
+        //map[8][9].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(4));
+        map[8][9].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(5));
+        map[8][9].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(6));
+
+
+      
+        map[9][10].ajouterAnimalDeMer(new Baleine("id34"));
+        map[9][10].ajouterAnimalDeMer(new Requin("id34"));
+        map[9][10].ajouterBateau(new Bateau("id7"));
+        map[9][10].ajouterAnimalDeMer(new Serpent("id45"));
+
+        
+
+
+        map[9][9].ajouterAnimalDeMer(new Serpent("id5"));
+
     }
 
     // Affiche le plateau avec les hexagones
@@ -187,15 +208,15 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
     // Affiche les effets d' un clique sur un pion joueur ou bateau
     private void afficheEffetMouseClicked(Graphics g2D)
     {
-        if(P_Joueur.mouse_cliked && Plateau.pionJoueur_mouse_clicked!=null && (Plateau.pionJoueur_mouse_clicked.getHexagone()!=null || Plateau.pionJoueur_mouse_clicked.getBateau()!=null))
+        if(P_Joueur.mouse_cliked && P_Joueur.pionJoueur_mouse_clicked!=null && (P_Joueur.pionJoueur_mouse_clicked.getHexagone()!=null || P_Joueur.pionJoueur_mouse_clicked.getBateau()!=null))
         {
-            Rectangle rect =  Plateau.pionJoueur_mouse_clicked.getBounds();
+            Rectangle rect =  P_Joueur.pionJoueur_mouse_clicked.getBounds();
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
-        if(Bateau.mouse_clicked_origin && Plateau.bateau_mouse_clicked!=null)
+        if(Bateau.mouse_clicked_origin && Bateau.bateau_mouse_clicked!=null)
         {
-            Rectangle rect =  Plateau.bateau_mouse_clicked.getBounds();
+            Rectangle rect =  Bateau.bateau_mouse_clicked.getBounds();
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -220,15 +241,21 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
                 g2D.drawPolygon(xPoints, yPoints, 6);
             }
         }
-        else if(P_Joueur.mouse_moved && Plateau.pionJoueur_mouse_moved!=null &&  (Plateau.pionJoueur_mouse_moved.getHexagone()!=null || Plateau.pionJoueur_mouse_moved.getBateau()!=null)) 
+        else if(P_Joueur.mouse_moved && P_Joueur.pionJoueur_mouse_moved!=null &&  (P_Joueur.pionJoueur_mouse_moved.getHexagone()!=null || P_Joueur.pionJoueur_mouse_moved.getBateau()!=null)) 
         {
-            Rectangle rect =  Plateau.pionJoueur_mouse_moved.getBounds();
+            Rectangle rect =  P_Joueur.pionJoueur_mouse_moved.getBounds();
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
-        else if(Bateau.mouse_moved && Plateau.bateau_mouse_moved!=null)
+        else if(Bateau.mouse_moved && Bateau.bateau_mouse_moved!=null)
         {
-            Rectangle rect =  Plateau.bateau_mouse_moved.getBounds();
+            Rectangle rect =  Bateau.bateau_mouse_moved.getBounds();
+            g2D.setColor(Color.blue);
+            g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
+        else if(AnimalDeMer.animal_mouse_moved!=null)
+        {
+            Rectangle rect = AnimalDeMer.animal_mouse_moved.getBounds();
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
@@ -242,7 +269,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
         try
         {
             Image image = ImageIO.read(file);
-            g2d.drawImage(image, 0, 0, 1050, 700, null);
+            g2d.drawImage(image, 0, 0, 1070, 700, null);
 
         }
         catch (IOException e) 

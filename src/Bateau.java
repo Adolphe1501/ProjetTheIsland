@@ -12,6 +12,8 @@ public class Bateau extends JLabel implements MouseListener
     public static boolean mouse_moved = false;
     public static boolean mouse_clicked_origin = false;
     public static boolean mouse_clicked_destination = false;
+    public static Bateau bateau_mouse_clicked = null;
+    public static Bateau bateau_mouse_moved = null;
 
     private final String id_bateau;
     private List<P_Joueur> liste_pionJoueur;
@@ -154,6 +156,11 @@ public class Bateau extends JLabel implements MouseListener
         }    
     }
 
+    public void suprimerDeLaMap(Plateau plateau)
+    {
+        plateau.remove(this);
+    }
+    
     @Override
     public void mouseClicked(MouseEvent e) 
     {
@@ -163,17 +170,17 @@ public class Bateau extends JLabel implements MouseListener
 
         if(!Bateau.mouse_clicked_origin)
         {
-            Plateau.bateau_mouse_clicked = this;
+            Bateau.bateau_mouse_clicked = this;
             Bateau.mouse_clicked_origin = true;
             System.out.println("clique sur bateau");
         }
         // Determine si un pion joueur veux monter sur le bateau
         else if(Bateau.mouse_clicked_destination && P_Joueur.mouse_cliked)
         {     
-            if(Plateau.pionJoueur_mouse_clicked.getHexagone()!=null)
+            if(P_Joueur.pionJoueur_mouse_clicked.getHexagone()!=null)
             {
-                this.ajoutePionJoueur(Plateau.pionJoueur_mouse_clicked);
-                Plateau.pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(Plateau.pionJoueur_mouse_clicked);
+                this.ajoutePionJoueur(P_Joueur.pionJoueur_mouse_clicked);
+                P_Joueur.pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(P_Joueur.pionJoueur_mouse_clicked);
             }
             P_Joueur.mouse_cliked = false;
             Bateau.mouse_clicked_destination = false;
@@ -199,7 +206,7 @@ public class Bateau extends JLabel implements MouseListener
     public void mouseEntered(MouseEvent e) 
     {
         Bateau.mouse_moved = true;
-        Plateau.bateau_mouse_moved = this;
+        Bateau.bateau_mouse_moved = this;
    
     }
 
@@ -208,7 +215,7 @@ public class Bateau extends JLabel implements MouseListener
     public void mouseExited(MouseEvent e) 
     {
         Bateau.mouse_moved = false;
-        Plateau.bateau_mouse_moved = null;   
+        Bateau.bateau_mouse_moved = null;   
     }
     // **************************************    Setters   *********************************************** //
 

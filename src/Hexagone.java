@@ -8,13 +8,13 @@ import java.util.List;
 
 public class Hexagone extends Polygon
 {
-    private static TuileTerrain[] tuile_a_placer = TuileTerrain.melangeTabTuileTerrains();
-    private static int compteur_tuile_terrain = 0;
-
     private Plateau plateau;
     private Bateau bateau;
     private List<P_Joueur> liste_joueur;
     private List<AnimalDeMer> liste_animaux;
+    private List<Baleine> liste_baleine;
+    private List<Requin> liste_requin;
+    private List<Serpent> liste_serpent;
     private Boolean zone_ile; 
     private Position position;
     private TuileTerrain tuile;
@@ -30,8 +30,10 @@ public class Hexagone extends Polygon
         super(xPoints, yPoints, nPoints);
         this.position = position;
         this.plateau = plateau;
-
         this.liste_animaux = new ArrayList<AnimalDeMer>();
+        this.liste_baleine = new ArrayList<Baleine>();
+        this.liste_requin = new ArrayList<Requin>();
+        this.liste_serpent = new ArrayList<Serpent>();
         this.liste_joueur = new ArrayList<P_Joueur>();
         this.setBateau(null);
         this.zone_ile = false;
@@ -41,7 +43,7 @@ public class Hexagone extends Polygon
 
         this.contientZoneIle();
         this.determineHexagoneCentrePlateau();
-        this.placerTuileTerrain(tuile_a_placer[compteur_tuile_terrain]);
+        this.placerTuileTerrain(Jeu.tuile_a_placer[Jeu.compteur_tuile_terrain]);
     }
 
    
@@ -72,9 +74,15 @@ public class Hexagone extends Polygon
 
         }
         g2D.drawPolygon(this);
-        this.AfficherPion();
+        if(this.liste_animaux.isEmpty())
+        {
+            this.afficherPion();
+        }
+        else
+        {
+            this.afficherListeAnimalDeMer();
+        }
     }
-
 
     //determine si l'hexagone fait partie de l'ile
     public void contientZoneIle()
@@ -142,7 +150,7 @@ public class Hexagone extends Polygon
         {
             this.setTuile(tuile);
             tuile.setHexagone(this);
-            compteur_tuile_terrain++;
+            Jeu.compteur_tuile_terrain++;
         }
     }
 
@@ -157,8 +165,159 @@ public class Hexagone extends Polygon
         }
     }
 
+    //Prends en compte l'affichage quand il ya des annimaux de mer
+    public void afficherListeAnimalDeMer()
+    {
+        AnimalDeMer.splitListAnimalDeMer(this.liste_animaux, this.liste_baleine, this.liste_serpent, this.liste_requin);
+
+        Rectangle rect =  this.getBounds();
+        double w = rect.getWidth() ;
+        double h = rect.getHeight();
+        double x = rect.getX();
+        double y = rect.getY();
+        int k = 0;
+
+        // Prends en compte l'affichage quand l'hegone contient un bateau et des animaux de mer
+        if(this.bateau!=null)
+        {
+            w = 50;
+            h = 20;
+            x = rect.getX() + 15;
+            y = rect.getY() + 8;
+
+            this.bateau.afficherBateau(this.plateau, (int)x, (int)y, (int)w, (int)h);   
+
+            y = rect.getY() + 30;
+            for(int i =0; i<this.liste_animaux.size(); i++)
+            {
+                if(i<this.liste_animaux.size())
+                {
+                    if(liste_animaux.size()==1)
+                    {
+                        x = rect.getX() + 10 + (i*25);
+                        w = 50;
+                        h = 25;
+                    }
+                    else if(liste_animaux.size()==2)
+                    {
+                        x = rect.getX() + 5 + (i*35);
+                        w = 30;
+                        h = 25;
+                    }
+                    else if(liste_animaux.size()==3)
+                    {
+                        x = rect.getX() + 5 + (i*25);
+                        w = 25;
+                        h = 25;
+                    }
+
+                    this.liste_animaux.get(i).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
+                }
+            }
+
+        }
+        // Prends en compte l'affichage quand l'hexagone contient des pionJoueur et animaux de mer
+        else if(!this.liste_joueur.isEmpty() && this.bateau==null)
+        {
+            int nombre = this.liste_animaux.size() + liste_joueur.size();
+            int l = 0, m = 0;
+            for(int i=0; i<nombre; i++)
+            {
+                w = 25;
+                h = 25;
+
+                if(m<this.liste_joueur.size() && m<3)
+                {
+                    y = rect.getY() + 8;
+                    x = rect.getX() + 5 + (m*25);
+
+                    if(this.liste_joueur.size()==1)
+                    {
+                        w = 35;
+                        h = 35;
+                        y = rect.getY() + 13;
+                        x = rect.getX() + 5;
+                    }
+                    else if(this.liste_joueur.size()==2)
+                    {
+                        w = 35;
+                        x = rect.getX() + 5 + (m*35);
+                    }
+                    this.liste_joueur.get(m).afficherPionJoueur(this.plateau, (int)x, (int)y, (int)w, (int)h);
+                    m++;
+                }
+                else if(l<this.liste_animaux.size() && l<3)
+                {
+                    y = rect.getY() + 31;
+                    x = rect.getX() + 5 + (l*25);
+
+                    if(this.liste_animaux.size()==1)
+                    {
+                        w = 35;
+                        h=35;
+                        y = rect.getY() + 13;
+                        x = rect.getX() + 45;
+                    }
+                    else if(this.liste_animaux.size()==2)
+                    {
+                        w = 35;
+                        x = rect.getX() + 5 + (l*35);
+                    }
+                    this.liste_animaux.get(l).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
+                    l++;
+                }
+            }
+        }
+        // Prends en compte l'affichage l'affichage quand l'hexagone ne contient que des animaux de mer
+        else
+        {
+            for(int i=0; i<this.liste_animaux.size(); i++)
+            {
+                if(liste_animaux.size()==1)
+                {
+                    w = 50;
+                    h = 50;
+                    x = rect.getX() + 15;
+                    y = rect.getY() + 8;
+                }
+                else if(liste_animaux.size()==2)
+                {
+                    x = rect.getX() +  5 + i*40;
+                    y = rect.getY() + 15;
+                    w = 30;
+                    h = 30;
+                }
+                else if(liste_animaux.size()==3)
+                {
+                    x = rect.getX() + 5 + i*25;
+                    y = rect.getY() +  15;
+                    w = 25;
+                    h = 35;
+                }
+                else if(liste_animaux.size()>3 && liste_animaux.size()<=6)
+                {
+                    w = 25;
+                    h = 25;
+                    if(i<3)
+                    {
+                        x = rect.getX() + 3 + i*25;
+                        y = rect.getY() +  10;
+                    }
+                    else
+                    {
+                        x = rect.getX() + 2 + k*25;
+                        y = rect.getY() + 30;
+                        k++;
+                    }
+                }
+
+                this.liste_animaux.get(i).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
+            }
+        }
+    }
+
     // Affiche les pions bateaux et joueurs present dans l'hexagone
-    public void AfficherPion()
+    private void afficherPion()
     {
         List<P_Joueur> list_j = this.getListe_joueur();
         int nombrePion = this.liste_joueur.size() +  this.liste_animaux.size();
@@ -251,7 +410,7 @@ public class Hexagone extends Polygon
         }
     }
 
-    
+
     // Ajoute un pion joueur dans l'hexagone
     public void ajoutePionJoueur(P_Joueur pionJoueur)
     {
@@ -279,6 +438,10 @@ public class Hexagone extends Polygon
     // Ajoute un bateau dans l'hexagone
     public void ajouterBateau(Bateau bateau)
     {
+        if( bateau.getHexagone()!=null)
+        {
+            bateau.getHexagone().suprimerBateau();
+        }
         bateau.setHexagone(this);
         this.setBateau(bateau);
     }
@@ -286,10 +449,29 @@ public class Hexagone extends Polygon
     // Supprime un bateau de l'hexagone
     public void suprimerBateau()
     {
-        this.getBateau().setHexagone(null);
+        if(this.getBateau()!=null)
+        {
+            this.getBateau().setHexagone(null);
+        }
+        System.out.println("bateau retirer");
         this.setBateau(null);
     }
 
+    public void ajouterAnimalDeMer(AnimalDeMer animal)
+    {
+        if( animal.getHexagone()!=null)
+        {
+            animal.getHexagone().supprimerAnimalDeMer(animal);
+        }
+        this.liste_animaux.add(animal);
+        animal.setHexagone(this);
+    }
+
+    public void supprimerAnimalDeMer(AnimalDeMer animal)
+    {
+        this.liste_animaux.remove(animal);
+        animal.setHexagone(null);
+    }
     public void detruire_bateau() 
     {
         // TODO implement here
@@ -312,6 +494,46 @@ public class Hexagone extends Polygon
         else
         {
             System.out.println("Liste des joueurs vide");
+        }
+    }
+
+    public void supprimerListePJoueur()
+    {
+        for(int i=0; i<this.liste_joueur.size(); i++)
+        {
+           this.supprimePionjoueur(this.liste_joueur.get(i));
+        }
+    }
+    public void supprimerListePJoueurDeLaMap()
+    {
+        for(int i=0; i<this.liste_joueur.size(); i++)
+        {
+            this.liste_joueur.get(i).suprimerDeLaMap(this.plateau);
+        }
+    }
+
+    public void supprimerListeAnimalDeMer()
+    {
+        for(int i=0; i<this.liste_joueur.size(); i++)
+        {
+           //this.supprimePi(this.liste_joueur.get(i));
+        }
+    }
+
+
+    public void supprimerListeAnimalDeMerDeLaMap()
+    {
+        for(int i=0; i<this.liste_animaux.size(); i++)
+        {
+            this.liste_animaux.get(i).suprimerDeLaMap(this.plateau);
+        }
+    }
+
+    public void supprimerBateauDeLaMap()
+    {
+        if(this.bateau!=null)
+        {
+            this.bateau.suprimerDeLaMap(this.plateau);
         }
     }
 
@@ -392,6 +614,18 @@ public class Hexagone extends Polygon
     public List<P_Joueur> getListe_joueur() 
     {
         return liste_joueur;
+    }
+
+
+
+    public Plateau getPlateau() {
+        return plateau;
+    }
+
+
+
+    public void setPlateau(Plateau plateau) {
+        this.plateau = plateau;
     }
 
 }
