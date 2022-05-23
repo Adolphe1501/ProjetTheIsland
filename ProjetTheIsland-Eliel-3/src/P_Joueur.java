@@ -212,11 +212,11 @@ public class P_Joueur extends JLabel implements MouseListener
     }    
    
    
-    public boolean deplacerPionJoueurVersBateau( Bateau bateau)
+    public boolean deplacerPionJoueurVersBateau( Bateau bateau2, Bateau bateau)
     {
         boolean deplacement = false;
 
-        Position posD = this.hexagone.getPosition();
+        Position posD = bateau2.getHexagone().getPosition();
         Position posA = bateau.getHexagone().getPosition(); 
         int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
 
@@ -228,12 +228,24 @@ public class P_Joueur extends JLabel implements MouseListener
         }
          
         if(i <3)
-        {
-            if ((this.hexagone == bateau.getHexagone()) || ((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
+        { 
+            if(bateau2 != null)
             {
-                if ( deplacerPjsurBat(bateau))
-                    deplacement = true; 
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))
+                {
+                    List <P_Joueur> list = bateau2.getListe_pionJoueur();
+                    list.remove(this);
+                    bateau2.setListe_pionJoueur(list);
+
+                    deplacement = deplacerPjsurBat(bateau);          
+                }  
+            }else
+            {
+                if (this.hexagone == bateau.getHexagone())
+                    deplacement = deplacerPjsurBat(bateau);
+                
             }
+
         }
 
         return deplacement ;
