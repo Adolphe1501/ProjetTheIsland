@@ -154,6 +154,15 @@ public class Hexagone extends Polygon
         }
     }
 
+    public void placerSerpentDeMer(int i, int j, Serpent serpent)
+    {
+        if((i==6 && j==5) || (i==1 && j==1) || (i==2 && j==10) || (i==10 && j==0) || (i==11 && j==10))
+        {
+            ajouterAnimalDeMer(serpent);
+            Jeu.list_serpent.remove(0);
+        }
+    }
+
     // Detruit une tuile de terrain present sur un hexagone
     public void detruireTuileTerrain()
     {
@@ -504,36 +513,32 @@ public class Hexagone extends Polygon
            this.supprimePionjoueur(this.liste_joueur.get(i));
         }
     }
-    public void supprimerListePJoueurDeLaMap()
+    public void supprimerListePJoueurDuPlateau()
     {
         for(int i=0; i<this.liste_joueur.size(); i++)
         {
-            this.liste_joueur.get(i).suprimerDeLaMap(this.plateau);
+            this.liste_joueur.get(i).suprimerDuPlateau(this.plateau);
         }
     }
 
     public void supprimerListeAnimalDeMer()
     {
-        for(int i=0; i<this.liste_joueur.size(); i++)
-        {
-           //this.supprimePi(this.liste_joueur.get(i));
-        }
+        this.liste_animaux.clear();
     }
 
-
-    public void supprimerListeAnimalDeMerDeLaMap()
+    public void supprimerListeAnimalDeMerDuPlateau()
     {
         for(int i=0; i<this.liste_animaux.size(); i++)
         {
-            this.liste_animaux.get(i).suprimerDeLaMap(this.plateau);
+            this.liste_animaux.get(i).suprimerDuPlateau(this.plateau);
         }
     }
 
-    public void supprimerBateauDeLaMap()
+    public void supprimerBateauDuPlateau()
     {
         if(this.bateau!=null)
         {
-            this.bateau.suprimerDeLaMap(this.plateau);
+            this.bateau.suprimerDuPlateau(this.plateau);
         }
     }
 

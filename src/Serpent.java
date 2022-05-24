@@ -1,4 +1,6 @@
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Serpent extends AnimalDeMer 
 {
@@ -9,6 +11,19 @@ public class Serpent extends AnimalDeMer
     {
         super(id_serpent);
         this.id_serpent = id_serpent;
+    }
+
+    public static List<Serpent> initSerpent()
+    {
+        List<Serpent> list = new ArrayList<>();
+       
+        for(int i=0; i<5; i++)
+        {
+            String id = "" +(i+1) ;
+            list.add(new Serpent(id));
+        }
+
+        return list;
     }
 
     public void afficherAnimalDeMer(Plateau plateau, String nom_fichier, int x, int y, int w, int h)
@@ -34,9 +49,9 @@ public class Serpent extends AnimalDeMer
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
+    public void mousePressed(MouseEvent e) 
+    {
+        AnimalDeMer.animal_mouse_clicked = this;
     }
 
     @Override

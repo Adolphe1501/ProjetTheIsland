@@ -87,6 +87,14 @@ public class Bateau extends JLabel implements MouseListener
         this.liste_pionJoueur.add(pionJoueur);
         pionJoueur.setBateau(this);
 
+        if(pionJoueur.getHexagone()!=null)
+        {
+            pionJoueur.getHexagone().supprimePionjoueur(pionJoueur);
+        }
+        if(pionJoueur.getBateau()!=null)
+        {
+            pionJoueur.getBateau().supprimerPionjoueur(pionJoueur);
+        }
     }
 
     // Supprime un pion joueur du bateau
@@ -156,7 +164,7 @@ public class Bateau extends JLabel implements MouseListener
         }    
     }
 
-    public void suprimerDeLaMap(Plateau plateau)
+    public void suprimerDuPlateau(Plateau plateau)
     {
         plateau.remove(this);
     }

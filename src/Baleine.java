@@ -49,9 +49,9 @@ public class Baleine extends AnimalDeMer
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
-        // TODO Auto-generated method stub
-        
+    public void mousePressed(MouseEvent e) 
+    {
+        AnimalDeMer.animal_mouse_clicked = this;
     }
 
     @Override

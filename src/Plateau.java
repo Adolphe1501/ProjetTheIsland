@@ -91,6 +91,10 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
                 {
                     Position  position = new Position(i, j);  
                     map[i][j] = new Hexagone(xPoints, yPoints, position, this);
+                    if(!Jeu.list_serpent.isEmpty())
+                    {
+                        map[i][j].placerSerpentDeMer(i, j, Jeu.list_serpent.get(0));
+                    }
                 }
             }
             if(i%2==0)
@@ -99,6 +103,9 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
             }
         }
 
+        map[9][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(2));
+        map[9][7].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(3));
+        /*
         //map[0][3].ajoutePionJoueur(new P_Joueur("id1", "rouge", 1, null));
         //map[6][6].ajoutePionJoueur(new P_Joueur("id2", "vert", 1, null));
         map[10][7].ajouterBateau(new Bateau("id1"));
@@ -132,6 +139,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
 
 
         map[9][9].ajouterAnimalDeMer(new Serpent("id5"));
+        */
 
     }
 

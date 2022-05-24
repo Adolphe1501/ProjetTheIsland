@@ -56,7 +56,7 @@ public abstract class AnimalDeMer extends JLabel implements MouseListener
         plateau.add(this);
     }
 
-    public void suprimerDeLaMap(Plateau plateau)
+    public void suprimerDuPlateau(Plateau plateau)
     {
         plateau.remove(this);
     }

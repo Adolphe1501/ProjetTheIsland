@@ -28,6 +28,10 @@ public class ZonePion extends JPanel
     private JButton bt_baleine;
     private JLabel lb_baleine;
     private int nombre_baleine;
+    private List<Serpent> liste_serpent;
+    private JButton bt_serpent;
+    private JLabel lb_serpent;
+    private int nombre_serpent;
 
 
     public ZonePion()
@@ -38,9 +42,11 @@ public class ZonePion extends JPanel
         this.liste_bateaux = Jeu.list_Bateau;
         this.liste_requin = Jeu.list_requin;
         this.liste_baleine = Jeu.list_baleine;
+        this.liste_serpent = Jeu.list_serpent;
         this.nombre_bateau = this.liste_bateaux.size();
         this.nombre_requin = this.liste_requin.size();
         this.nombre_baleine = this.liste_baleine.size();
+        this.nombre_serpent = this.liste_serpent.size();
 
         init();
     }
@@ -55,6 +61,7 @@ public class ZonePion extends JPanel
         c.insets = new Insets(1, 1, 15, 1);
         c.fill = GridBagConstraints.BOTH;
 
+        // BATEAU
         ImageIcon image_temp = new ImageIcon("image/BA.png");
         Image imgScale = image_temp.getImage();
         Image icon = imgScale.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
@@ -85,6 +92,7 @@ public class ZonePion extends JPanel
         this.lb_bateau = new JLabel("" + liste_bateaux.size());
         this.add(this.lb_bateau, c);
 
+        //REQUIN
         image_temp = new ImageIcon("image/RE.png");
         imgScale = image_temp.getImage();
         icon = imgScale.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
@@ -115,6 +123,7 @@ public class ZonePion extends JPanel
         this.lb_requin = new JLabel("" + liste_requin.size());
         this.add(this.lb_requin, c);
 
+        //BALEINE
         image_temp = new ImageIcon("image/BAL.png");
         imgScale = image_temp.getImage();
         icon = imgScale.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
@@ -145,9 +154,39 @@ public class ZonePion extends JPanel
         this.lb_baleine = new JLabel("" + liste_baleine.size());
         this.add(this.lb_baleine, c);
 
+        //SERPENT
+        image_temp = new ImageIcon("image/SE.png");
+        imgScale = image_temp.getImage();
+        icon = imgScale.getScaledInstance(100, 50, Image.SCALE_SMOOTH);
+        image = new ImageIcon(icon);
 
+        c.insets.set(1, 60, 15, 1);
 
+        this.bt_serpent = new JButton(image);
+        this.bt_serpent.setFocusable(false);
+        this.bt_serpent.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(nombre_serpent>0)
+                {
+                    nombre_serpent -= 1;
+                    System.out.println("requin pri");
+                }
+            }
+        });
+
+        c.gridy = 0;
+        c.gridx = 5;
+        this.add(this.bt_serpent, c);
+
+        c.insets.set(1, 1, 15, 1);
+        c.gridy = 0;
+        c.gridx = 6;
+        this.lb_serpent = new JLabel("" + liste_serpent.size());
+        this.add(this.lb_serpent, c);
     }
+
 
     public void paintComponent(Graphics g)
     {
@@ -165,6 +204,11 @@ public class ZonePion extends JPanel
         {
             this.nombre_requin = Jeu.list_requin.size();
             this.lb_requin.setText(""+this.nombre_requin);
+        }
+        if(this.nombre_serpent != Jeu.list_requin.size())
+        {
+            this.nombre_serpent = Jeu.list_serpent.size();
+            this.lb_serpent.setText(""+this.nombre_serpent);
         }
     }
 

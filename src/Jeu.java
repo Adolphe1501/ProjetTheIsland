@@ -22,7 +22,6 @@ public class Jeu extends JPanel
             Jeu.compteur++;
             System.out.println(compteur);
             Jeu.compteur_en_cours = true;
-
         }
     });
 
@@ -34,6 +33,7 @@ public class Jeu extends JPanel
     public static List<Bateau> list_Bateau;
     public static List<Requin> list_requin;
     public static List<Baleine> list_baleine;
+    public static List<Serpent> list_serpent;
 
 
     public static TuileTerrain[] tuile_a_placer;
@@ -126,6 +126,7 @@ public class Jeu extends JPanel
         Jeu.list_Bateau = Bateau.initBateau();
         Jeu.list_baleine = Baleine.initBaleine();
         Jeu.list_requin = Requin.initRequin();
+        Jeu.list_serpent = Serpent.initSerpent();
     
         Jeu.tuile_a_placer = TuileTerrain.melangeTabTuileTerrains();
         Jeu.compteur_tuile_terrain = 0;
@@ -155,11 +156,11 @@ public class Jeu extends JPanel
             {
 
             }
-            if(Jeu.action==3)
+            if(Jeu.action==2)
             {
                 actionPJoueurOuBateau(Jeu.joueur, pos);
             }
-            if(Jeu.action==3 )
+            if(Jeu.action==3)
             {
                 System.out.println("Detruire tuile");   
                 actionDetruireTuile(Jeu.joueur, pos);
@@ -214,7 +215,7 @@ public class Jeu extends JPanel
         // Si le clique est un pion Joueur
         if(P_Joueur.pionJoueur_mouse_clicked !=null && P_Joueur.mouse_cliked)
         {  
-            System.out.println(" Deplacement restant " + Jeu.joueur.getNombre_deplacement());
+            //System.out.println(" Deplacement restant " + Jeu.joueur.getNombre_deplacement());
 
             // Si le pion joueur se trouve sur un bateau et se deplace vers un hexagone 
             if(P_Joueur.descendre_bateau)
@@ -230,11 +231,11 @@ public class Jeu extends JPanel
             else
             {
                 System.out.println("Clique sur hexagone pour joueur de hexagone a hexagone");
-                if(P_Joueur.pionJoueur_mouse_clicked.getHexagone()!=null && P_Joueur.pionJoueur_mouse_clicked.deplacerPionJoueur(P_Joueur.pionJoueur_mouse_clicked.getHexagone(), Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()]))
+                if(P_Joueur.pionJoueur_mouse_clicked.getHexagone()!=null) //&& P_Joueur.pionJoueur_mouse_clicked.deplacerPionJoueur(P_Joueur.pionJoueur_mouse_clicked.getHexagone(), Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()]))
                 {
-                    System.out.println(" Deplacement restant " + Jeu.joueur.getNombre_deplacement());
-                    P_Joueur.pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(P_Joueur.pionJoueur_mouse_clicked);
-                    Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajoutePionJoueur(P_Joueur.pionJoueur_mouse_clicked);
+                    P_Joueur.pionJoueur_mouse_clicked.deplacerPionJoueur(P_Joueur.pionJoueur_mouse_clicked.getHexagone(), Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()]);
+                    //P_Joueur.pionJoueur_mouse_clicked.getHexagone().supprimePionjoueur(P_Joueur.pionJoueur_mouse_clicked);
+                    //Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajoutePionJoueur(P_Joueur.pionJoueur_mouse_clicked);
                 }
             }
         }

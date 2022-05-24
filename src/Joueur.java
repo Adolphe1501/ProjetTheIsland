@@ -7,6 +7,7 @@ public class Joueur
     private String pseudo;
     protected List<P_Joueur> list_pion;
     protected List<TuileTerrain> list_Treserve;
+    protected List<P_Joueur> list_pion_jouer;
     private int nombre_deplacement;
 
 
@@ -15,6 +16,7 @@ public class Joueur
         this.pseudo = pseudo;
         this.list_pion = list_pion;
         this.list_Treserve = new ArrayList<TuileTerrain>();
+        this.list_pion_jouer = new ArrayList<P_Joueur>();
         this.nombre_deplacement = 10;
     }
 

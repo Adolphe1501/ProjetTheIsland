@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class P_Joueur extends JLabel implements MouseListener
 {
@@ -110,75 +111,7 @@ public class P_Joueur extends JLabel implements MouseListener
         }
     }
 
-    public boolean deplacerPionJoueur(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
-    {
-
-        boolean deplacement = false;
         
-        if(this.joueur.getNombre_deplacement()>0)
-        {
-            Position posD = hexagoneDepart.getPosition();
-            Position posA = hexagoneArrivee.getPosition(); 
-            int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
-            if(this.est_nageur)
-            {
-                    
-                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
-                {
-                    this.deplacerPj(hexagoneDepart, hexagoneArrivee);
-                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
-                    deplacement = true;
-                }else{
-                    System.out.println("le pion est nageur le deplacement maximum est de 1");
-                }
-                    
-            }else{
-            
-                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y < 1 || y > -1) && (x == 1 || x == -1)))                 
-                {
-                    this.deplacerPj(hexagoneDepart, hexagoneArrivee);
-                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
-                    deplacement= true;
-
-                }else{
-
-                    if(this.joueur.getNombre_deplacement()== 1)
-                        System.out.println(" le nombre de depalcement maximum est de 1");
-                    if(this.joueur.getNombre_deplacement()>1)
-                    {
-                        if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 || y > -2) && (x == 2 || x == -2)))                 
-                        {
-                            this.deplacerPj(hexagoneDepart, hexagoneArrivee);
-                            this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
-                            deplacement= true;
-    
-                        }else{
-                            if(this.joueur.getNombre_deplacement()>2)
-                            {
-                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 || y >-3) && (x == 3 || x == -3)))                 
-                                {
-                                    this.deplacerPj(hexagoneDepart, hexagoneArrivee);
-                                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
-                                    deplacement= true;
-                                }else{
-                                    System.out.println("Deplacement impossible !!!!");
-                                }
-                            }else{
-                                System.out.println("le nombre de deplacement minimum pour effectuer le deplacement est de 3");
-                            }
-                        }
-                    }else{
-                        System.out.println("le nombre de deplacement minimum pour effectuer le deplacement est de 2");
-                    }
-                }
-            }
-        }else{
-            System.out.println("Nombre de deplacement insuffisant");
-        }
-
-        return deplacement;
-    }    
-    
     public static List<P_Joueur> initPJoueur(String couleur, Joueur joueur) 
     {
         int valeur;
@@ -209,11 +142,160 @@ public class P_Joueur extends JLabel implements MouseListener
         return list;
     }
 
-    public void suprimerDeLaMap(Plateau plateau)
+    public void suprimerDuPlateau(Plateau plateau)
     {
         plateau.remove(this);
     }
 
+    public boolean rechercherDansPionJouer()
+    {
+        boolean trouver = false ;
+
+        if (this.joueur.list_pion_jouer != null)
+        {
+            for(P_Joueur PionJ : this.joueur.list_pion_jouer)
+            {
+                if ( PionJ == this)
+                    trouver = true ;
+            }
+        }
+
+        return trouver;
+    }
+
+    public boolean deplacerPionJoueur(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+        boolean deplacement = false;
+        
+        if(this.joueur.getNombre_deplacement()>0)
+        {
+            Position posD = hexagoneDepart.getPosition();
+            Position posA = hexagoneArrivee.getPosition(); 
+            int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+            if(this.est_nageur)
+            {
+                if( this.rechercherDansPionJouer() == false)
+                {
+                    if ( hexagoneArrivee.getTuile() == null)
+                    {
+                        if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
+                        {
+                            hexagoneArrivee.ajoutePionJoueur(this);
+                            this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
+                            deplacement = true;
+                            this.joueur.list_pion_jouer.add(this);
+                        }
+                        else
+                        {
+                            JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Nageur : Deplacement maximum 1 par tour", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Nageur : Impossible de retourner sur l'île", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                }
+                else
+                    JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Nageur : Deplacement maximum 1 par tour", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);   
+            }
+            else
+            {
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
+                {
+                    hexagoneArrivee.ajoutePionJoueur(this);
+                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 1);
+                    deplacement= true;
+                    if ( hexagoneArrivee.getTuile() == null)
+                        this.est_nageur = true;
+                }
+                else
+                {
+                    if(this.joueur.getNombre_deplacement()== 1)
+                       JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Deplacement maximum 1", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+
+                    if(this.joueur.getNombre_deplacement()>1)
+                    {
+                        if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )            
+                        {
+                            hexagoneArrivee.ajoutePionJoueur(this);
+                            this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
+                            deplacement= true;
+                            if ( hexagoneArrivee.getTuile() == null)
+                                this.est_nageur = true;
+                        }
+                        else
+                        {
+                            if(this.joueur.getNombre_deplacement()>2)
+                            {
+                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
+                                {
+                                    hexagoneArrivee.ajoutePionJoueur(this);
+                                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
+                                    deplacement= true;
+                                    if ( hexagoneArrivee.getTuile() == null)
+                                        this.est_nageur = true;
+        
+                                }
+                                else
+                                {
+                                    JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Deplacement Impossible", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                                }
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Point de deplacement insuffisant", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Point de deplacement insuffisant", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Point de deplacement insuffisant", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return deplacement;
+    }    
+
+    public boolean deplacerPionJoueurVersBateau( Bateau bateau2, Bateau bateau)
+    {
+        boolean deplacement = false;
+
+        Position posD = bateau2.getHexagone().getPosition();
+        Position posA = bateau.getHexagone().getPosition(); 
+        int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+
+        int i =0;
+        for(P_Joueur Pj : bateau.getListe_pionJoueur())
+        {
+            if( Pj != null)
+             i +=   1 ;
+        }
+         
+        if(bateau.getListe_pionJoueur().size()<3)
+        { 
+            if ((bateau2 != null) && (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) )))
+            {
+                bateau.ajoutePionJoueur(this);
+            }  
+            else if(this.hexagone.getPosition().getNumero_ligne() == bateau.getHexagone().getPosition().getNumero_ligne())
+            {
+                bateau.ajoutePionJoueur(this);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Bateau Plein", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return deplacement ;
+    }
     @Override
     public void mouseClicked(MouseEvent e)
     {  
@@ -311,20 +393,5 @@ public class P_Joueur extends JLabel implements MouseListener
 
     public void setBateau(Bateau bateau) {
         this.bateau = bateau;
-    }
-
-    public boolean deplacerPj(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
-    {
-             
-        ArrayList<P_Joueur> list =  (ArrayList<P_Joueur>) hexagoneDepart.getListe_joueur();
-        list.remove(this);
-        hexagoneDepart.setListe_joueur(list);
-
-        list = (ArrayList<P_Joueur>) hexagoneArrivee.getListe_joueur();
-        list.add(this);
-        hexagoneArrivee.setListe_joueur(list);
-
-        this.hexagone = hexagoneArrivee;
-        return true;
     }
 }
