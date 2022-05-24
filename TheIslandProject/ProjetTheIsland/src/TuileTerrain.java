@@ -185,18 +185,22 @@ public abstract class TuileTerrain
             {
                 for(int j =0 ; j<12 ; j++)
                 {
-                    if( Plateau.map[i][j].getTuile() instanceof Plage)
-                        nombreP += 1 ;
-                    else
+                    if ( Plateau.map[i][j] != null)
                     {
-                        if (Plateau.map[i][j].getTuile() instanceof Montagne)
-                            nombreM += 1 ;
+                        if( Plateau.map[i][j].getTuile() instanceof Plage)
+                        nombreP += 1 ;
                         else
                         {
-                            if(Plateau.map[i][j].getTuile() instanceof Foret)
+                            if (Plateau.map[i][j].getTuile() instanceof Montagne)
+                            nombreM += 1 ;
+                            else
+                            {
+                                if(Plateau.map[i][j].getTuile() instanceof Foret)
                                 nombreF += 1 ;
+                            }
                         }
                     }
+                    
                 }
             }
 
