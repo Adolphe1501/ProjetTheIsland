@@ -140,6 +140,80 @@ public abstract class TuileTerrain extends JLabel
         return tuilesTerrain;
     }
 
+        // verification retirer une tuile
+        public static boolean verifierRetirerTuileTerrain( Hexagone Hex )
+        {
+            boolean retirer =false;
+            int nombreP =0 , nombreF = 0;
+    
+            
+            for(int i =0; i<13; i++ )
+            {
+                for(int j =0 ; j<12 ; j++)
+                {
+                    if( Plateau.map[i][j].getTuile() instanceof Plage)
+                        nombreP += 1 ;
+                    else
+                    {
+                        if (Plateau.map[i][j].getTuile() instanceof Foret)
+                            nombreF += 1 ;
+                    }
+                }
+            }
+    
+            if ( Hex.getTuile() instanceof Plage)
+            {
+                if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                    retirer = true;    
+            }else{
+
+                if ( Hex.getTuile() instanceof Foret && nombreP == 0)
+                {
+                    if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                        retirer = true;
+    
+                }else{
+                    
+                    if(Hex.getTuile() instanceof Montagne && nombreP == 0 && nombreF == 0)
+                    {
+                        if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                            retirer = true;
+    
+                    }
+                }
+    
+            }
+    
+    
+        
+    
+            return retirer;
+        }
+    
+        public static boolean retirerTuileTerrain ( Joueur joueur ,Hexagone Hex)
+        {
+            boolean retirer = false;
+    
+            if (Hex.getTuile() != null)
+            {
+                if ( verifierRetirerTuileTerrain(Hex) == true)
+                {
+                   if ( Hex.getListe_joueur() != null)
+                   {
+                        for( P_Joueur Pj : Hex.getListe_joueur())
+                            Pj.est_nageur = true;
+                   }
+      
+                   joueur.list_Treserve.add(Hex.getTuile());
+                   Hex.setTuile(null); 
+                   retirer = true;
+                }
+            }
+           
+    
+            return retirer;
+        }
+       
     // Affiche les tuiles terrain sur le plateau
     public void afficherTuileTerrain(Graphics g2D, String nom_fichier)
     {
