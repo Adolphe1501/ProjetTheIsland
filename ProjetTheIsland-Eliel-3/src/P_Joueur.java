@@ -216,17 +216,21 @@ public class P_Joueur extends JLabel implements MouseListener
    
     
    
-    public boolean deplacerPionJoueurVersBateau( Bateau bateau)
+    public boolean deplacerPionJoueurVersBateau(Bateau bateau)
     {
         boolean deplacement = false;
 
         int i =0;
-        for(P_Joueur Pj : bateau.getListe_pionJoueur())
+        if (bateau.getListe_pionJoueur() != null)
         {
-            if( Pj != null)
-             i +=   1 ;
+            for(P_Joueur Pj : bateau.getListe_pionJoueur())
+            {
+                if( Pj != null)
+                 i +=   1 ;
+            }
+             
         }
-         
+
         if(i <3)
         { 
             if(this.bateau != null)
