@@ -61,4 +61,36 @@ public class Joueur
         this.nombre_deplacement = nombre_deplacement;
     }
 
+
+    // **************************************    Methodes   *********************************************** //
+
+
+    // on teste si  le joueur a le plus de pions sur un bateau
+
+
+    public  boolean estMajoritaireSurBateau(Bateau bateau)
+    {
+       
+        int i = 0,j = 0;
+
+        for(P_Joueur pionJ : bateau.getListe_pionJoueur())
+        {
+            if(pionJ != null)
+              i++;
+        }
+        for(P_Joueur pionJ : this.list_pion)
+        {
+            for(P_Joueur pionJB : bateau.getListe_pionJoueur())
+            {
+                if(pionJ == pionJB)
+                    j++;
+            }
+        }
+
+        if(j>=i/2)
+            return true;
+        else
+            return false;
+    }
+
 }

@@ -217,8 +217,9 @@ public class Jeu extends JPanel
             // Le bateau se deplace d'un hexagone vers un hexagone
             if(Plateau.bateau_mouse_clicked.getHexagone()!=null)
             {
-                Plateau.bateau_mouse_clicked.getHexagone().suprimerBateau();
-                Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajouterBateau(Plateau.bateau_mouse_clicked);
+                //Plateau.bateau_mouse_clicked.getHexagone().suprimerBateau();
+                //Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajouterBateau(Plateau.bateau_mouse_clicked);
+                Plateau.bateau_mouse_clicked.deplacerPionBateau(joueur, Plateau.bateau_mouse_clicked.getHexagone(), Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()]);
             }
         }
 

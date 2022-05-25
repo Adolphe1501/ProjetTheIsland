@@ -124,6 +124,9 @@ public class P_Joueur extends JLabel implements MouseListener
         return trouver;
     }
 
+
+
+
     public boolean deplacerPionJoueur(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
 
@@ -211,14 +214,11 @@ public class P_Joueur extends JLabel implements MouseListener
         return deplacement;
     }    
    
+    
    
-    public boolean deplacerPionJoueurVersBateau( Bateau bateau2, Bateau bateau)
+    public boolean deplacerPionJoueurVersBateau( Bateau bateau)
     {
         boolean deplacement = false;
-
-        Position posD = bateau2.getHexagone().getPosition();
-        Position posA = bateau.getHexagone().getPosition(); 
-        int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
 
         int i =0;
         for(P_Joueur Pj : bateau.getListe_pionJoueur())
@@ -229,21 +229,21 @@ public class P_Joueur extends JLabel implements MouseListener
          
         if(i <3)
         { 
-            if(bateau2 != null)
+            if(this.bateau != null)
             {
+                Position posD = this.bateau.getHexagone().getPosition();
+                Position posA = bateau.getHexagone().getPosition(); 
+                int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+        
                 if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))
                 {
-                    List <P_Joueur> list = bateau2.getListe_pionJoueur();
-                    list.remove(this);
-                    bateau2.setListe_pionJoueur(list);
-
+                    this.bateau.supprimerPionjoueur(this);
                     deplacement = deplacerPjsurBat(bateau);          
                 }  
             }else
             {
                 if (this.hexagone == bateau.getHexagone())
-                    deplacement = deplacerPjsurBat(bateau);
-                
+                    deplacement = deplacerPjsurBat(bateau);   
             }
 
         }
@@ -400,11 +400,7 @@ public class P_Joueur extends JLabel implements MouseListener
         list.remove(this);
         this.hexagone.setListe_joueur(list);
 
-        this.hexagone = bat.getHexagone();
-        list = (ArrayList<P_Joueur>) bat.getListe_pionJoueur();
-        list.add(this);
-        bat.setListe_pionJoueur(list);
-
+        bat.ajoutePionJoueur(this);
 
         return true ;
 

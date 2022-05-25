@@ -38,6 +38,67 @@ public class Bateau extends JLabel implements MouseListener
         return bateaux;
     }
 
+    // deplacer bateau
+
+    public boolean deplacerPb(Joueur joueur, Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+        boolean deplacer = false;
+
+        Position posD = hexagoneDepart.getPosition();
+        Position posA = hexagoneArrivee.getPosition(); 
+        int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+        if ((((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))  || (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))  ||  (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )  )          
+        {
+            hexagoneDepart.suprimerBateau();
+            hexagoneArrivee.ajouterBateau(this);
+            deplacer =  true;
+            joueur.setNombre_deplacement(joueur.getNombre_deplacement() - 1);
+
+        }else{
+            System.out.println("deplacement trop grand");
+        }    
+
+        return  deplacer;
+    }
+    public boolean deplacerPionBateau(Joueur joueur ,Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
+    {
+        boolean deplacer = false;
+
+        if (joueur.getNombre_deplacement() > 0)
+        {
+            if (hexagoneArrivee.getTuile() == null)
+            {
+                if (this.estVideBateau())
+                {
+                    deplacer = deplacerPb(joueur, hexagoneDepart, hexagoneArrivee);
+                }else{
+                    if (joueur.estMajoritaireSurBateau(this) == true)
+                    {
+                        deplacer = deplacerPb(joueur, hexagoneDepart, hexagoneArrivee);
+                    }else
+                        System.out.println(" desole vous n'etes pas majoritaire sur le bateau");
+                }
+    
+            }else
+                System.out.println ( "  les bateaux ne se deplacent que sur mer :) ");
+    
+    
+        }else
+            System.out.println(" Desole vous n'avez plus de deplacement ");
+
+        return deplacer ;
+       
+    }
+
+
+    // on test si le bateau possede une liste de pions
+    public boolean estVideBateau()
+    {
+        if (this.liste_pionJoueur == null)
+            return true;
+        else
+            return false;
+    }
     //Affiche le bateau sur le plateau
     public void afficherBateau(Plateau plateau, int x, int y, int w, int h)
     {
