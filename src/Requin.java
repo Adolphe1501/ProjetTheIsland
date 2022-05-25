@@ -34,18 +34,10 @@ public class Requin extends AnimalDeMer {
         }
         return list;
     }
-
-    public void requin_vert(List<Requin> list, Position position) {
-        Requin requin = list.get(0);
+    public void supprimerRequin(List<Requin> list)
+    {    
         list.remove(0);
-        if (Plateau.map[position.getNumero_ligne()][position.getNumero_colone()].getTuile() == null) {
-            Hexagone hexagone = Plateau.map[position.getNumero_ligne()][position.getNumero_colone()];
-            if (Plateau.map[position.getNumero_ligne()][position.getNumero_colone()].getListe_joueur() != null) {
-                for (int i = 0; i < hexagone.getListe_joueur().size(); i++) {
-                    hexagone.getListe_joueur().get(i).supprimerPionDeJeu();
-                }
-            }
-            hexagone.addPionMer(requin);
-        }
     }
+
+ 
 }

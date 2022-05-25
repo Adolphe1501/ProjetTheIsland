@@ -108,7 +108,7 @@ public class P_Joueur extends JLabel implements MouseListener {
     }
 
     public boolean placer_pion(Hexagone hexagone, Joueur joueur) {
-        if ((this.joueur == this.joueur)
+        if ((this.joueur == joueur)
                 && (hexagone.getListe_joueur() == null) && (hexagone.getzone_ile() == true)) {
             hexagone.setlistJoueur(this);
             this.setHexagone(hexagone);
@@ -167,8 +167,9 @@ public class P_Joueur extends JLabel implements MouseListener {
     public void supprimerPionDeJeu() {
         for (int i = 0; i < this.getJoueur().list_pion.size(); i++) {
             if (this.getJoueur().list_pion.get(i) == this) {
-                this.getJoueur().list_pion.remove(i);
+                this.getJoueur().list_pion.remove(i);   
             }
+        
         }
     }
 

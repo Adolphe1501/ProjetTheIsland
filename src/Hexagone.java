@@ -48,11 +48,15 @@ public class Hexagone extends Polygon {
     public void setBateau(Bateau bateau) {
         this.bateau = bateau;
     }
+    public void supprimerBateau() {
+        this.bateau = null;
+    }
 
     public void setlistJoueur(P_Joueur pion)
     {
         this.liste_joueur.add(pion);
     }
+  
     public void add_pion(P_Joueur pion)
     {
         this.liste_joueur.add(pion);
