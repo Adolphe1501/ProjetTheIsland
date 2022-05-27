@@ -3,10 +3,13 @@
 public abstract class AnimalDeMer {
 
     protected final int vitesse;
+    protected Hexagone hexagone;
 
-    public AnimalDeMer() 
+
+    public AnimalDeMer(Hexagone hexagone) 
     {
         this.vitesse = 1;
+        this.hexagone = hexagone;
     }
 
    
