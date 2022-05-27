@@ -87,10 +87,13 @@ public class Joueur
             }
         }
 
-        if(j>=i/2)
+        if ((i==1 || i ==2) && j==1)
             return true;
         else
-            return false;
+            if( i == 3 && j == 2)
+                return true;
+            else
+                return false;
     }
 
 }
