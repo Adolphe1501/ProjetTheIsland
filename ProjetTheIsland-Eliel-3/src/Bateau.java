@@ -47,16 +47,56 @@ public class Bateau extends JLabel implements MouseListener
         Position posD = hexagoneDepart.getPosition();
         Position posA = hexagoneArrivee.getPosition(); 
         int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
-        if ((((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))  || (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))  ||  (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )  )          
+       
+        
+        if (joueur.getNombre_deplacement() >0)
         {
-            hexagoneDepart.suprimerBateau();
-            hexagoneArrivee.ajouterBateau(this);
-            deplacer =  true;
-            joueur.setNombre_deplacement(joueur.getNombre_deplacement() - 1);
+            if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))                 
+            {
+                hexagoneDepart.suprimerBateau();
+                hexagoneArrivee.ajouterBateau(this);
+                deplacer =  true;
+                joueur.setNombre_deplacement(joueur.getNombre_deplacement() - 1);
+    
 
-        }else{
-            System.out.println("deplacement trop grand");
-        }    
+            }else{
+
+                if (joueur.getNombre_deplacement() >1)
+                {
+                    if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )            
+                    {
+                        hexagoneDepart.suprimerBateau();
+                        hexagoneArrivee.ajouterBateau(this);
+                        deplacer =  true;
+                        joueur.setNombre_deplacement(joueur.getNombre_deplacement() - 2);
+            
+                    }else{
+
+                        if (joueur.getNombre_deplacement() >2)
+                        {
+                            if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
+                            {
+                                hexagoneDepart.suprimerBateau();
+                                hexagoneArrivee.ajouterBateau(this);
+                                deplacer =  true;
+                                joueur.setNombre_deplacement(joueur.getNombre_deplacement() - 3);
+                    
+
+                            }else
+                                System.out.println("deplacement trop grand");
+                        }else
+                            System.out.println( " nombre de deplacement insuffisant !!");
+                    }
+
+                }else
+                    System.out.println( " nombre de deplacement insuffisant !!");
+            }
+    
+
+
+            
+        }
+          
 
         return  deplacer;
     }
