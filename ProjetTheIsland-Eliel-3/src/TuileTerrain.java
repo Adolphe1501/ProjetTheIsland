@@ -152,11 +152,17 @@ public abstract class TuileTerrain extends JLabel
                 for(int j =0 ; j<12 ; j++)
                 {
                     if( Plateau.map[i][j].getTuile() instanceof Plage)
-                        nombreP += 1 ;
+                    {
+                        if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                            nombreP += 1 ;
+                    }
                     else
                     {
                         if (Plateau.map[i][j].getTuile() instanceof Foret)
-                            nombreF += 1 ;
+                          {
+                             if( Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()-1][Hex.getPosition().getNumero_colone()+1].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() -1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()][Hex.getPosition().getNumero_colone() +1 ].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()].getTuile() == null || Plateau.map[Hex.getPosition().getNumero_ligne()+1][Hex.getPosition().getNumero_colone()-1].getTuile() == null)
+                                nombreF += 1 ;
+                          }  
                     }
                 }
             }
