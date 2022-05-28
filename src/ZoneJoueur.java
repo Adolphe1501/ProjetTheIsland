@@ -27,6 +27,7 @@ public class ZoneJoueur extends JPanel
 
     private void construireZoneJoueur()
     {
+        
         this.zone_menu = new ZoneMenu(this);
         this.zone_menu.setPreferredSize(new Dimension(360, 70));
         this.add(this.zone_menu);
@@ -46,6 +47,7 @@ public class ZoneJoueur extends JPanel
 
     public void paintComponent(Graphics g)
     {
+        //this.revalidate();
         zone_de.repaint();
         zone_tuile_et_pion.repaint();
         zone_pseudo.repaint();

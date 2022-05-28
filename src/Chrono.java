@@ -2,7 +2,7 @@
 
 public class Chrono implements Runnable
 {
-    private final int pause = 3;
+    private final int pause = 0;
     private Jeu jeu;
 
     public Chrono(Jeu jeu)
@@ -12,35 +12,27 @@ public class Chrono implements Runnable
     @Override
     public void run() 
     {
+
+        double drawInterval = 1000000000/60;
+        double next_draw_time = System.nanoTime() + drawInterval;
+
         while(!this.jeu.getRejouer())
         {
-
-            jeu.actualiser();
+            //jeu.actualiser();
           
-           if(Jeu.compteur==4)
-            {
-                System.out.println("j'arrete le chrono");
-                Jeu.timer.stop();
-                Jeu.compteur = 0;
-
-                Jeu.compteur_en_cours = false;
-                Plateau.hexagone_dectruction_tuile = null;
-                jeu.actualiser();
-            }
-
-
-            if(Jeu.index_joueur<Jeu.list_joueur.size())
-            {
-                Jeu.joueur = Jeu.list_joueur.get(Jeu.index_joueur);
-            }
-            else if(Jeu.index_joueur==Jeu.list_joueur.size())
-            {
-                Jeu.index_joueur=0;
-            }
-
             try 
             {
-                Thread.sleep(pause);
+                double remaining_time = next_draw_time - System.nanoTime();
+                remaining_time = remaining_time/1000000;
+
+                if(remaining_time<0)
+                {
+                    remaining_time = 0;
+                }
+
+                Thread.sleep((long)remaining_time);
+
+                next_draw_time +=drawInterval;
             } 
             catch (InterruptedException e) 
             {

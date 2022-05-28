@@ -1,19 +1,26 @@
 import javax.swing.JPanel;
-import javax.swing.Timer;
+//import javax.swing.Timer;
+import java.util.Timer;
+
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
+
 import javax.swing.JOptionPane;
 
 
 
-public class Jeu extends JPanel
+public class Jeu extends JPanel implements Runnable
 {
     public static int compteur = 0; 
     public static boolean compteur_en_cours = false;
 
+    public  Timer timer;
+
+    /*
     public static Timer timer = new Timer(1000,  new ActionListener()
     {
         @Override
@@ -37,7 +44,7 @@ public class Jeu extends JPanel
             }
         }
     });
-
+*/
     public static Joueur joueur;
     public static List<Joueur> list_joueur = new ArrayList<Joueur>();
     public static int index_joueur = 0;
@@ -102,8 +109,10 @@ public class Jeu extends JPanel
         this.zone_pion.setBounds(0, 700, 1050, 120);
         this.add(this.zone_pion);
 
-        this.chronoEcran = new Thread(new Chrono(this));
+        this.chronoEcran = new Thread(this);
         chronoEcran.start();
+
+        timer = new Timer();
 
         this.revalidate();
         this.actualiser();
@@ -120,7 +129,7 @@ public class Jeu extends JPanel
         Bateau.mouse_clicked_destination = false;
         Bateau.bateau_mouse_moved = null;
 
-        Jeu.premier_placement = false;
+        Jeu.premier_placement = true;
         Jeu.fin_placement_joueur = false;
         Jeu.fin_placement_bateau = false;
         Jeu.de_lance = false;
@@ -129,7 +138,7 @@ public class Jeu extends JPanel
         Jeu.nombre_placement_joueur = 0;
         Jeu.nombre_placement_bateau = 0;
         Jeu.compteur_tuile_terrain = 0;
-        Jeu.action = 3;
+        Jeu.action = 1;
         Jeu.index_joueur = 0;
         Jeu.list_Bateau = Bateau.initBateau();
         Jeu.list_baleine = Baleine.initBaleine();
@@ -181,6 +190,7 @@ public class Jeu extends JPanel
     
         {
             premier_placement(Jeu.joueur, pos);
+            actualiser();
         }
         else 
         {
@@ -424,7 +434,14 @@ public class Jeu extends JPanel
         }
         if(Jeu.joueur!=null && Jeu.joueur.getNombre_deplacement()==0)
         {
-            Jeu.action=3;
+            this.timer.schedule(new TimerTask() {
+
+                @Override
+                public void run() {
+                    Jeu.action=3;
+                }
+                
+            }, 1000);
         }
     }
 
@@ -437,6 +454,7 @@ public class Jeu extends JPanel
             if(Plateau.hexagone_dectruction_tuile!=null) //&& TuileTerrain.verifierRetirerTuileTerrain(Plateau.hexagone_dectruction_tuile))
             {
 
+                System.out.println("je detuis***");
                 Plateau.hexagone_dectruction_tuile.setDetruire_tuile(true);
                
                 if(Plateau.hexagone_dectruction_tuile.getTuile()!=null)
@@ -446,14 +464,28 @@ public class Jeu extends JPanel
                         Joueur.getList_Treserve().add(Plateau.hexagone_dectruction_tuile.getTuile());
                     }
                 }
+                
                 Jeu.compteur_en_cours = true;
                 
                 for(int i=0; i<Plateau.hexagone_dectruction_tuile.getListe_joueur().size();i++)
                 {
                     Plateau.hexagone_dectruction_tuile.getListe_joueur().get(i).setEst_nageur(true);
                 }
-                Jeu.timer.start();
-                Jeu.action=4;
+                //Jeu.timer.start();
+                this.timer.schedule(new TimerTask() {
+
+                    @Override
+                    public void run() {
+                        Plateau.hexagone_dectruction_tuile.getTuile().effetImmediatVerso();
+                        Plateau.hexagone_dectruction_tuile.setTuile(null);
+                        System.out.println("Jai fini");
+                        Plateau.hexagone_dectruction_tuile = null;
+                        Jeu.compteur_en_cours = false;
+                        Jeu.action=4;
+                    }
+                    
+                }, 3000);
+                
             }
         }
     }
@@ -475,6 +507,7 @@ public class Jeu extends JPanel
         {
             Jeu.joueur.list_pion_jouer.clear();
             Jeu.joueur.setNombre_deplacement(3);
+            Jeu.action = 1;
         }
        
         /*
@@ -535,7 +568,7 @@ public class Jeu extends JPanel
         if(Jeu.compteur==3)
         {
             System.out.println("jai detrui");
-            Jeu.timer.stop();
+            //Jeu.timer.stop();
             Jeu.compteur = 0;
             Plateau.hexagone_dectruction_tuile.setTuile(null);
             Plateau.hexagone_dectruction_tuile = null;
@@ -547,6 +580,7 @@ public class Jeu extends JPanel
 
     public void actualiser()
     {
+        this.revalidate();
         this.zone_joueur.repaint();
         this.zone_pion.repaint();
         this.plateau.repaint();
@@ -584,6 +618,39 @@ public class Jeu extends JPanel
     public boolean getRejouer()
     {
         return rejouer;
+    }
+
+    @Override
+    public void run() {
+        // TODO Auto-generated method stub
+        double drawInterval = 1000000000/60;
+        double next_draw_time = System.nanoTime() + drawInterval;
+
+        while(!this.getRejouer())
+        {
+            actualiser();
+          
+            try 
+            {
+                double remaining_time = next_draw_time - System.nanoTime();
+                remaining_time = remaining_time/1000000;
+
+                if(remaining_time<0)
+                {
+                    remaining_time = 0;
+                }
+
+                Thread.sleep((long)remaining_time);
+
+                next_draw_time +=drawInterval;
+            } 
+            catch (InterruptedException e) 
+            {
+                e.printStackTrace();
+                System.out.println("Erreur Chrono");
+            }
+        }
+        
     }
 
 }

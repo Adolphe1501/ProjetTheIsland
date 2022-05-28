@@ -111,7 +111,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
         }
         //map[9][7].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(3));
         //map[9][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(2));
-        
+
         //map[9][6].ajoutePionJoueur(Jeu.list_joueur.get(1).getList_pion().get(1));
         //map[9][7].ajoutePionJoueur(Jeu.list_joueur.get(1).getList_pion().get(2));
 
@@ -290,7 +290,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
         // TODO Auto-generated method stub
         Position pos = determineHexagoneCliquer(e.getPoint());
 
-        if(pos!=null && !clicked)
+        if(pos!=null && !clicked && Jeu.compteur_en_cours)
         {
             pressed = true;
             System.out.println("Clique sur hexagone");

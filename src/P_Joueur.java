@@ -3,6 +3,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -63,6 +65,11 @@ public class P_Joueur extends JLabel implements MouseListener
         Image icon = imgScale.getScaledInstance(w, h, Image.SCALE_SMOOTH);
         ImageIcon image = new ImageIcon(icon);
         this.setIcon(image);   
+        if(this.hexagone==null && this.bateau==null)
+        {   
+            this.setText(""+this.valeur);
+        }
+       
     }
 
     private String determineNomFichier()
@@ -396,6 +403,20 @@ public class P_Joueur extends JLabel implements MouseListener
             }
         }
     }
+
+    /*
+    public void paintComponent(Graphics g)
+    {
+        /*
+        Graphics g2D = (Graphics2D)g;
+
+        if(this.hexagone==null && this.bateau==null)
+        {
+            g2D.drawString(""+this.valeur, this.getX(), this.getX());
+        }
+        
+    }
+    */
 
     @Override
     public void mousePressed(MouseEvent e) {

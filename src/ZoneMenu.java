@@ -77,7 +77,7 @@ public class ZoneMenu extends JPanel
                 int option =JOptionPane.showConfirmDialog(null, "Voulez-vous quitter The Island ?", "Quitter", JOptionPane.YES_NO_OPTION);
                 if(option==JOptionPane.OK_OPTION)
                 {
-                    zone_joueur.getJeu().setRejouer(true);
+                    zone_joueur.getJeu().setRejouer(false);
                     zone_joueur.getJeu().getApp().dispose();
                     System.exit(0);
                 }

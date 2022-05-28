@@ -2,6 +2,8 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Color;
+
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
@@ -37,7 +39,7 @@ public class ZonePion extends JPanel
     public ZonePion()
     {
         super();
-        //this.setBackground(Color.blue);
+        this.setBackground(Color.blue);
 
         this.liste_bateaux = Jeu.list_Bateau;
         this.liste_requin = Jeu.list_requin;

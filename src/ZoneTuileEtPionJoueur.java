@@ -46,21 +46,20 @@ public class ZoneTuileEtPionJoueur extends JPanel
                     if(list_pionJoueur_temp.get(i).getHexagone()==null && list_pionJoueur_temp.get(i).getBateau()==null)
                     {
                         int k = 1;
-                        //c.ipadx = 5;
-                        //c.ipady = 5;
+
                         c.gridx = j;
                         c.gridy = i;
-                        if(j==1)
-                        {
-                            JLabel j2 = new JLabel("" + list_pionJoueur_temp.get(i).getValeur());
-                            this.add(j2, c);
-                        }
-                        else
-                        {
-                            list_pionJoueur_temp.get(i).afficherPionJoueur(1150, 200+(k*40), 30, 30);
-                            this.add(list_pionJoueur_temp.get(i), c);
+                       // if(j==1)
+                        //{
+                            //JLabel j2 = new JLabel("" + list_pionJoueur_temp.get(i).getValeur());
+                            //this.add(j2, c);
+                        //}
+                        //else
+                        //{
+                           list_pionJoueur_temp.get(i).afficherPionJoueur(1150, 200+(k*40), 30, 30);
+                           this.add(list_pionJoueur_temp.get(i), c);
                             k++;
-                        }
+                        //}
                     }
                 }
             }
@@ -129,6 +128,9 @@ public class ZoneTuileEtPionJoueur extends JPanel
     {
         Graphics g2D = (Graphics2D)g;
 
+        g2D.setColor(Color.black);
+        g2D.fillRect(1070, 150, 360, 500);
+
         afficheEffetMouseMoved(g2D);
         afficheEffetMouseClicked(g2D);
 
@@ -140,6 +142,9 @@ public class ZoneTuileEtPionJoueur extends JPanel
         {
             if(index_courant!=Jeu.index_joueur)
             {
+                this.setBackground(Color.ORANGE);    
+                g2D.setColor(Color.black);
+                g2D.fillRect(1070, 150, 360, 500);
                 index_courant = Jeu.index_joueur;
                 affichePionJoueurNonPlace();
             }   
