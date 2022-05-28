@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
 
@@ -32,6 +36,16 @@ public class ZonePseudoJoueur extends JPanel
             JButton label = new JButton(this.liste_joueur.get(i).getPseudo());
             label.setFont(new Font("Serif", Font.BOLD,25));
             label.setFocusable(false);
+            label.addActionListener(new ActionListener()
+            {
+                @Override
+                public void actionPerformed(ActionEvent e) 
+                {
+                    
+                    
+                }
+
+            });
             this.pseudoJoueur_label.add(label);
             this.add(label);
         }

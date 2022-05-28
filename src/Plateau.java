@@ -24,16 +24,23 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
     public static final int nombre_colonne = 12;
     public static Hexagone map[][] = new Hexagone[nombre_ligne][nombre_colonne]; 
 
-    private static boolean mouse_moved = false;
+    public static boolean mouse_moved = false;
     public static Hexagone hexagone_dectruction_tuile = null;
-    private static Hexagone hexagone_mouse_moved = null;
+    public static Hexagone hexagone_mouse_moved = null;
 
     private Jeu jeu;
+
+    private boolean clicked;
+
+    private boolean pressed;
 
     
     public Plateau(Jeu jeu) 
     {
+
         super();
+        clicked = false;
+        pressed = false;
         this.jeu = jeu;
         setLayout(null);
         this.addMouseListener(this);
@@ -102,44 +109,12 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
                 k++;
             }
         }
-
-        map[9][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(2));
-        map[9][7].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(3));
-        /*
-        //map[0][3].ajoutePionJoueur(new P_Joueur("id1", "rouge", 1, null));
-        //map[6][6].ajoutePionJoueur(new P_Joueur("id2", "vert", 1, null));
-        map[10][7].ajouterBateau(new Bateau("id1"));
-        map[10][8].ajouterBateau(new Bateau("id2"));
-        //map[10][7].getBateau().ajoutePionJoueur(new P_Joueur("id3", "vert", 1, null));
-        Jeu.list_joueur.get(0).getList_pion().get(2).setEst_nageur(true);
-        map[10][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(2));
-        map[6][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(3));
-        TuileTerrain tuile = new Montagne("id25", new Verso("vert", "tourbillon"));
-        tuile.setHexagone(map[9][7]);
-        map[9][7].setTuile(tuile);
-        map[9][8].ajouterAnimalDeMer(new Serpent("id3"));
-        map[9][8].ajouterAnimalDeMer(new Baleine("id5"));
-        map[9][8].ajouterAnimalDeMer(new Requin("id6"));
-
-        map[8][9].ajouterAnimalDeMer(new Serpent("id33"));
-        map[8][9].ajouterAnimalDeMer(new Baleine("id54"));
-        //map[8][9].ajouterAnimalDeMer(new Requin("id62"));
-        //map[8][9].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(4));
-        map[8][9].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(5));
-        map[8][9].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(6));
-
-
-      
-        map[9][10].ajouterAnimalDeMer(new Baleine("id34"));
-        map[9][10].ajouterAnimalDeMer(new Requin("id34"));
-        map[9][10].ajouterBateau(new Bateau("id7"));
-        map[9][10].ajouterAnimalDeMer(new Serpent("id45"));
-
+        //map[9][7].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(3));
+        //map[9][6].ajoutePionJoueur(Jeu.list_joueur.get(0).getList_pion().get(2));
         
+        //map[9][6].ajoutePionJoueur(Jeu.list_joueur.get(1).getList_pion().get(1));
+        //map[9][7].ajoutePionJoueur(Jeu.list_joueur.get(1).getList_pion().get(2));
 
-
-        map[9][9].ajouterAnimalDeMer(new Serpent("id5"));
-        */
 
     }
 
@@ -228,6 +203,12 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
             g2D.setColor(Color.blue);
             g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
         }
+        if(AnimalDeMer.animal_mouse_clicked!=null)
+        {
+            Rectangle rect =  AnimalDeMer.animal_mouse_clicked.getBounds();
+            g2D.setColor(Color.blue);
+            g2D.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
     }
 
     // Affiche les effets du mouvement de la souris sur un hexagone, un pion joueur ou bateau
@@ -291,16 +272,17 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
     @Override
     public void mouseClicked(MouseEvent e) 
     {
-        /*
+
         Position pos = determineHexagoneCliquer(e.getPoint());
 
-        if(pos!=null)
+        if(pos!=null && !pressed)
         {
+            clicked = true;
             System.out.println("Clique sur hexagone");
            
             jeu.jouer(pos);
+            clicked = false;
         }
-        */
     }
 
     @Override
@@ -308,12 +290,14 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
         // TODO Auto-generated method stub
         Position pos = determineHexagoneCliquer(e.getPoint());
 
-        if(pos!=null)
+        if(pos!=null && !clicked)
         {
+            pressed = true;
             System.out.println("Clique sur hexagone");
-           
             jeu.jouer(pos);
+            pressed =false;
         }
+       
         
     }
 

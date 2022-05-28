@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 public class Verso extends JLabel implements Cloneable, MouseListener
@@ -15,6 +16,7 @@ public class Verso extends JLabel implements Cloneable, MouseListener
 
     protected final String couleur;
     protected final String action;
+    public static Verso verso_jouer = null; 
 
     public Verso(String couleur, String action) 
     {
@@ -220,6 +222,11 @@ public class Verso extends JLabel implements Cloneable, MouseListener
         this.setIcon(image);      
     }
 
+    public void supprimerDuPlateau(Plateau plateau)
+    {
+        plateau.remove(this);
+    }
+
     public boolean equals(Verso v)
     {
         if((this.couleur == v.couleur) && (this.action == v.action))
@@ -248,15 +255,22 @@ public class Verso extends JLabel implements Cloneable, MouseListener
     @Override
     public void mousePressed(MouseEvent e) {
         // TODO Auto-generated method stub
-        this.afficherCaracteristiques();
+        //this.afficherCaracteristiques();
+        if(Jeu.action==1)
+        {
+            int option =JOptionPane.showConfirmDialog(null, "Voulez-vous jouer cette tuile?", "Quitter", JOptionPane.YES_NO_OPTION);
+            if(option==JOptionPane.OK_OPTION)
+            {
+                Verso.verso_jouer = this;
 
-        
+            } 
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         // TODO Auto-generated method stub
-        this.afficherCaracteristiques();
+        //this.afficherCaracteristiques();
 
         
     }

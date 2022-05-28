@@ -218,24 +218,37 @@ public class P_Joueur extends JLabel implements MouseListener
                     {
                         if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )            
                         {
-                            hexagoneArrivee.ajoutePionJoueur(this);
-                            this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
-                            deplacement= true;
-                            if ( hexagoneArrivee.getTuile() == null)
-                                this.est_nageur = true;
+                            if(hexagoneArrivee.getTuile() != null && Jeu.action==1)
+                            {
+                                hexagoneArrivee.ajoutePionJoueur(this);
+                                this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
+                                deplacement= true;
+                                if ( hexagoneArrivee.getTuile() == null)
+                                    this.est_nageur = true;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Explorateur : Deplacement de 2 cases impossible vers une case de mer, Allez d'abord dans l'eau", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                         else
                         {
                             if(this.joueur.getNombre_deplacement()>2)
                             {
-                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 4 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
+                                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 3 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
                                 {
-                                    hexagoneArrivee.ajoutePionJoueur(this);
-                                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
-                                    deplacement= true;
-                                    if ( hexagoneArrivee.getTuile() == null)
-                                        this.est_nageur = true;
-        
+                                    if(hexagoneArrivee.getTuile() != null || Jeu.action==1)
+                                    {
+                                        hexagoneArrivee.ajoutePionJoueur(this);
+                                        this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);
+                                        deplacement= true;
+                                        if ( hexagoneArrivee.getTuile() == null)
+                                            this.est_nageur = true;
+                                    }
+                                    else
+                                    {
+                                        JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Explorateur : Deplacement de 3 cases impossible vers une case de mer, Allez d'abord dans l'eau", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                                    }
                                 }
                                 else
                                 {
@@ -296,29 +309,91 @@ public class P_Joueur extends JLabel implements MouseListener
 
         return deplacement ;
     }
+
+    public boolean deplacerPionJoueurVersBateau(Bateau bateau)
+    {
+        boolean deplacement = false;
+
+        int i =0;
+        if (bateau.getListe_pionJoueur() != null)
+        {
+            for(P_Joueur Pj : bateau.getListe_pionJoueur())
+            {
+                if( Pj != null)
+                 i +=   1 ;
+            }
+             
+        }
+        if(i <3)
+        { 
+            if(this.bateau != null)
+            {
+                Position posD = this.bateau.getHexagone().getPosition();
+                Position posA = bateau.getHexagone().getPosition(); 
+                int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+        
+                if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))
+                {
+                    bateau.ajoutePionJoueur(this);
+                    deplacement = true;    
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Deplacement impossible", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                }  
+            }
+            else
+            {
+                if ((this.hexagone.getPosition().getNumero_ligne() == bateau.getHexagone().getPosition().getNumero_ligne()) && (this.hexagone.getPosition().getNumero_colone() == bateau.getHexagone().getPosition().getNumero_colone()))
+                {
+                    bateau.ajoutePionJoueur(this);
+                    deplacement = true;   
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Deplacement impossible", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                }  
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Bateau Plein", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+        }
+        return deplacement ;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e)
     {  
-        P_Joueur.pionJoueur_mouse_clicked = this;
-        P_Joueur.mouse_cliked = true;
-        
+        if(Jeu.action==1 || Jeu.action==2 || Jeu.premier_placement)
+        {
+            P_Joueur.pionJoueur_mouse_clicked = this;
+            P_Joueur.mouse_cliked = true;
+            
 
-        // Si le joueur n'est pas encore sur le plateau
-        if(this.hexagone==null && this.bateau==null)
-        {
-            Jeu.premier_placement = true;
-        }
-        // Si le pion joeur se trouve sur le plateau
-        else if(this.bateau!=null)
-        {
-            System.out.println("je demande a descendre");
-            P_Joueur.descendre_bateau = true;
-        }
-        // Si le pion joueur veux monter sur un bateau
-        else
-        {
-            System.out.println("je veux monter sur un bateau ou me deplacer");
-            Bateau.mouse_clicked_destination = true;
+            // Si le joueur n'est pas encore sur le plateau
+            if(this.hexagone==null && this.bateau==null)
+            {
+                Jeu.premier_placement = true;
+            }
+            // Si le pion joeur se trouve sur le plateau et sur un bateeau
+            else if(this.bateau!=null)
+            {
+                System.out.println("je demande a descendre");
+                P_Joueur.descendre_bateau = true;
+
+                Bateau.mouse_clicked_origin = false;
+                Bateau.bateau_mouse_clicked = null;
+            }
+            // Si le pion joueur veux monter sur un bateau
+            else if(Jeu.action==2)
+            {
+                System.out.println("je veux monter sur un bateau ou me deplacer");
+                Bateau.mouse_clicked_destination = true;
+
+                Bateau.mouse_clicked_origin = false;
+                Bateau.bateau_mouse_clicked = null;
+            }
         }
     }
 

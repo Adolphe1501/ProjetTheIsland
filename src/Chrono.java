@@ -12,26 +12,22 @@ public class Chrono implements Runnable
     @Override
     public void run() 
     {
-        while(true)
+        while(!this.jeu.getRejouer())
         {
 
             jeu.actualiser();
           
-           if(Jeu.compteur==3)
+           if(Jeu.compteur==4)
             {
-                System.out.println("jai fini");
+                System.out.println("j'arrete le chrono");
                 Jeu.timer.stop();
                 Jeu.compteur = 0;
-                if(Plateau.hexagone_dectruction_tuile.getTuile()!=null)
-                {
-                    Plateau.hexagone_dectruction_tuile.getTuile().effetImmediatVerso();
 
-                }
-                Plateau.hexagone_dectruction_tuile.setTuile(null);
-                Plateau.hexagone_dectruction_tuile = null;
                 Jeu.compteur_en_cours = false;
+                Plateau.hexagone_dectruction_tuile = null;
                 jeu.actualiser();
             }
+
 
             if(Jeu.index_joueur<Jeu.list_joueur.size())
             {

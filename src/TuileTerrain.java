@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 
@@ -16,15 +17,18 @@ public abstract class TuileTerrain extends JLabel
     protected final String id;
     public Hexagone hexagone;
 
+
     public TuileTerrain(Verso verso, String id) 
     {
         this.verso = verso;
         this.hexagone = null;
         this.id = id;
+
     }
 
 
     // **************************************    Methodes   *********************************************** //
+
 
     // Initialisation Tuiles
     public static TuileTerrain[] initTuileTerrains()
@@ -188,6 +192,13 @@ public abstract class TuileTerrain extends JLabel
                 System.out.println("je rentre");
                 i = this.hexagone.getPosition().getNumero_ligne();
                 j = this.hexagone.getPosition().getNumero_colone();
+
+                Plateau.map[i][j].supprimerListePJoueurDuPlateau();
+                Plateau.map[i][j].supprimerListeAnimalDeMerDuPlateau();
+                Plateau.map[i][j].supprimerBateauDuPlateau();
+                Plateau.map[i][j].supprimerListeAnimalDeMer();
+                Plateau.map[i][j].supprimerListePJoueur();
+                Plateau.map[i][j].suprimerBateau();
                 if(Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null)
                 {
                     System.out.println("1");
@@ -281,36 +292,109 @@ public abstract class TuileTerrain extends JLabel
                 if(!Jeu.list_Bateau.isEmpty())
                 {
                     System.out.println("Action bateau");
-                    this.getHexagone().ajouterBateau(Jeu.list_Bateau.get(0));
                     
-                    if(!this.getHexagone().getListe_joueur().isEmpty())
-                    {  
-                        for(int l=0; l<3; l++)
+                    for(int l=0; l<3; l++)
+                    {
+                        if(!this.getHexagone().getListe_joueur().isEmpty())
                         {
-                            if(l<this.getHexagone().getListe_joueur().size())
-                            {
-                                Jeu.list_Bateau.get(0).ajoutePionJoueur(this.getHexagone().getListe_joueur().get(l));
-                                this.getHexagone().supprimePionjoueur(this.getHexagone().getListe_joueur().get(l));
-                            }
+                            Jeu.list_Bateau.get(0).ajoutePionJoueur(this.getHexagone().getListe_joueur().get(0));
                         }
-                    }   
+                    }
+                    this.getHexagone().ajouterBateau(Jeu.list_Bateau.get(0));
                     Jeu.list_Bateau.remove(0);
                }
             }
             else if(this.getVerso().action.equals("requin") && !Jeu.list_requin.isEmpty())
             {
                 this.getHexagone().ajouterAnimalDeMer(Jeu.list_requin.get(0));
+                Jeu.list_requin.get(0).attaquer();
                 Jeu.list_requin.remove(0);
             }
             else if(this.getVerso().action.equals("baleine") && !Jeu.list_baleine.isEmpty())
             {
-                this.getHexagone().ajouterAnimalDeMer(Jeu.list_baleine.get(0));
+                if(this.getHexagone().verifieHexagonePlein())
+                {
+                    JOptionPane.showMessageDialog(this, "Hexagone Plein, Baleine mis en reserve", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+                    this.getHexagone().getListe_animaux_reserve().add(Jeu.list_baleine.get(0));
+                }
+                else
+                {
+                    this.getHexagone().ajouterAnimalDeMer(Jeu.list_baleine.get(0));
+                    Jeu.list_baleine.get(0).attaquer();
+                }
+               
                 Jeu.list_baleine.remove(0);
             }
         }
     }
   
 
+    // verification retirer une tuile
+    public static boolean verifierRetirerTuileTerrain( Hexagone Hex )
+    {
+        boolean retirer =false;
+        int nombreP =0, nombreF = 0;
+
+        if (Hex.getTuile() != null)
+        {
+            for(int i =3; i<10; i++ )
+            {
+                for(int j = 2; j<10 ; j++)
+                {
+                    if ( Plateau.map[i][j] != null)
+                    {
+                        if( Plateau.map[i][j].getTuile() instanceof Plage)
+                        {
+                            if((Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null) || (Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null) || (Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null) || (Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null) || (i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null) || (i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null))
+                            {
+                                nombreP += 1 ;
+                            }
+                            
+                        }
+                        else if(Plateau.map[i][j].getTuile() instanceof Foret)
+                        {
+                            if((Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null) || (Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null) || (Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null) || (Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null) || (i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null) || (i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null))
+                            {
+                                nombreF += 1;
+                            }    
+                        }
+                    }
+                }
+            }
+
+            int i = Hex.getPosition().getNumero_ligne();
+            int j = Hex.getPosition().getNumero_colone();
+
+            if ( Hex.getTuile() instanceof Plage)
+            {
+                if((Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null) || (Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null) || (Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null) || (Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null) || (i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null) || (i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null))
+                {   
+                    retirer = true;
+                }
+            }
+            else
+            {
+                if ( Hex.getTuile() instanceof Foret && nombreP == 0)
+                {
+                    if((Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null) || (Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null) || (Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null) || (Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null) || (i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null) || (i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null))
+                    {
+                        retirer = true;
+                    }
+                }
+                else
+                {
+                    if(Hex.getTuile() instanceof Montagne && nombreP == 0 && nombreF == 0)
+                    {
+                        if((Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null) || (Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null) || (Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null) || (Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null) || (i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null) || (i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null) || (i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null))
+                        {
+                            retirer = true;
+                        }
+                    }
+                }
+            }
+        }
+        return retirer;
+    }
 
 
     public abstract void afficherCaracteristiques();
@@ -339,4 +423,7 @@ public abstract class TuileTerrain extends JLabel
     public void setHexagone(Hexagone hexagone) {
         this.hexagone = hexagone;
     }
+
+   
+
 }

@@ -20,6 +20,68 @@ public class Joueur
         this.nombre_deplacement = 10;
     }
 
+
+
+    public  boolean estMajoritaireSurBateau(Bateau bateau)
+    {
+        int nombre = 0, different = 0;
+        String pseud = null;
+        for(int i=0; i<bateau.getListe_pionJoueur().size(); i++)
+        {
+            if(bateau.getListe_pionJoueur().get(i).joueur.pseudo.equals(this.pseudo))
+            {
+                nombre++;
+            }
+            else
+            {
+                pseud = bateau.getListe_pionJoueur().get(i).joueur.pseudo;
+                different++;
+            }
+        }
+
+        if(different==2)
+        {
+            for(int i=0; i<bateau.getListe_pionJoueur().size(); i++)
+            {
+                if(pseud!=null && pseud.equals(bateau.getListe_pionJoueur().get(i).joueur.pseudo) && !bateau.getListe_pionJoueur().get(i).joueur.pseudo.equals(this.pseudo))
+                {
+                    different++;
+                }
+            }
+        }
+        
+        if(nombre >= 2)
+        {
+            System.out.println("Majoritaire 1");
+            return true;
+        }
+        else
+        {
+            if(bateau.getListe_pionJoueur().size()<=2 && nombre==1)
+            {
+                System.out.println("Majoritaire 2");
+                return true;
+            }
+            else
+            {
+                System.out.println("NON Majoritaire");
+                return false;
+            }
+        }
+    }
+
+    public void supprimerTuileReserve(Verso verso)
+    {
+        for(int i=0; i<this.list_Treserve.size(); i++)
+        {
+            if(this.list_Treserve.get(i).getVerso().getAction().equals(verso.action) && this.list_Treserve.get(i).getVerso().getCouleur().equals(verso.couleur))
+            {
+                this.list_Treserve.get(i).getVerso().supprimerDuPlateau(this.list_Treserve.get(i).getHexagone().getPlateau());
+                this.list_Treserve.remove(i);
+            }
+        }
+    }
+
     // **************************************    Getters   *********************************************** //
 
     public String getPseudo() 

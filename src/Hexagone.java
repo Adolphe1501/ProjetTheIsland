@@ -12,6 +12,7 @@ public class Hexagone extends Polygon
     private Bateau bateau;
     private List<P_Joueur> liste_joueur;
     private List<AnimalDeMer> liste_animaux;
+    private List<AnimalDeMer> liste_animaux_reserve;
     private List<Baleine> liste_baleine;
     private List<Requin> liste_requin;
     private List<Serpent> liste_serpent;
@@ -31,6 +32,7 @@ public class Hexagone extends Polygon
         this.position = position;
         this.plateau = plateau;
         this.liste_animaux = new ArrayList<AnimalDeMer>();
+        this.liste_animaux_reserve = new ArrayList<AnimalDeMer>();
         this.liste_baleine = new ArrayList<Baleine>();
         this.liste_requin = new ArrayList<Requin>();
         this.liste_serpent = new ArrayList<Serpent>();
@@ -221,6 +223,8 @@ public class Hexagone extends Polygon
                     }
 
                     this.liste_animaux.get(i).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
+                    this.liste_animaux.get(i).attaquer();
+
                 }
             }
 
@@ -273,6 +277,8 @@ public class Hexagone extends Polygon
                         x = rect.getX() + 5 + (l*35);
                     }
                     this.liste_animaux.get(l).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
+                    this.liste_animaux.get(l).attaquer();
+
                     l++;
                 }
             }
@@ -321,6 +327,7 @@ public class Hexagone extends Polygon
                 }
 
                 this.liste_animaux.get(i).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
+                this.liste_animaux.get(i).attaquer();
             }
         }
     }
@@ -420,6 +427,7 @@ public class Hexagone extends Polygon
     }
 
 
+
     // Ajoute un pion joueur dans l'hexagone
     public void ajoutePionJoueur(P_Joueur pionJoueur)
     {
@@ -440,6 +448,7 @@ public class Hexagone extends Polygon
             {
                 this.liste_joueur.get(i).setHexagone(null);
                 this.liste_joueur.remove(i);
+                ajouterAnimalReserve();
             }
         }
     }
@@ -481,10 +490,6 @@ public class Hexagone extends Polygon
         this.liste_animaux.remove(animal);
         animal.setHexagone(null);
     }
-    public void detruire_bateau() 
-    {
-        // TODO implement here
-    }
   
     public void sortir_joueur() 
     {
@@ -508,10 +513,7 @@ public class Hexagone extends Polygon
 
     public void supprimerListePJoueur()
     {
-        for(int i=0; i<this.liste_joueur.size(); i++)
-        {
-           this.supprimePionjoueur(this.liste_joueur.get(i));
-        }
+        this.liste_joueur.clear();
     }
     public void supprimerListePJoueurDuPlateau()
     {
@@ -542,7 +544,45 @@ public class Hexagone extends Polygon
         }
     }
 
-    
+    public boolean verifieHexagonePlein()
+    {
+        int nombre = this.liste_animaux.size() + this.liste_joueur.size();
+        System.out.println("nombre ***" + nombre);
+        if(this.bateau==null)
+        {
+            System.out.println("nombre " + nombre);
+            if(nombre==6)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if(nombre == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public void ajouterAnimalReserve()
+    {
+        if(!this.liste_animaux_reserve.isEmpty())
+        {
+           this.ajouterAnimalDeMer(this.liste_animaux_reserve.get(0));
+
+           this.liste_animaux_reserve.remove(0);
+        }
+    }
+
     // **************************************    Setters   *********************************************** //
 
     public void setListe_joueur(List<P_Joueur> liste_joueur) 
@@ -621,12 +661,14 @@ public class Hexagone extends Polygon
         return liste_joueur;
     }
 
-
-
     public Plateau getPlateau() {
         return plateau;
     }
 
+    public List<AnimalDeMer> getListe_animaux_reserve()
+    {
+        return liste_animaux_reserve;
+    }
 
 
     public void setPlateau(Plateau plateau) {

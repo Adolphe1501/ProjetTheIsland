@@ -20,6 +20,7 @@ public class ZoneTuileEtPionJoueur extends JPanel
         super();
         index_courant = Jeu.index_joueur;
         this.setBackground(Color.ORANGE);    
+        this.setLayout(new GridBagLayout());
         
         affichePionJoueurNonPlace();
     }
@@ -30,11 +31,10 @@ public class ZoneTuileEtPionJoueur extends JPanel
     {
         if(Jeu.joueur!=null && Jeu.joueur.getList_pion()!=null)
         {
+
             this.removeAll();
 
             List <P_Joueur> list_pionJoueur_temp = Jeu.joueur.getList_pion();
-    
-            this.setLayout(new GridBagLayout());
 
             GridBagConstraints c = new GridBagConstraints(); 
             c.insets = new Insets(5, 1, 10, 1);
@@ -74,8 +74,6 @@ public class ZoneTuileEtPionJoueur extends JPanel
 
         int k = 0, j=0, w=70, h=60;
         List <TuileTerrain> list_tuile_temp = Jeu.joueur.getList_Treserve();
-
-        this.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints(); 
         c.insets = new Insets(5, 3, 5, 30);

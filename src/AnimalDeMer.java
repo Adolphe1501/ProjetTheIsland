@@ -24,6 +24,8 @@ public abstract class AnimalDeMer extends JLabel implements MouseListener
         this.vitesse = 1;
         this.hexagone = null;
 
+        attaquer();
+
         this.addMouseListener(this);
     }
 
@@ -64,7 +66,7 @@ public abstract class AnimalDeMer extends JLabel implements MouseListener
     public abstract void attaquer();
 
 
-    public abstract void deplacer();
+    public abstract boolean deplacer(Hexagone hexagoneDepart, Hexagone hexagoneArrivee);
 
     public String getId() {
         return id;

@@ -1,10 +1,12 @@
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Requin extends AnimalDeMer implements MouseListener
+import javax.swing.JOptionPane;
+
+public class Requin extends AnimalDeMer
 {
+
 
     public Requin(String id_requin) 
     {
@@ -31,14 +33,47 @@ public class Requin extends AnimalDeMer implements MouseListener
     @Override
     public void attaquer() 
     {
-        // TODO Auto-generated method stub
-        
+        if (this.hexagone!= null) 
+        {
+            if (this.hexagone.getListe_joueur() != null) 
+            {
+                this.hexagone.supprimerListePJoueurDuPlateau();
+                this.hexagone.getListe_joueur().clear();
+            }
+        }        
     }
     @Override
-    public void deplacer() 
+    public boolean deplacer(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)
     {
-        // TODO Auto-generated method stub
-        
+        boolean effectuer = false;
+
+        if( hexagoneArrivee.getTuile() == null)
+        {
+            Position posD = hexagoneDepart.getPosition();
+            Position posA = hexagoneArrivee.getPosition(); 
+            int x = posA.getNumero_ligne() - posD.getNumero_ligne(), y = posA.getNumero_colone() - posD.getNumero_colone();
+    
+            if ((((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))  ||  (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))) )            
+            {
+                /*
+                if(!hexagoneArrivee.getListe_joueur().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Requin : Fin deplacement, Pion(s) joueur(s) rencontré", "Erreur Deplacement", JOptionPane.INFORMATION_MESSAGE);
+                }
+                */
+                effectuer =true;
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Requin : Deplacement 1 a 2 case de mer", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Desoler Deplacement uniquement en mer", "Erreur Deplacement", JOptionPane.ERROR_MESSAGE);
+        }
+        return effectuer;
+
     }
 
     @Override
@@ -50,7 +85,10 @@ public class Requin extends AnimalDeMer implements MouseListener
     @Override
     public void mousePressed(MouseEvent e) 
     {
-        AnimalDeMer.animal_mouse_clicked = this;
+        if(Jeu.action==1 || Jeu.action==4)
+        {
+            AnimalDeMer.animal_mouse_clicked = this;
+        }
     }
 
     @Override
