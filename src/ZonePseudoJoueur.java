@@ -72,11 +72,11 @@ public class ZonePseudoJoueur extends JPanel
                 if(this.liste_joueur.get(i).getPseudo().equals(Jeu.joueur.getPseudo()))
                 {
                     pseudoJoueur_label.get(i).setBackground(new Color(30,144,255));
-                    pseudoJoueur_label.get(i).setOpaque(true);
+                    pseudoJoueur_label.get(i).setOpaque(false);
                 }
                 else
                 {
-                    pseudoJoueur_label.get(i).setOpaque(false);
+                    pseudoJoueur_label.get(i).setOpaque(true);
                 }   
             }
         }

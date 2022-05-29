@@ -65,6 +65,8 @@ public abstract class AnimalDeMer extends JLabel implements MouseListener
    
     public abstract void attaquer();
 
+    public abstract boolean attaquerEtJouerTuile();
+
 
     public abstract boolean deplacer(Hexagone hexagoneDepart, Hexagone hexagoneArrivee);
 

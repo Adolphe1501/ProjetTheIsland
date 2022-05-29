@@ -1,15 +1,12 @@
-import javax.swing.JPanel;
-//import javax.swing.Timer;
-import java.util.Timer;
-
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+//import javax.swing.Timer;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 
 
@@ -47,6 +44,7 @@ public class Jeu extends JPanel implements Runnable
 */
     public static Joueur joueur;
     public static List<Joueur> list_joueur = new ArrayList<Joueur>();
+    public static List<P_Joueur> list_pionJoueur_sortie;
     public static int index_joueur = 0;
     public static int nombre_joueur;
     public static int action;
@@ -75,6 +73,10 @@ public class Jeu extends JPanel implements Runnable
     private Thread chronoEcran;
 
     private App app;
+    private ZonePseudoJoueur zone_pseudo;
+    private ZoneTuileEtPionJoueur zone_tuile_et_pion;
+    private ZoneMenu zone_menu;
+    private ZoneDe zone_de;
 
     private boolean rejouer;
 
@@ -101,9 +103,25 @@ public class Jeu extends JPanel implements Runnable
         this.plateau.setBounds(0, 0, 1070, 700);
         this.add(this.plateau);
 
+        this.zone_menu = new ZoneMenu(this);
+        this.zone_menu.setBounds(1070, 0,360, 70);
+        this.add(this.zone_menu);
+
+        this.zone_pseudo = new ZonePseudoJoueur(Jeu.list_joueur);
+        this.zone_pseudo.setBounds(1070, 70,360, 80);
+        this.add(this.zone_pseudo);
+
         this.zone_joueur = new ZoneJoueur(this);
-        this.zone_joueur.setBounds(1070, 0, 360, 820);
+        this.zone_joueur.setBounds(1070, 150, 360, 50);
         this.add(this.zone_joueur);
+
+        this.zone_tuile_et_pion = new ZoneTuileEtPionJoueur();
+        this.zone_tuile_et_pion.setBounds(1070, 200,360, 450);
+        this.add(this.zone_tuile_et_pion);
+
+        this.zone_de = new ZoneDe(this);
+        this.zone_de.setBounds(1070, 650,360, 150);
+        this.add(this.zone_de);
 
         this.zone_pion = new ZonePion();
         this.zone_pion.setBounds(0, 700, 1050, 120);
@@ -180,15 +198,16 @@ public class Jeu extends JPanel implements Runnable
         joueur1.setList_pion(temp1);
         joueur2.setList_pion(temp2);
        
-        Jeu.joueur =Jeu.list_joueur.get(0);
+        Jeu.joueur = Jeu.list_joueur.get(0);
+        Jeu.list_pionJoueur_sortie = new ArrayList<>();
     }
     
 
     public void jouer(Position pos)
     {
         if(Jeu.premier_placement)
-    
         {
+            //placementAutomatiquePionJoueur();
             premier_placement(Jeu.joueur, pos);
             actualiser();
         }
@@ -198,15 +217,7 @@ public class Jeu extends JPanel implements Runnable
             {
                 if(Jeu.joueur!=null && !Jeu.joueur.list_Treserve.isEmpty())
                 {
-                    int option =JOptionPane.showConfirmDialog(null, "Voulez-vous uiliser vos tuiles ?", "Rejouer", JOptionPane.YES_NO_OPTION);
-                    if(option!=JOptionPane.OK_OPTION)
-                    {
-                        action = 2;
-                    }
-                    else
-                    {
-                        actionJouerTuile(Jeu.joueur, pos);
-                    }
+                    actionJouerTuile(Jeu.joueur, pos);
                 }
                 else
                 {
@@ -230,6 +241,7 @@ public class Jeu extends JPanel implements Runnable
         Bateau.mouse_clicked_origin = false;
         Bateau.mouse_clicked_destination = false;
         P_Joueur.mouse_cliked = false;
+        P_Joueur.descendre_bateau = false;
         Bateau.bateau_mouse_clicked = null;
         P_Joueur.pionJoueur_mouse_clicked = null;
         AnimalDeMer.animal_mouse_clicked = null;
@@ -245,7 +257,6 @@ public class Jeu extends JPanel implements Runnable
             {
                 Jeu.nextJoueur();
                 Jeu.nombre_placement_joueur += 1; 
-                System.out.println("nombre de placement " + Jeu.nombre_placement_joueur);
             }
             else
             {
@@ -258,7 +269,6 @@ public class Jeu extends JPanel implements Runnable
             if(Bateau.bateau_mouse_clicked.placer_bateau(Jeu.list_Bateau, Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()]))
             {   
                 Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajouterBateau(Bateau.bateau_mouse_clicked);
-                System.out.println("bateau deposer");
                 Jeu.nombre_placement_bateau += 1;
                 Jeu.nextJoueur();
             }
@@ -426,8 +436,6 @@ public class Jeu extends JPanel implements Runnable
             {
                 System.out.println("Avant deplacement : " + Jeu.joueur.getNombre_deplacement());
                 Bateau.bateau_mouse_clicked.deplacerPionBateau(Jeu.joueur, Bateau.bateau_mouse_clicked.getHexagone(), Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()]);
-                //Bateau.bateau_mouse_clicked.getHexagone().suprimerBateau();
-                //Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajouterBateau(Bateau.bateau_mouse_clicked);
                 System.out.println("apres deplacement : " + Jeu.joueur.getNombre_deplacement());
 
             }
@@ -439,6 +447,7 @@ public class Jeu extends JPanel implements Runnable
                 @Override
                 public void run() {
                     Jeu.action=3;
+                    System.out.println("Fin action pionJoeur ou bateau");
                 }
                 
             }, 1000);
@@ -450,11 +459,9 @@ public class Jeu extends JPanel implements Runnable
         if(!Jeu.compteur_en_cours)
         {
             Plateau.hexagone_dectruction_tuile = Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()];
-            System.out.println("je detuis");
-            if(Plateau.hexagone_dectruction_tuile!=null) //&& TuileTerrain.verifierRetirerTuileTerrain(Plateau.hexagone_dectruction_tuile))
-            {
 
-                System.out.println("je detuis***");
+            if(Plateau.hexagone_dectruction_tuile!=null && Plateau.hexagone_dectruction_tuile.getTuile()!=null) //&& TuileTerrain.verifierRetirerTuileTerrain(Plateau.hexagone_dectruction_tuile))
+            {
                 Plateau.hexagone_dectruction_tuile.setDetruire_tuile(true);
                
                 if(Plateau.hexagone_dectruction_tuile.getTuile()!=null)
@@ -476,9 +483,10 @@ public class Jeu extends JPanel implements Runnable
 
                     @Override
                     public void run() {
+
                         Plateau.hexagone_dectruction_tuile.getTuile().effetImmediatVerso();
                         Plateau.hexagone_dectruction_tuile.setTuile(null);
-                        System.out.println("Jai fini");
+                        System.out.println("fin action jouer tuile ");
                         Plateau.hexagone_dectruction_tuile = null;
                         Jeu.compteur_en_cours = false;
                         Jeu.action=4;
@@ -496,7 +504,16 @@ public class Jeu extends JPanel implements Runnable
         {
             System.out.println("jouer de ");
             Plateau.map[pos.getNumero_ligne()][pos.getNumero_colone()].ajouterAnimalDeMer(AnimalDeMer.animal_mouse_clicked);
-            AnimalDeMer.animal_mouse_clicked.attaquer();
+            AnimalDeMer.animal_mouse_clicked.attaquerEtJouerTuile();
+
+            try 
+            {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) 
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
             Jeu.nextJoueur();
         }
@@ -507,18 +524,25 @@ public class Jeu extends JPanel implements Runnable
         {
             Jeu.joueur.list_pion_jouer.clear();
             Jeu.joueur.setNombre_deplacement(3);
-            Jeu.action = 1;
         }
-       
-        /*
-        Jeu.index_joueur ++;
-        if(Jeu.index_joueur==Jeu.nombre_joueur)
-        {
-            Jeu.index_joueur = 0;
-        }
-        */
         Jeu.index_joueur = (Jeu.index_joueur+1)%Jeu.nombre_joueur;
         Jeu.joueur = Jeu.list_joueur.get(Jeu.index_joueur);
+        if(!Jeu.joueur.getList_Treserve().isEmpty())
+        {
+            int option =JOptionPane.showConfirmDialog(null, "Voulez-vous uiliser vos tuiles ?", "Rejouer", JOptionPane.YES_NO_OPTION);
+            if(option!=JOptionPane.OK_OPTION)
+            {
+                Jeu.action = 2;
+            }
+            else
+            {
+                Jeu.action = 1;
+            }
+        }
+        else
+        {
+            Jeu.action = 2;
+        }
     }
 
     public void finPremierPlacement(Position pos)
@@ -582,8 +606,70 @@ public class Jeu extends JPanel implements Runnable
     {
         this.revalidate();
         this.zone_joueur.repaint();
+    
+        zone_de.repaint();
+        zone_tuile_et_pion.repaint();
+        zone_pseudo.repaint();
+
         this.zone_pion.repaint();
         this.plateau.repaint();
+    }
+
+    public void placementAutomatiquePionJoueur()
+    {
+        List<P_Joueur> list_temp = new ArrayList<>();
+        Random rand = new Random();
+
+
+        if(!Jeu.list_joueur.isEmpty())
+        {
+            for(int i=0; i<Jeu.list_joueur.size(); i++)
+            {
+                for(int j=0; j<Jeu.list_joueur.get(i).list_pion.size(); j++)
+                {
+                    list_temp.add(Jeu.list_joueur.get(i).list_pion.get(j));
+                }
+                while(!list_temp.isEmpty())
+                {
+                    boolean placer = false;
+
+                    while(placer == false)
+                    {
+                        int nombre_aleatoire_ligne = 3 + rand.nextInt(7);
+                        int nombre_aleatoire_colonne = 2 + rand.nextInt(8);
+
+                        if(Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne]!=null && Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne].getTuile()!=null && Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne].getListe_joueur().isEmpty())
+                        {
+                            Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne].ajoutePionJoueur(list_temp.get(0));
+                            list_temp.remove(0);
+                            placer = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(!Jeu.list_Bateau.isEmpty())
+        {
+            for(int i=0; i<Jeu.nombre_joueur*2; i++)
+            {
+                boolean placer = false;
+    
+                while(!placer)
+                {
+                    int nombre_aleatoire_ligne = rand.nextInt(Plateau.nombre_ligne);
+                    int nombre_aleatoire_colonne = rand.nextInt(Plateau.nombre_colonne);
+
+                    Bateau bat = Jeu.list_Bateau.get(i);
+    
+                    if(Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne]!=null && Jeu.list_Bateau.get(i).placer_bateau(Jeu.list_Bateau, Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne]))
+                    {
+                        Plateau.map[nombre_aleatoire_ligne][nombre_aleatoire_colonne].ajouterBateau(bat);
+                        placer = true;
+                    }
+                }
+            }
+        }
     }
     // **************************************    Setters   *********************************************** //
 

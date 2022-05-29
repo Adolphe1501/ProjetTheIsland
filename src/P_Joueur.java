@@ -104,16 +104,18 @@ public class P_Joueur extends JLabel implements MouseListener
     {
         if ((Jeu.joueur!= null && (this.joueur.getPseudo()==Jeu.joueur.getPseudo())  && (hexagone.getListe_joueur().size()==0) && (hexagone.getZone_ile() == true) && !hexagone.getCentrePlateau())) 
         {
-            System.out.println("ca marche !!!");
+            //System.out.println("ca marche !!!");
             hexagone.ajoutePionJoueur(this);
             return true;
         }
         else
         { 
+            /*
             System.out.println("ca marche pas !!!");
             System.out.println("Pseudo : " + this.joueur.getPseudo() + " = " + Jeu.joueur.getPseudo());
             System.out.println("Taille : " + hexagone.getListe_joueur().size());
             System.out.println("Zone ile : " + hexagone.getZone_ile());
+            */
             return false;
         }
     }
@@ -342,6 +344,7 @@ public class P_Joueur extends JLabel implements MouseListener
                 if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))
                 {
                     bateau.ajoutePionJoueur(this);
+                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement()-1);
                     deplacement = true;    
                 }
                 else
@@ -354,6 +357,7 @@ public class P_Joueur extends JLabel implements MouseListener
                 if ((this.hexagone.getPosition().getNumero_ligne() == bateau.getHexagone().getPosition().getNumero_ligne()) && (this.hexagone.getPosition().getNumero_colone() == bateau.getHexagone().getPosition().getNumero_colone()))
                 {
                     bateau.ajoutePionJoueur(this);
+                    this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement()-1);
                     deplacement = true;   
                 }
                 else

@@ -30,6 +30,8 @@ public class Requin extends AnimalDeMer
 
         return list;
     }
+
+
     @Override
     public void attaquer() 
     {
@@ -41,6 +43,66 @@ public class Requin extends AnimalDeMer
                 this.hexagone.getListe_joueur().clear();
             }
         }        
+    }
+
+    @Override
+    public boolean attaquerEtJouerTuile() 
+    {
+        int refus = 0;
+        if (this.hexagone!= null) 
+        {
+            if (!this.hexagone.getListe_joueur().isEmpty()) 
+            {
+                if(Jeu.action==4)
+                {
+                    for(int i=0;i<Jeu.list_joueur.size();i++)
+                    {
+                        if(!Jeu.list_joueur.get(i).list_Treserve.isEmpty())
+                        {
+                            for(int k=0; k<this.hexagone.getListe_joueur().size(); k++)
+                            {
+                                if(this.hexagone.getListe_joueur().get(k).joueur.getPseudo().equals(Jeu.list_joueur.get(i).getPseudo()))
+                                {
+                                    for(int j=0; j<Jeu.list_joueur.get(i).list_Treserve.size(); j++)
+                                    {
+                                        if(Jeu.list_joueur.get(i).list_Treserve.get(j).verso.action.equals("requin_barre"))
+                                        {
+                                            int option =JOptionPane.showConfirmDialog(this.hexagone.getPlateau().getJeu(),Jeu.list_joueur.get(i).getPseudo()  + "Voulez-vous uiliser une tuile pour sauver votre pion?", "Jouer tuile", JOptionPane.YES_NO_OPTION);
+                                            if(option==JOptionPane.OK_OPTION)
+                                            {
+                                                this.suprimerDuPlateau(this.hexagone.getPlateau());
+                                                this.hexagone.supprimerAnimalDeMer(this);
+                                                Jeu.list_joueur.get(i).list_Treserve.remove(j);
+                                                return true;
+                                            }
+                                            else
+                                            {
+                                              //  this.hexagone.supprimerListePJoueurDuPlateau();
+                                                //this.hexagone.getListe_joueur().clear();
+                                                //return true;
+                                                refus++;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        
+                    }
+                    this.hexagone.supprimerListePJoueurDuPlateau();
+                    this.hexagone.getListe_joueur().clear();
+                    
+                }
+                else
+                {
+                    this.hexagone.supprimerListePJoueurDuPlateau();
+                    this.hexagone.getListe_joueur().clear();
+                }
+                
+            }
+        }        
+
+        return true;
     }
     @Override
     public boolean deplacer(Hexagone hexagoneDepart, Hexagone hexagoneArrivee)

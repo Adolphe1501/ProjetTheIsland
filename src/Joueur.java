@@ -17,7 +17,7 @@ public class Joueur
         this.list_pion = list_pion;
         this.list_Treserve = new ArrayList<TuileTerrain>();
         this.list_pion_jouer = new ArrayList<P_Joueur>();
-        this.nombre_deplacement = 10;
+        this.nombre_deplacement = 3;
     }
 
 

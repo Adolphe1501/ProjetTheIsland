@@ -14,15 +14,19 @@ import javax.swing.JPanel;
 
 public class ZoneMenu extends JPanel
 {
-    private ZoneJoueur zone_joueur;
+    //private ZoneJoueur zone_joueur;
+    private Jeu jeu;
     private JButton bt_nouveau;
     private JButton bt_rejouer;
     private JButton bt_quitter;
-    public ZoneMenu(ZoneJoueur zoneJoueur)
+
+
+    public ZoneMenu(Jeu jeu)//ZoneJoueur zoneJoueur)
     {
         super();
 
-        this.zone_joueur = zoneJoueur;
+        //this.zone_joueur = zoneJoueur;
+        this.jeu = jeu;
 
         constructionZoneMenu();
 
@@ -57,7 +61,8 @@ public class ZoneMenu extends JPanel
                 int option =JOptionPane.showConfirmDialog(null, "Voulez-vous rejouer ?", "Rejouer", JOptionPane.YES_NO_OPTION);
                 if(option==JOptionPane.OK_OPTION)
                 {
-                    zone_joueur.getJeu().constructionJeu();
+                    jeu.constructionJeu();
+                    //zone_joueur.getJeu().constructionJeu();
                 }
             }
         });
@@ -77,8 +82,8 @@ public class ZoneMenu extends JPanel
                 int option =JOptionPane.showConfirmDialog(null, "Voulez-vous quitter The Island ?", "Quitter", JOptionPane.YES_NO_OPTION);
                 if(option==JOptionPane.OK_OPTION)
                 {
-                    zone_joueur.getJeu().setRejouer(false);
-                    zone_joueur.getJeu().getApp().dispose();
+                    jeu.setRejouer(false);
+                    //zone_joueur.getJeu().getApp().dispose();
                     System.exit(0);
                 }
                 

@@ -146,15 +146,21 @@ public class Bateau extends JLabel implements MouseListener
             }
             else if((j>0) && (j<Plateau.nombre_colonne-1) && (i>0) && (i<Plateau.nombre_ligne-1))
             {
-                if(i%2==0 && ((Plateau.map[i+1][j+1]!=null) &&(Plateau.map[i+1][j+1].getTuile()!=null) || ((Plateau.map[i-1][j+1]!=null) &&Plateau.map[i-1][j+1].getTuile()!=null)))
+                if(i%2==0)
                 {
-                    this.RemoveBateau(bateaux);
-                    possible = true;
+                    if(((Plateau.map[i+1][j+1]!=null) &&(Plateau.map[i+1][j+1].getTuile()!=null) || ((Plateau.map[i-1][j+1]!=null) &&Plateau.map[i-1][j+1].getTuile()!=null)))
+                    {
+                        this.RemoveBateau(bateaux);
+                        possible = true;
+                    }
                 }
-                else if(i%2!=0 && ((Plateau.map[i+1][j-1]!=null) && (Plateau.map[i+1][j-1].getTuile()!=null)) || ((Plateau.map[i-1][j-1]!=null) && Plateau.map[i-1][j-1].getTuile()!=null))
+                else if(i%2!=0)
                 {
-                    this.RemoveBateau(bateaux);
-                    possible = true;
+                    if(((Plateau.map[i+1][j-1]!=null) && (Plateau.map[i+1][j-1].getTuile()!=null)) || ((Plateau.map[i-1][j-1]!=null) && Plateau.map[i-1][j-1].getTuile()!=null))
+                    {
+                        this.RemoveBateau(bateaux);
+                        possible = true;
+                    }
                 }
             }
         }

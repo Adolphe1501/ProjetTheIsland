@@ -28,7 +28,7 @@ public class Baleine extends AnimalDeMer
 
         return list;
     }
-    
+
     @Override
     public void attaquer() 
     {
@@ -40,14 +40,85 @@ public class Baleine extends AnimalDeMer
 
                 for (int i = 0; i < list.size(); i++) 
                 {
-                    this.hexagone.ajoutePionJoueur(list.get(i));
                     list.get(i).setEst_nageur(true);
+
+                    this.hexagone.ajoutePionJoueur(list.get(i));
+                }
+
+                while(!list.isEmpty())
+                {
+                    list.get(0).setEst_nageur(true); 
+                    this.hexagone.ajoutePionJoueur(list.get(0));
                 }
 
                 this.hexagone.supprimerBateauDuPlateau();
                 this.hexagone.suprimerBateau();
             }
         }
+    }
+    
+    public boolean attaquerEtJouerTuile() 
+    {
+        if (this.hexagone!=null && this.hexagone.getTuile() == null) 
+        {
+            if ((this.hexagone.getBateau() != null) && !this.hexagone.getBateau().getListe_pionJoueur().isEmpty())/* action sur les bateaux */
+            {
+                if(Jeu.action==4)
+                {
+                    for(int i=0;i<Jeu.list_joueur.size();i++)
+                    {
+                        if(!Jeu.list_joueur.get(i).list_Treserve.isEmpty())
+                        {
+                            for(int j=0; j<Jeu.list_joueur.get(i).list_Treserve.size(); j++)
+                            {
+                                if(Jeu.list_joueur.get(i).list_Treserve.get(j).verso.action.equals("baleine_barre"))
+                                {
+                                    if(Jeu.list_joueur.get(i).estMajoritaireSurBateau(this.hexagone.getBateau()))
+                                    {
+                                        int option =JOptionPane.showConfirmDialog(this.hexagone.getPlateau().getJeu(),Jeu.list_joueur.get(i).getPseudo()  + " Voulez-vous uiliser une tuile pour sauver le bateau?", "Jouer tuile", JOptionPane.YES_NO_OPTION);
+                                        if(option==JOptionPane.OK_OPTION)
+                                        {
+                                            this.suprimerDuPlateau(this.hexagone.getPlateau());
+                                            this.hexagone.supprimerAnimalDeMer(this);
+                                            Jeu.list_joueur.get(i).list_Treserve.remove(j);
+                                            return true;
+                                        }
+                                        else
+                                        {
+                                            List<P_Joueur> list = this.hexagone.getBateau().getListe_pionJoueur();
+
+                                            for (int k = 0; k < list.size(); k++) 
+                                            {
+                                                this.hexagone.ajoutePionJoueur(list.get(k));
+                                                list.get(k).setEst_nageur(true);
+                                            }
+                                            this.hexagone.supprimerBateauDuPlateau();
+                                            this.hexagone.suprimerBateau();
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    List<P_Joueur> list = this.hexagone.getBateau().getListe_pionJoueur();
+
+                    for (int i = 0; i < list.size(); i++) 
+                    {
+                        this.hexagone.ajoutePionJoueur(list.get(i));
+                        list.get(i).setEst_nageur(true);
+                    }
+
+                    this.hexagone.supprimerBateauDuPlateau();
+                    this.hexagone.suprimerBateau();
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -63,12 +134,6 @@ public class Baleine extends AnimalDeMer
             
             if ((((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 3 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))  || (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 1 || y == -1)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 1 || x == -1)) || ((y == 1 || y == -1) && (x == 1 || x == -1) && !((posD.getNumero_ligne()%2==0 && y == -1 && (x== 1 || x == -1)) || (posD.getNumero_ligne()%2!=0 && y == 1 && (x== 1 || x == -1))) ))  ||  (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )  ) 
             {
-                /*
-                if(hexagoneArrivee.getBateau()!=null && !hexagoneArrivee.getBateau().getListe_pionJoueur().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(this.hexagone.getPlateau().getJeu(), "Baleine : Fin deplacement, Bateau rencontré", "Fin Deplacement", JOptionPane.INFORMATION_MESSAGE);
-                }
-                */
                 effectuer = true;
             }
             else

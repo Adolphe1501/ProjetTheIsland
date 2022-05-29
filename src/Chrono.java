@@ -22,6 +22,7 @@ public class Chrono implements Runnable
           
             try 
             {
+                System.out.println("*****");
                 double remaining_time = next_draw_time - System.nanoTime();
                 remaining_time = remaining_time/1000000;
 

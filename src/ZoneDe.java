@@ -7,11 +7,13 @@ import javax.swing.JPanel;
 public class ZoneDe extends JPanel
 {
     private De de;
-    private ZoneJoueur zoneJoueur;
-    public ZoneDe(ZoneJoueur zoneJoueur)
+    //private ZoneJoueur zoneJoueur;
+    private Jeu jeu;
+    public ZoneDe(Jeu jeu)//ZoneJoueur zoneJoueur)
     {
         super();
-        this.zoneJoueur = zoneJoueur;
+        //this.zoneJoueur = zoneJoueur;
+        this.jeu = jeu;
         //this.setBackground(new Color(70,130,180));
         this.setLayout(new FlowLayout());
         this.de = new De();
@@ -33,7 +35,7 @@ public class ZoneDe extends JPanel
     }
 
 
-    public ZoneJoueur getZoneJoueur() {
-        return zoneJoueur;
-    }
+    //public ZoneJoueur getZoneJoueur() {
+     //   return zoneJoueur;
+    //}
 }

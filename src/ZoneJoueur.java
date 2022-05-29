@@ -1,73 +1,100 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
 public class ZoneJoueur extends JPanel
 {
-    private ZonePseudoJoueur zone_pseudo;
-    private ZoneTuileEtPionJoueur zone_tuile_et_pion;
-    private ZoneMenu zone_menu;
-    private ZoneDe zone_de;
     private Jeu jeu;
+
+    private JLabel numero_action;
+    private JLabel nombre_deplacement;
+    private JLabel label; 
+    private int indicateur_action;
+    private int indicateur_deplacemen;
 
     public ZoneJoueur(Jeu jeu)
     {
         super();
         this.jeu = jeu;
 
+        //this.setLayout(new GridLayout(2,2));
+        //setBackground(Color.BLACK);
         this.setBackground(new Color(176,196,222));
 
-        this.construireZoneJoueur();
+        afficherInfo();
+
     }
     
     // **************************************    Methodes   *********************************************** //
 
     private void construireZoneJoueur()
     {
-        
-        this.zone_menu = new ZoneMenu(this);
-        this.zone_menu.setPreferredSize(new Dimension(360, 70));
-        this.add(this.zone_menu);
+        if(Jeu.premier_placement)
+        {
+            removeAll();
+            this.setLayout(new BorderLayout());
+            this.label = new JLabel(" Placer vos pions sur l'île");
+            this.label.setFont(new Font("Serif", Font.BOLD, 20));
+            this.add(label, BorderLayout.CENTER);
+        }
+    }
 
-        this.zone_pseudo = new ZonePseudoJoueur(Jeu.list_joueur);
-        this.zone_pseudo.setPreferredSize(new Dimension(360, 80));
-        this.add(this.zone_pseudo);
+    public void afficherInfo()
+    {
+        removeAll();
+        this.setLayout(new GridLayout(2,2));
 
-        this.zone_tuile_et_pion = new ZoneTuileEtPionJoueur();
-        this.zone_tuile_et_pion.setPreferredSize(new Dimension(360, 500));
-        this.add(this.zone_tuile_et_pion);
+        JLabel deplacement_restant = new JLabel(" Deplacement restant : ");
+        JLabel action = new JLabel(" Action : ");
 
-        this.zone_de = new ZoneDe(this);
-        this.zone_de.setPreferredSize(new Dimension(360,150));
-        this.add(this.zone_de);
+        deplacement_restant.setFont(new Font("Serif", Font.BOLD, 14));
+        action.setFont(new Font("Serif", Font.BOLD, 14));
+
+        this.nombre_deplacement = new JLabel(""+Jeu.joueur.getNombre_deplacement());
+        this.nombre_deplacement.setFont(new Font("Serif", Font.BOLD, 14));
+
+        this.numero_action = new JLabel(""+Jeu.action);
+        this.numero_action.setFont(new Font("Serif", Font.BOLD, 14));
+
+        this.add(deplacement_restant);
+        this.add(nombre_deplacement);
+        this.add(action);
+        this.add(numero_action);
+        revalidate();
     }
 
     public void paintComponent(Graphics g)
     {
-        //this.revalidate();
-        zone_de.repaint();
-        zone_tuile_et_pion.repaint();
-        zone_pseudo.repaint();
-       
+
+        this.nombre_deplacement.setText(""+Jeu.joueur.getNombre_deplacement());
+        if(Jeu.premier_placement)
+        {
+            if(!Jeu.fin_placement_joueur)
+            {
+                this.numero_action.setFont(new Font("Serif", Font.BOLD, 14));
+                this.numero_action.setText("Placez les pions sur l'île");
+            }
+            else
+            {
+                this.numero_action.setFont(new Font("Serif", Font.BOLD, 12));
+                this.numero_action.setText("Placez les bateaux sur l'île");
+
+            }
+        }
+        else
+        {
+            this.numero_action.setText(""+Jeu.action);
+        }
+        
     }
 
     // **************************************    Getters   *********************************************** //
-
-    public ZonePseudoJoueur getZone_pseudo() {
-        return zone_pseudo;
-    }
-
-    public ZoneTuileEtPionJoueur getZone_tuile_et_pion() {
-        return zone_tuile_et_pion;
-    }
-
-    public ZoneDe getZoneDe() 
-    {
-        return zone_de;
-    }
 
     public Jeu getJeu() 
     {

@@ -223,7 +223,11 @@ public class Hexagone extends Polygon
                     }
 
                     this.liste_animaux.get(i).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
-                    this.liste_animaux.get(i).attaquer();
+                    
+                    if(Jeu.action!=4)
+                    {
+                        this.liste_animaux.get(i).attaquer();
+                    }
 
                 }
             }
@@ -277,7 +281,11 @@ public class Hexagone extends Polygon
                         x = rect.getX() + 5 + (l*35);
                     }
                     this.liste_animaux.get(l).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
-                    this.liste_animaux.get(l).attaquer();
+                    
+                    if(Jeu.action!=4)
+                    {
+                        this.liste_animaux.get(l).attaquer();
+                    }
 
                     l++;
                 }
@@ -327,7 +335,11 @@ public class Hexagone extends Polygon
                 }
 
                 this.liste_animaux.get(i).afficherAnimalDeMer(this.plateau, null, (int)x, (int)y, (int)w, (int)h);
-                this.liste_animaux.get(i).attaquer();
+                
+                if(Jeu.action!=4)
+                {
+                    this.liste_animaux.get(i).attaquer();
+                }
             }
         }
     }
@@ -434,6 +446,11 @@ public class Hexagone extends Polygon
         if( pionJoueur.getHexagone()!=null)
         {
             pionJoueur.getHexagone().supprimePionjoueur(pionJoueur);
+        }
+        
+        if(pionJoueur.getBateau()!=null)
+        {
+            pionJoueur.getBateau().supprimerPionjoueur(pionJoueur);
         }
         pionJoueur.setHexagone(this);
         this.liste_joueur.add(pionJoueur);

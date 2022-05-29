@@ -119,4 +119,11 @@ public class Serpent extends AnimalDeMer
     {
         AnimalDeMer.animal_mouse_moved = null;
     }
+
+    @Override
+    public boolean attaquerEtJouerTuile() {
+        // TODO Auto-generated method stub
+        return true;
+        
+    }
 }
