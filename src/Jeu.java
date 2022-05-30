@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -17,31 +18,6 @@ public class Jeu extends JPanel implements Runnable
 
     public  Timer timer;
 
-    /*
-    public static Timer timer = new Timer(1000,  new ActionListener()
-    {
-        @Override
-        public void actionPerformed(ActionEvent e) 
-        {
-            Jeu.compteur=0;
-            Jeu.compteur++;
-            System.out.println(compteur);
-            Jeu.compteur_en_cours = true;
-
-            if(Jeu.compteur==3)
-            {
-                if(Plateau.hexagone_dectruction_tuile!=null && Plateau.hexagone_dectruction_tuile.getTuile()!=null)
-                {
-                    Plateau.hexagone_dectruction_tuile.getTuile().effetImmediatVerso();
-                    Plateau.hexagone_dectruction_tuile.setTuile(null);
-                }
-                System.out.println("Jai fini");
-
-                Plateau.hexagone_dectruction_tuile = null;
-            }
-        }
-    });
-*/
     public static Joueur joueur;
     public static List<Joueur> list_joueur = new ArrayList<Joueur>();
     public static List<P_Joueur> list_pionJoueur_sortie;
@@ -72,7 +48,7 @@ public class Jeu extends JPanel implements Runnable
     private ZonePion zone_pion;
     private Thread chronoEcran;
 
-    private App app;
+    private JFrame app;
     private ZonePseudoJoueur zone_pseudo;
     private ZoneTuileEtPionJoueur zone_tuile_et_pion;
     private ZoneMenu zone_menu;
@@ -83,10 +59,11 @@ public class Jeu extends JPanel implements Runnable
 
     // **************************************    Constructeur   *********************************************** //
 
-    public Jeu(App app) 
+    public Jeu(JFrame app, List<Joueur> list_joueur) 
     {
         super();
         this.app = app;
+        this.list_joueur = list_joueur;
         constructionJeu();
         this.rejouer = false;
     }
@@ -693,7 +670,7 @@ public class Jeu extends JPanel implements Runnable
         return nombre_joueur;
     }
 
-    public App getApp() {
+    public JFrame getApp() {
         return app;
     }
 

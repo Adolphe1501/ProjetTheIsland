@@ -20,8 +20,6 @@ public class Joueur
         this.nombre_deplacement = 3;
     }
 
-
-
     public  boolean estMajoritaireSurBateau(Bateau bateau)
     {
         int nombre = 0, different = 0;

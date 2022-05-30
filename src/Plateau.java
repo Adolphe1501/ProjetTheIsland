@@ -20,8 +20,8 @@ import javax.swing.JPanel;
 
 public class Plateau extends JPanel implements MouseListener, MouseMotionListener
 {
-    public static final int nombre_ligne = 13;
-    public static final int nombre_colonne = 12;
+    public static final int nombre_ligne = 14;
+    public static final int nombre_colonne = 14;
     public static Hexagone map[][] = new Hexagone[nombre_ligne][nombre_colonne]; 
 
     public static boolean mouse_moved = false;

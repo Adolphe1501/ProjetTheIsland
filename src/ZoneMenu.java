@@ -83,7 +83,6 @@ public class ZoneMenu extends JPanel
                 if(option==JOptionPane.OK_OPTION)
                 {
                     jeu.setRejouer(false);
-                    //zone_joueur.getJeu().getApp().dispose();
                     System.exit(0);
                 }
                 
