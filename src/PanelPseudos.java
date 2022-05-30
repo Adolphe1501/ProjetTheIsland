@@ -35,7 +35,6 @@ public class PanelPseudos extends BackgroundPanel implements ActionListener{
 		
 		titre.setBounds(220, 150, 200, 30);
 		titre.setForeground(Color.WHITE);
-		//pseudosPanel.setOpaque(false);
 			
 		pseudosLabels = new JLabel[champs];
 		pseudos = new JTextField[champs];
@@ -73,8 +72,6 @@ public class PanelPseudos extends BackgroundPanel implements ActionListener{
         this.jeu = new Jeu(frame, list_joueur);
 
         frame.setContentPane(this.jeu);
-
-        // The other bits and pieces that make our program a bit more stable.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1430, 820);
         frame.setLocationRelativeTo(null);  

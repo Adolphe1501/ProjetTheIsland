@@ -40,11 +40,9 @@ public class App
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("The Island");
 
-        //Create and set up the content pane.
         App demo = new App();
         frame.setContentPane(demo.createContentPane());
 
-        // The other bits and pieces that make our program a bit more stable.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(740, 580);
         frame.setLocationRelativeTo(null);  
@@ -53,8 +51,6 @@ public class App
     }
 
     public static void main(String[] args) {
-        //Schedule a job for the event-dispatching thread:
-        //creating and showing this application's GUI.
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 createAndShowGUI();
