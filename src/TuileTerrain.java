@@ -25,15 +25,13 @@ public abstract class TuileTerrain extends JLabel
         this.id = id;
 
     }
-
-
     // **************************************    Methodes   *********************************************** //
 
 
     // Initialisation Tuiles
     public static TuileTerrain[] initTuileTerrains()
     {
-        TuileTerrain[] tuilesTerrain = new TuileTerrain[41];
+        TuileTerrain[] tuilesTerrain = new TuileTerrain[40];
 
         int i = 0, j=0;
         String id_plage,id_foret,id_montagne;
@@ -189,7 +187,6 @@ public abstract class TuileTerrain extends JLabel
         {
             if(this.getVerso().action.equals("tourbillon"))
             {
-                System.out.println("je rentre");
                 i = this.hexagone.getPosition().getNumero_ligne();
                 j = this.hexagone.getPosition().getNumero_colone();
 
@@ -201,8 +198,6 @@ public abstract class TuileTerrain extends JLabel
                 Plateau.map[i][j].suprimerBateau();
                 if(Plateau.map[i][j+1]!=null && Plateau.map[i][j+1].getTuile()==null)
                 {
-                    System.out.println("1");
-
                     Plateau.map[i][j+1].supprimerListePJoueurDuPlateau();
                     Plateau.map[i][j+1].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i][j+1].supprimerBateauDuPlateau();
@@ -212,7 +207,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(Plateau.map[i][j-1]!=null && Plateau.map[i][j-1].getTuile()==null)
                 {
-                    System.out.println("2");
                     Plateau.map[i][j-1].supprimerListePJoueurDuPlateau();
                     Plateau.map[i][j-1].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i][j-1].supprimerBateauDuPlateau();
@@ -222,8 +216,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(Plateau.map[i+1][j]!=null && Plateau.map[i+1][j].getTuile()==null)
                 {
-                    System.out.println("3*");
-
                     Plateau.map[i+1][j].supprimerListePJoueurDuPlateau();
                     Plateau.map[i+1][j].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i+1][j].supprimerBateauDuPlateau();
@@ -234,7 +226,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(Plateau.map[i-1][j]!=null && Plateau.map[i-1][j].getTuile()==null)
                 {
-                    System.out.println("4");
                     Plateau.map[i-1][j].supprimerListePJoueurDuPlateau();
                     Plateau.map[i-1][j].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i-1][j].supprimerBateauDuPlateau();
@@ -244,8 +235,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(i%2==0 && Plateau.map[i-1][j+1]!=null && Plateau.map[i-1][j+1].getTuile()==null)
                 {
-                    System.out.println("5");
-
                     Plateau.map[i-1][j+1].supprimerListePJoueurDuPlateau();
                     Plateau.map[i-1][j+1].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i-1][j+1].supprimerBateauDuPlateau();;
@@ -255,8 +244,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(i%2==0 && Plateau.map[i+1][j+1]!=null && Plateau.map[i+1][j+1].getTuile()==null)
                 {
-                    System.out.println("6");
-
                     Plateau.map[i+1][j+1].supprimerListePJoueurDuPlateau();
                     Plateau.map[i+1][j+1].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i+1][j+1].supprimerBateauDuPlateau();
@@ -266,8 +253,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(i%2!=0 && Plateau.map[i-1][j-1]!=null && Plateau.map[i-1][j-1].getTuile()==null)
                 {
-                    System.out.println("7");
-
                     Plateau.map[i-1][j-1].supprimerListePJoueurDuPlateau();
                     Plateau.map[i-1][j-1].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i-1][j-1].supprimerBateauDuPlateau();
@@ -277,7 +262,6 @@ public abstract class TuileTerrain extends JLabel
                 }
                 if(i%2!=0 && Plateau.map[i+1][j-1]!=null && Plateau.map[i+1][j-1].getTuile()==null)
                 {
-                    System.out.println("8");
                     Plateau.map[i+1][j-1].supprimerListePJoueurDuPlateau();
                     Plateau.map[i+1][j-1].supprimerListeAnimalDeMerDuPlateau();
                     Plateau.map[i+1][j-1].supprimerBateauDuPlateau();

@@ -227,7 +227,7 @@ public class P_Joueur extends JLabel implements MouseListener
                     {
                         if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y == 2 || y == -2)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 2 || x == -2)) || ((y < 2 && y > -2) && (x == 2 || x == -2)) ||  (posD.getNumero_ligne()%2==0 && (y == -1 ||  y == 2) && (x== 1 || x == -1)   ) ||   (posD.getNumero_ligne()%2!=0 && (y == -2 ||  y == 1) && (x==1 || x == -1))   )            
                         {
-                            if(hexagoneArrivee.getTuile() != null && Jeu.action==1)
+                            if(hexagoneArrivee.getTuile() != null)
                             {
                                 hexagoneArrivee.ajoutePionJoueur(this);
                                 this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 2);
@@ -246,7 +246,7 @@ public class P_Joueur extends JLabel implements MouseListener
                             {
                                 if (((posD.getNumero_ligne() == posA.getNumero_ligne()) && (y ==3 || y == -3)) || ((posD.getNumero_colone() == posA.getNumero_colone()) && (x == 3 || x == -3)) || ((y < 3 && y >-3) && (x == 3 || x == -3)) || ( (posD.getNumero_ligne()%2==0 && x<3 && x>-3 && x!=0 && y < 3 && y >-3 && y !=0 ) || (posD.getNumero_ligne()%2!=0 && x<4 && x>-4 && x!=0 && y < 4 && y >-4 && y !=0 )))                 
                                 {
-                                    if(hexagoneArrivee.getTuile() != null || Jeu.action==1)
+                                    if(hexagoneArrivee.getTuile() != null)
                                     {
                                         hexagoneArrivee.ajoutePionJoueur(this);
                                         this.joueur.setNombre_deplacement(this.joueur.getNombre_deplacement() - 3);

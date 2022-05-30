@@ -45,7 +45,10 @@ public class Hexagone extends Polygon
 
         this.contientZoneIle();
         this.determineHexagoneCentrePlateau();
-        this.placerTuileTerrain(Jeu.tuile_a_placer[Jeu.compteur_tuile_terrain]);
+        if(Jeu.compteur_tuile_terrain<40)
+        {
+            this.placerTuileTerrain(Jeu.tuile_a_placer[Jeu.compteur_tuile_terrain]);
+        }
     }
 
    

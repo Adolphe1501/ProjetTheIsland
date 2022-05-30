@@ -47,7 +47,7 @@ public class Plateau extends JPanel implements MouseListener, MouseMotionListene
         this.addMouseMotionListener(this);
 
         this.construirePlateau();
-        //jeu.placementAutomatiquePionJoueur();
+        jeu.placementAutomatiquePionJoueur();
     }
 
     // **************************************    Methodes   *********************************************** //

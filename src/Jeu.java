@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -72,7 +73,7 @@ public class Jeu extends JPanel implements Runnable
     private ZonePion zone_pion;
     private Thread chronoEcran;
 
-    private App app;
+    private JFrame app;
     private ZonePseudoJoueur zone_pseudo;
     private ZoneTuileEtPionJoueur zone_tuile_et_pion;
     private ZoneMenu zone_menu;
@@ -83,11 +84,12 @@ public class Jeu extends JPanel implements Runnable
 
     // **************************************    Constructeur   *********************************************** //
 
-    public Jeu(App app) 
+    public Jeu(JFrame app, List<Joueur> list_joueur) 
     {
         super();
         this.app = app;
         constructionJeu();
+        Jeu.list_joueur = list_joueur;
         this.rejouer = false;
     }
 
@@ -147,7 +149,7 @@ public class Jeu extends JPanel implements Runnable
         Bateau.mouse_clicked_destination = false;
         Bateau.bateau_mouse_moved = null;
 
-        Jeu.premier_placement = true;
+        Jeu.premier_placement = false;
         Jeu.fin_placement_joueur = false;
         Jeu.fin_placement_bateau = false;
         Jeu.de_lance = false;
@@ -201,6 +203,7 @@ public class Jeu extends JPanel implements Runnable
         Jeu.joueur = Jeu.list_joueur.get(0);
         Jeu.list_pionJoueur_sortie = new ArrayList<>();
     }
+    
     
 
     public void jouer(Position pos)
@@ -693,9 +696,6 @@ public class Jeu extends JPanel implements Runnable
         return nombre_joueur;
     }
 
-    public App getApp() {
-        return app;
-    }
 
     public Thread getChronoEcran() {
         return chronoEcran;
